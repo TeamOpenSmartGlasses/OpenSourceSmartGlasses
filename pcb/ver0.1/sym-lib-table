@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name mico)(type Legacy)(uri ${KIPRJMOD}/mico.lib)(options "")(descr ""))
+)
