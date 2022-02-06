@@ -1,4 +1,4 @@
-update=Thu Nov 25 01:37:36 2021
+update=Sun 16 Jan 2022 12:36:30 AM
 version=1
 last_client=kicad
 [general]
@@ -25,7 +25,7 @@ ERC_TestSimilarLabels=1
 [pcbnew]
 version=1
 PageLayoutDescrFile=
-LastNetListRead=mico.net
+LastNetListRead=msa.net
 CopperLayerCount=2
 BoardThickness=2
 AllowMicroVias=0
@@ -72,7 +72,7 @@ OthersTextUpright=1
 SolderMaskClearance=0
 SolderMaskMinWidth=0
 SolderPasteClearance=0
-SolderPasteRatio=-0
+SolderPasteRatio=0
 [pcbnew/Layer.F.Cu]
 Name=F.Cu
 Type=0
