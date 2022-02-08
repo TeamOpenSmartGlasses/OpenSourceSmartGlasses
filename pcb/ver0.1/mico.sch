@@ -1170,8 +1170,6 @@ Wire Wire Line
 	5250 11650 5650 11650
 Wire Wire Line
 	4450 11750 4050 11750
-Text Label 4050 11550 0    50   ~ 0
-MIC_L\R
 $Comp
 L power:+3V3 #PWR09
 U 1 1 620966A5
@@ -1326,8 +1324,6 @@ Wire Wire Line
 	7250 11650 7650 11650
 Wire Wire Line
 	6450 11750 6050 11750
-Text Label 6050 11550 0    50   ~ 0
-MIC_L\R
 $Comp
 L power:+3V3 #PWR035
 U 1 1 620D00B8
@@ -1467,8 +1463,6 @@ Wire Wire Line
 	9250 11650 9650 11650
 Wire Wire Line
 	8450 11750 8050 11750
-Text Label 8050 11550 0    50   ~ 0
-MIC_L\R
 $Comp
 L power:+3V3 #PWR040
 U 1 1 620DFB5B
@@ -1619,8 +1613,6 @@ Wire Wire Line
 	11250 11650 11650 11650
 Wire Wire Line
 	10450 11750 10050 11750
-Text Label 10050 11550 0    50   ~ 0
-MIC_L\R
 $Comp
 L power:+3V3 #PWR045
 U 1 1 620F081F
