@@ -158,10 +158,6 @@ F 3 "" H 4250 1850 50  0001 C CNN
 	1    4250 1850
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	5500 6450 5500 6550
-Wire Wire Line
-	5900 6450 5900 6550
 $Comp
 L power:GND #PWR021
 U 1 1 619BF823
@@ -448,7 +444,7 @@ F 3 "~" H 8850 1650 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	8850 1550 8850 1450
-Text Label 7600 3350 2    50   ~ 0
+Text Label 7600 4150 2    50   ~ 0
 MIC_CLK
 $Comp
 L Device:R_Small R6
@@ -491,10 +487,6 @@ F 3 "" H 10750 1650 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	9600 1550 9950 1550
-Text Label 7600 5550 2    50   ~ 0
-RED_LED
-Wire Wire Line
-	7200 5550 7600 5550
 Text Label 9600 1550 0    50   ~ 0
 RED_LED
 $Comp
@@ -518,21 +510,6 @@ F 2 "mico:SMD_1x01_P1.27mm" H 4450 4950 50  0001 C CNN
 F 3 "~" H 4450 4950 50  0001 C CNN
 	1    4250 4950
 	0    -1   -1   0   
-$EndComp
-$Comp
-L mico:RP2040 U4
-U 1 1 6199EEDE
-P 5900 4450
-F 0 "U4" H 6450 2550 50  0000 C CNN
-F 1 "RP2040" H 6450 2450 50  0000 C CNN
-F 2 "mico:QFN40P700X700X90-57N" H 5400 4450 50  0001 L BNN
-F 3 "" H 5700 4450 50  0001 L BNN
-F 4 "0.9 mm" H 5700 4450 50  0001 L BNN "MAXIMUM_PACKAGE_HEIGHT"
-F 5 "Raspberry Pi" H 5400 4450 50  0001 L BNN "MANUFACTURER"
-F 6 "1.6.1" H 5700 4450 50  0001 L BNN "PARTREV"
-F 7 "IPC 7351B" H 5400 4450 50  0001 L BNN "STANDARD"
-	1    5900 4450
-	1    0    0    -1  
 $EndComp
 $Comp
 L Device:C_Small C11
@@ -975,10 +952,6 @@ Text Notes 9950 4050 0    118  ~ 0
 Crystal
 Text Notes 5350 900  0    118  ~ 0
 RP2040
-Wire Wire Line
-	7200 3350 7600 3350
-Wire Wire Line
-	7200 3250 7600 3250
 $Comp
 L Device:Crystal_GND24_Small Y1
 U 1 1 6205DA72
@@ -1091,10 +1064,6 @@ Wire Wire Line
 	1500 1300 2050 1300
 Wire Wire Line
 	2050 1400 1500 1400
-Wire Wire Line
-	7200 2750 7600 2750
-Wire Wire Line
-	7600 2850 7200 2850
 $Comp
 L mico-rescue:USB_A-Connector J1
 U 1 1 61A6EA19
@@ -1130,9 +1099,7 @@ NoConn ~ 7200 6050
 NoConn ~ 7200 5950
 NoConn ~ 7200 5850
 NoConn ~ 7200 5750
-NoConn ~ 7200 5450
 NoConn ~ 7200 5350
-NoConn ~ 7200 5250
 NoConn ~ 7200 5150
 NoConn ~ 7200 5050
 NoConn ~ 7200 4950
@@ -1150,7 +1117,6 @@ NoConn ~ 7200 3850
 NoConn ~ 7200 3750
 NoConn ~ 7200 3650
 NoConn ~ 7200 3550
-NoConn ~ 7200 3450
 NoConn ~ 7200 3150
 NoConn ~ 7200 3050
 Wire Wire Line
@@ -1305,7 +1271,7 @@ F 3 "~" H 4450 10900 50  0001 C CNN
 $EndComp
 Text Label 4050 11750 0    50   ~ 0
 MIC_CLK
-Text Label 7600 3250 2    50   ~ 0
+Text Label 7600 3450 2    50   ~ 0
 MIC_DOUT_0
 Wire Wire Line
 	6850 12050 6850 12150
@@ -1746,18 +1712,8 @@ F 3 "~" H 10450 10900 50  0001 C CNN
 $EndComp
 Text Label 10050 11750 0    50   ~ 0
 MIC_CLK
-Wire Wire Line
-	7200 3450 7600 3450
-Wire Wire Line
-	7200 3550 7600 3550
-Wire Wire Line
-	7200 3650 7600 3650
-Text Label 7600 3450 0    50   ~ 0
+Text Label 7600 4050 0    50   ~ 0
 MIC_DOUT_1
-Text Label 7600 3550 0    50   ~ 0
-MIC_DOUT_2
-Text Label 7600 3650 0    50   ~ 0
-MIC_DOUT_3
 Text Label 5650 11650 2    50   ~ 0
 MIC_DOUT_0
 Text Label 7650 11650 2    50   ~ 0
@@ -1777,4 +1733,45 @@ F 3 "" H 6850 11650 50  0001 C CNN
 	1    6850 11650
 	1    0    0    -1  
 $EndComp
+Wire Wire Line
+	7200 4050 7600 4050
+Wire Wire Line
+	7200 4150 7600 4150
+Wire Wire Line
+	7200 3450 7600 3450
+Wire Wire Line
+	7600 2850 7200 2850
+Wire Wire Line
+	7200 2750 7600 2750
+Wire Wire Line
+	5900 6450 5900 6550
+Wire Wire Line
+	5500 6450 5500 6550
+$Comp
+L mico:RP2040 U4
+U 1 1 6199EEDE
+P 5900 4450
+F 0 "U4" H 6450 2550 50  0000 C CNN
+F 1 "RP2040" H 6450 2450 50  0000 C CNN
+F 2 "mico:QFN40P700X700X90-57N" H 5400 4450 50  0001 L BNN
+F 3 "" H 5700 4450 50  0001 L BNN
+F 4 "0.9 mm" H 5700 4450 50  0001 L BNN "MAXIMUM_PACKAGE_HEIGHT"
+F 5 "Raspberry Pi" H 5400 4450 50  0001 L BNN "MANUFACTURER"
+F 6 "1.6.1" H 5700 4450 50  0001 L BNN "PARTREV"
+F 7 "IPC 7351B" H 5400 4450 50  0001 L BNN "STANDARD"
+	1    5900 4450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7200 5550 7600 5550
+Text Label 7600 5550 0    50   ~ 0
+MIC_DOUT_3
+Text Label 7600 5450 0    50   ~ 0
+MIC_DOUT_2
+Wire Wire Line
+	7200 5450 7600 5450
+Text Label 7650 5250 2    50   ~ 0
+RED_LED
+Wire Wire Line
+	7650 5250 7200 5250
 $EndSCHEMATC
