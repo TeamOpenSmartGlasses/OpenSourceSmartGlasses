@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /home/cayden/biggem/Tester/MSA/pcb/ver0.1/mico.sch)
-    (date "Sun 06 Feb 2022 12:15:42 AM")
+    (date "Mon 07 Feb 2022 09:15:13 PM")
     (tool "Eeschema 5.1.5+dfsg1-2build2")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
