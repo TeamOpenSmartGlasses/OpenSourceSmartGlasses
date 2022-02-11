@@ -1,1279 +1,1049 @@
-EESchema Schematic File Version 4
-EELAYER 30 0
-EELAYER END
-$Descr A4 11693 8268
-encoding utf-8
-Sheet 2 3
-Title "Bajaj smart lock"
-Date "2021-11-08"
-Rev "0.1"
-Comp "Singularity Automation Pvt. Ltd."
-Comment1 "Designed by Singularity Automation Pvt. Ltd."
-Comment2 "Drwan by Sivaprakash"
-Comment3 ""
-Comment4 ""
-$EndDescr
-$Comp
-L bajaj_lock:NRF52832-QFAA-R U?
-U 1 1 618974D9
-P 7100 3200
-AR Path="/618974D9" Ref="U?"  Part="1" 
-AR Path="/618920C1/618974D9" Ref="U2"  Part="1" 
-F 0 "U2" H 8150 2500 50  0000 L CNN
-F 1 "NRF52832-QFAA-R" H 7850 2350 50  0000 L CNN
-F 2 "bajaj_lock:nRF_QFN40P600X600X90-49N" H 6600 3200 50  0001 L BNN
-F 3 "" H 7100 3200 50  0001 L BNN
-F 4 "Nordic Semiconductor" H 6600 3200 50  0001 L BNN "MANUFACTURER"
-	1    7100 3200
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C_Small C3
-U 1 1 61898CA9
-P 2300 1900
-F 0 "C3" H 2392 1946 50  0000 L CNN
-F 1 "10nF" H 2392 1855 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 2300 1900 50  0001 C CNN
-F 3 "~" H 2300 1900 50  0001 C CNN
-	1    2300 1900
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R_Small R4
-U 1 1 618993B1
-P 2000 1900
-F 0 "R4" H 2059 1946 50  0000 L CNN
-F 1 "1M" H 2059 1855 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 2000 1900 50  0001 C CNN
-F 3 "~" H 2000 1900 50  0001 C CNN
-	1    2000 1900
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:Battery BT1
-U 1 1 6189C9F3
-P 1400 1650
-F 0 "BT1" H 1508 1696 50  0000 L CNN
-F 1 "Battery" H 1508 1605 50  0000 L CNN
-F 2 "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical" V 1400 1710 50  0001 C CNN
-F 3 "~" V 1400 1710 50  0001 C CNN
-	1    1400 1650
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:Crystal_Small Y1
-U 1 1 618A3398
-P 4950 2750
-F 0 "Y1" V 4850 2800 50  0000 L CNN
-F 1 "32.768kHz" V 5050 2750 50  0000 L CNN
-F 2 "Crystal:Crystal_SMD_3215-2Pin_3.2x1.5mm" H 4950 2750 50  0001 C CNN
-F 3 "~" H 4950 2750 50  0001 C CNN
-	1    4950 2750
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:Crystal_GND24_Small Y2
-U 1 1 618A503E
-P 9100 2600
-F 0 "Y2" V 9050 2700 50  0000 L CNN
-F 1 "32MHz" V 9150 2700 50  0000 L CNN
-F 2 "Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm" H 9100 2600 50  0001 C CNN
-F 3 "~" H 9100 2600 50  0001 C CNN
-	1    9100 2600
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:L_Small L2
-U 1 1 618A8886
-P 6800 1800
-F 0 "L2" H 6800 1800 50  0000 R CNN
-F 1 "10uH" V 6850 1900 50  0000 R CNN
-F 2 "Inductor_SMD:L_0603_1608Metric" H 6800 1800 50  0001 C CNN
-F 3 "~" H 6800 1800 50  0001 C CNN
-	1    6800 1800
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR0101
-U 1 1 618AE1D7
-P 1400 1950
-F 0 "#PWR0101" H 1400 1700 50  0001 C CNN
-F 1 "GND" H 1400 1800 50  0000 C CNN
-F 2 "" H 1400 1950 50  0001 C CNN
-F 3 "" H 1400 1950 50  0001 C CNN
-	1    1400 1950
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:+3V3 #PWR0102
-U 1 1 618AF095
-P 3000 4150
-F 0 "#PWR0102" H 3000 4000 50  0001 C CNN
-F 1 "+3V3" H 3000 4300 50  0000 C CNN
-F 2 "" H 3000 4150 50  0001 C CNN
-F 3 "" H 3000 4150 50  0001 C CNN
-	1    3000 4150
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1400 1950 1400 1850
-Wire Wire Line
-	1400 1450 1400 1350
-$Comp
-L power:+BATT #PWR0103
-U 1 1 618CA76D
-P 1400 1350
-F 0 "#PWR0103" H 1400 1200 50  0001 C CNN
-F 1 "+BATT" H 1400 1500 50  0000 C CNN
-F 2 "" H 1400 1350 50  0001 C CNN
-F 3 "" H 1400 1350 50  0001 C CNN
-	1    1400 1350
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R_Small R3
-U 1 1 618D2C79
-P 2000 1500
-F 0 "R3" H 2059 1546 50  0000 L CNN
-F 1 "3M" H 2059 1455 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 2000 1500 50  0001 C CNN
-F 3 "~" H 2000 1500 50  0001 C CNN
-	1    2000 1500
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:+BATT #PWR0104
-U 1 1 618D82A0
-P 2000 1300
-F 0 "#PWR0104" H 2000 1150 50  0001 C CNN
-F 1 "+BATT" H 2000 1450 50  0000 C CNN
-F 2 "" H 2000 1300 50  0001 C CNN
-F 3 "" H 2000 1300 50  0001 C CNN
-	1    2000 1300
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2000 1400 2000 1300
-Wire Wire Line
-	2000 1600 2000 1700
-Wire Wire Line
-	2000 1700 2300 1700
-Connection ~ 2000 1700
-Wire Wire Line
-	2000 1700 2000 1800
-Wire Wire Line
-	2000 2000 2000 2100
-Wire Wire Line
-	2300 2100 2300 2000
-Wire Wire Line
-	2300 1800 2300 1700
-Connection ~ 2300 1700
-Wire Wire Line
-	2000 2100 2150 2100
-Wire Wire Line
-	2150 2100 2150 2200
-Connection ~ 2150 2100
-Wire Wire Line
-	2150 2100 2300 2100
-$Comp
-L power:GND #PWR0105
-U 1 1 618DAFF7
-P 2150 2200
-F 0 "#PWR0105" H 2150 1950 50  0001 C CNN
-F 1 "GND" H 2150 2050 50  0000 C CNN
-F 2 "" H 2150 2200 50  0001 C CNN
-F 3 "" H 2150 2200 50  0001 C CNN
-	1    2150 2200
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2300 1700 2800 1700
-Text Label 2800 1700 2    39   ~ 0
-battery_voltage
-Wire Wire Line
-	2200 4150 1900 4150
-$Comp
-L bajaj_lock:MCP1702 U1
-U 1 1 618F6BE7
-P 2500 4250
-F 0 "U1" H 2500 4638 60  0000 C CNN
-F 1 "MCP1702" H 2500 4532 60  0000 C CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 2600 4250 60  0001 C CNN
-F 3 "" H 2600 4250 60  0001 C CNN
-	1    2500 4250
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C_Small C2
-U 1 1 618F84BB
-P 1900 4350
-F 0 "C2" H 1700 4400 50  0000 L CNN
-F 1 "4.7uF" H 1650 4300 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 1900 4350 50  0001 C CNN
-F 3 "~" H 1900 4350 50  0001 C CNN
-	1    1900 4350
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1900 4250 1900 4150
-Connection ~ 1900 4150
-Wire Wire Line
-	1900 4450 1900 4550
-Wire Wire Line
-	2200 4350 2100 4350
-Wire Wire Line
-	2100 4350 2100 4550
-Wire Wire Line
-	2800 4250 2900 4250
-Wire Wire Line
-	1900 4150 1900 4050
-Wire Wire Line
-	3000 4250 3000 4150
-Wire Wire Line
-	2900 4250 2900 4350
-Wire Wire Line
-	3000 4250 2900 4250
-Connection ~ 2900 4250
-$Comp
-L Device:C_Small C4
-U 1 1 618FE171
-P 2900 4450
-F 0 "C4" H 3050 4500 50  0000 L CNN
-F 1 "4.7uF" H 3000 4400 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 2900 4450 50  0001 C CNN
-F 3 "~" H 2900 4450 50  0001 C CNN
-	1    2900 4450
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2900 4550 2900 4650
-$Comp
-L power:GND #PWR0106
-U 1 1 618FEEBC
-P 1900 4550
-F 0 "#PWR0106" H 1900 4300 50  0001 C CNN
-F 1 "GND" H 1900 4400 50  0000 C CNN
-F 2 "" H 1900 4550 50  0001 C CNN
-F 3 "" H 1900 4550 50  0001 C CNN
-	1    1900 4550
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR0107
-U 1 1 618FF478
-P 2100 4550
-F 0 "#PWR0107" H 2100 4300 50  0001 C CNN
-F 1 "GND" H 2100 4400 50  0000 C CNN
-F 2 "" H 2100 4550 50  0001 C CNN
-F 3 "" H 2100 4550 50  0001 C CNN
-	1    2100 4550
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR0108
-U 1 1 618FF645
-P 2900 4650
-F 0 "#PWR0108" H 2900 4400 50  0001 C CNN
-F 1 "GND" H 2900 4500 50  0000 C CNN
-F 2 "" H 2900 4650 50  0001 C CNN
-F 3 "" H 2900 4650 50  0001 C CNN
-	1    2900 4650
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C_Small C8
-U 1 1 6192D5F1
-P 5700 2350
-F 0 "C8" V 5500 2300 50  0000 L CNN
-F 1 "0.1uF" V 5600 2250 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 5700 2350 50  0001 C CNN
-F 3 "~" H 5700 2350 50  0001 C CNN
-	1    5700 2350
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	6000 2600 5900 2600
-$Comp
-L power:GND #PWR0109
-U 1 1 6193229B
-P 5500 2350
-F 0 "#PWR0109" H 5500 2100 50  0001 C CNN
-F 1 "GND" H 5500 2200 50  0000 C CNN
-F 2 "" H 5500 2350 50  0001 C CNN
-F 3 "" H 5500 2350 50  0001 C CNN
-	1    5500 2350
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	4950 2550 4950 2650
-Wire Wire Line
-	4950 2950 5350 2950
-Wire Wire Line
-	4950 2850 4950 2950
-Wire Wire Line
-	5350 2700 5350 2550
-Wire Wire Line
-	4950 2550 5350 2550
-Wire Wire Line
-	5350 2800 5350 2950
-Wire Wire Line
-	4950 2550 4850 2550
-Connection ~ 4950 2550
-Wire Wire Line
-	4950 2950 4850 2950
-Connection ~ 4950 2950
-$Comp
-L Device:C_Small C6
-U 1 1 6193F0C4
-P 4750 2550
-F 0 "C6" V 4550 2500 50  0000 L CNN
-F 1 "12pF" V 4650 2450 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 4750 2550 50  0001 C CNN
-F 3 "~" H 4750 2550 50  0001 C CNN
-	1    4750 2550
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:C_Small C7
-U 1 1 6193FEEC
-P 4750 2950
-F 0 "C7" V 4550 2900 50  0000 L CNN
-F 1 "12pF" V 4650 2850 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 4750 2950 50  0001 C CNN
-F 3 "~" H 4750 2950 50  0001 C CNN
-	1    4750 2950
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	4650 2550 4550 2550
-Wire Wire Line
-	4550 2550 4550 2750
-Wire Wire Line
-	4550 2950 4650 2950
-Wire Wire Line
-	4550 2750 4450 2750
-Connection ~ 4550 2750
-Wire Wire Line
-	4550 2750 4550 2950
-$Comp
-L power:GND #PWR0110
-U 1 1 61941E91
-P 4450 2750
-F 0 "#PWR0110" H 4450 2500 50  0001 C CNN
-F 1 "GND" H 4450 2600 50  0000 C CNN
-F 2 "" H 4450 2750 50  0001 C CNN
-F 3 "" H 4450 2750 50  0001 C CNN
-	1    4450 2750
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	6600 4200 6600 4300
-Wire Wire Line
-	6600 4300 6300 4300
-$Comp
-L Device:C_Small C9
-U 1 1 6194469A
-P 6300 4500
-F 0 "C9" H 6450 4550 50  0000 L CNN
-F 1 "0.1uF" H 6400 4450 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 6300 4500 50  0001 C CNN
-F 3 "~" H 6300 4500 50  0001 C CNN
-	1    6300 4500
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6300 4400 6300 4300
-Connection ~ 6300 4300
-Wire Wire Line
-	6300 4300 6200 4300
-Wire Wire Line
-	6300 4600 6300 4700
-$Comp
-L power:GND #PWR0111
-U 1 1 61947BAE
-P 6300 4700
-F 0 "#PWR0111" H 6300 4450 50  0001 C CNN
-F 1 "GND" H 6300 4550 50  0000 C CNN
-F 2 "" H 6300 4700 50  0001 C CNN
-F 3 "" H 6300 4700 50  0001 C CNN
-	1    6300 4700
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:+3V3 #PWR0112
-U 1 1 61948AD1
-P 6200 4300
-F 0 "#PWR0112" H 6200 4150 50  0001 C CNN
-F 1 "+3V3" H 6200 4450 50  0000 C CNN
-F 2 "" H 6200 4300 50  0001 C CNN
-F 3 "" H 6200 4300 50  0001 C CNN
-	1    6200 4300
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C_Small C10
-U 1 1 6194B580
-P 6400 1750
-F 0 "C10" H 6200 1750 50  0000 L CNN
-F 1 "4.7uF" H 6150 1650 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 6400 1750 50  0001 C CNN
-F 3 "~" H 6400 1750 50  0001 C CNN
-	1    6400 1750
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6700 2100 6700 1550
-Wire Wire Line
-	6700 1550 6400 1550
-Wire Wire Line
-	6400 1550 6400 1650
-Wire Wire Line
-	6400 1550 6300 1550
-Connection ~ 6400 1550
-$Comp
-L power:+3V3 #PWR0113
-U 1 1 6194F7F1
-P 6300 1550
-F 0 "#PWR0113" H 6300 1400 50  0001 C CNN
-F 1 "+3V3" H 6300 1700 50  0000 C CNN
-F 2 "" H 6300 1550 50  0001 C CNN
-F 3 "" H 6300 1550 50  0001 C CNN
-	1    6300 1550
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR0114
-U 1 1 619500E3
-P 6400 2050
-F 0 "#PWR0114" H 6400 1800 50  0001 C CNN
-F 1 "GND" H 6400 1900 50  0000 C CNN
-F 2 "" H 6400 2050 50  0001 C CNN
-F 3 "" H 6400 2050 50  0001 C CNN
-	1    6400 2050
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	6400 2050 6400 1950
-Wire Wire Line
-	6400 1950 6600 1950
-Wire Wire Line
-	6600 1950 6600 2100
-Connection ~ 6400 1950
-Wire Wire Line
-	6400 1950 6400 1850
-$Comp
-L Device:L_Small L1
-U 1 1 619585D8
-P 6800 1400
-F 0 "L1" H 6800 1400 50  0000 R CNN
-F 1 "15nH" V 6850 1500 50  0000 R CNN
-F 2 "Inductor_SMD:L_0402_1005Metric" H 6800 1400 50  0001 C CNN
-F 3 "~" H 6800 1400 50  0001 C CNN
-	1    6800 1400
-	-1   0    0    1   
-$EndComp
-$Comp
-L Device:C_Small C11
-U 1 1 6195C9CF
-P 7100 1100
-F 0 "C11" V 7150 950 50  0000 L CNN
-F 1 "1uF" V 7150 1150 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 7100 1100 50  0001 C CNN
-F 3 "~" H 7100 1100 50  0001 C CNN
-	1    7100 1100
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	6800 1100 6900 1100
-Connection ~ 6900 1100
-Wire Wire Line
-	6900 1100 7000 1100
-Wire Wire Line
-	7000 1250 7300 1250
-Wire Wire Line
-	7300 1250 7300 1100
-Wire Wire Line
-	7300 1100 7200 1100
-Wire Wire Line
-	7300 1100 7400 1100
-Connection ~ 7300 1100
-$Comp
-L power:GND #PWR0115
-U 1 1 61964DA8
-P 7400 1100
-F 0 "#PWR0115" H 7400 850 50  0001 C CNN
-F 1 "GND" H 7400 950 50  0000 C CNN
-F 2 "" H 7400 1100 50  0001 C CNN
-F 3 "" H 7400 1100 50  0001 C CNN
-	1    7400 1100
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:C_Small C15
-U 1 1 6196D52B
-P 8900 3400
-F 0 "C15" H 8700 3400 50  0000 L CNN
-F 1 "0.8pF" H 8650 3500 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 8900 3400 50  0001 C CNN
-F 3 "~" H 8900 3400 50  0001 C CNN
-	1    8900 3400
-	-1   0    0    1   
-$EndComp
-$Comp
-L Device:L_Small L3
-U 1 1 61973091
-P 9100 3200
-F 0 "L3" V 9250 3250 50  0000 R CNN
-F 1 "3.9nH" V 9150 3300 50  0000 R CNN
-F 2 "Inductor_SMD:L_0402_1005Metric" H 9100 3200 50  0001 C CNN
-F 3 "~" H 9100 3200 50  0001 C CNN
-	1    9100 3200
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:C_Small C18
-U 1 1 61974657
-P 9300 3400
-F 0 "C18" H 9100 3400 50  0000 L CNN
-F 1 "NC" H 9100 3500 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 9300 3400 50  0001 C CNN
-F 3 "~" H 9300 3400 50  0001 C CNN
-	1    9300 3400
-	-1   0    0    1   
-$EndComp
-$Comp
-L Device:C_Small C19
-U 1 1 619751C5
-P 9500 3200
-F 0 "C19" V 9300 3150 50  0000 L CNN
-F 1 "2.2pF" V 9400 3100 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 9500 3200 50  0001 C CNN
-F 3 "~" H 9500 3200 50  0001 C CNN
-	1    9500 3200
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:L_Small L4
-U 1 1 61975EFE
-P 9700 3400
-F 0 "L4" H 9650 3400 50  0000 R CNN
-F 1 "3.9nH" H 9650 3500 50  0000 R CNN
-F 2 "Inductor_SMD:L_0402_1005Metric" H 9700 3400 50  0001 C CNN
-F 3 "~" H 9700 3400 50  0001 C CNN
-	1    9700 3400
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	8900 3200 8900 3300
-Wire Wire Line
-	8200 3200 8900 3200
-Wire Wire Line
-	9300 3300 9300 3200
-Wire Wire Line
-	9300 3200 9200 3200
-Wire Wire Line
-	9000 3200 8900 3200
-Connection ~ 8900 3200
-Wire Wire Line
-	8900 3500 8900 3600
-Wire Wire Line
-	9300 3500 9300 3600
-Wire Wire Line
-	9300 3200 9400 3200
-Connection ~ 9300 3200
-Wire Wire Line
-	9600 3200 9700 3200
-Wire Wire Line
-	9700 3300 9700 3200
-Wire Wire Line
-	9700 3500 9700 3600
-$Comp
-L Device:L_Small L5
-U 1 1 6199B76E
-P 9900 3200
-F 0 "L5" V 10050 3250 50  0000 R CNN
-F 1 "3.9nH" V 9950 3300 50  0000 R CNN
-F 2 "Inductor_SMD:L_0402_1005Metric" H 9900 3200 50  0001 C CNN
-F 3 "~" H 9900 3200 50  0001 C CNN
-	1    9900 3200
-	0    -1   -1   0   
-$EndComp
-Wire Wire Line
-	9800 3200 9700 3200
-Connection ~ 9700 3200
-$Comp
-L power:GND #PWR0116
-U 1 1 619A4138
-P 8900 3600
-F 0 "#PWR0116" H 8900 3350 50  0001 C CNN
-F 1 "GND" H 8900 3450 50  0000 C CNN
-F 2 "" H 8900 3600 50  0001 C CNN
-F 3 "" H 8900 3600 50  0001 C CNN
-	1    8900 3600
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR0117
-U 1 1 619A4930
-P 9300 3600
-F 0 "#PWR0117" H 9300 3350 50  0001 C CNN
-F 1 "GND" H 9300 3450 50  0000 C CNN
-F 2 "" H 9300 3600 50  0001 C CNN
-F 3 "" H 9300 3600 50  0001 C CNN
-	1    9300 3600
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR0118
-U 1 1 619A4CFE
-P 9700 3600
-F 0 "#PWR0118" H 9700 3350 50  0001 C CNN
-F 1 "GND" H 9700 3450 50  0000 C CNN
-F 2 "" H 9700 3600 50  0001 C CNN
-F 3 "" H 9700 3600 50  0001 C CNN
-	1    9700 3600
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	8200 2600 8300 2600
-$Comp
-L power:+3V3 #PWR0120
-U 1 1 619B0F73
-P 8300 1950
-F 0 "#PWR0120" H 8300 1800 50  0001 C CNN
-F 1 "+3V3" H 8300 2100 50  0000 C CNN
-F 2 "" H 8300 1950 50  0001 C CNN
-F 3 "" H 8300 1950 50  0001 C CNN
-	1    8300 1950
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	9100 2800 9100 2700
-Wire Wire Line
-	8900 2700 8900 2400
-Wire Wire Line
-	8900 2400 9100 2400
-Wire Wire Line
-	9100 2400 9100 2500
-Wire Wire Line
-	9000 2600 8800 2600
-$Comp
-L power:GND #PWR0121
-U 1 1 619BF8A3
-P 8500 2450
-F 0 "#PWR0121" H 8500 2200 50  0001 C CNN
-F 1 "GND" H 8500 2300 50  0000 C CNN
-F 2 "" H 8500 2450 50  0001 C CNN
-F 3 "" H 8500 2450 50  0001 C CNN
-	1    8500 2450
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C_Small C16
-U 1 1 619C4779
-P 9300 2400
-F 0 "C16" V 9100 2350 50  0000 L CNN
-F 1 "12pF" V 9200 2300 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 9300 2400 50  0001 C CNN
-F 3 "~" H 9300 2400 50  0001 C CNN
-	1    9300 2400
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:C_Small C17
-U 1 1 619C52D3
-P 9300 2800
-F 0 "C17" V 9250 2850 50  0000 L CNN
-F 1 "12pF" V 9350 2850 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 9300 2800 50  0001 C CNN
-F 3 "~" H 9300 2800 50  0001 C CNN
-	1    9300 2800
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	9200 2800 9100 2800
-Wire Wire Line
-	9400 2800 9500 2800
-Wire Wire Line
-	9500 2800 9500 2600
-Wire Wire Line
-	9500 2400 9400 2400
-Wire Wire Line
-	9200 2400 9100 2400
-Connection ~ 9100 2400
-Wire Wire Line
-	9200 2600 9500 2600
-Connection ~ 9500 2600
-Wire Wire Line
-	9500 2600 9500 2400
-Wire Wire Line
-	9500 2600 9600 2600
-$Comp
-L power:GND #PWR0122
-U 1 1 619DB3C8
-P 9600 2600
-F 0 "#PWR0122" H 9600 2350 50  0001 C CNN
-F 1 "GND" H 9600 2450 50  0000 C CNN
-F 2 "" H 9600 2600 50  0001 C CNN
-F 3 "" H 9600 2600 50  0001 C CNN
-	1    9600 2600
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:C_Small C13
-U 1 1 619DCC67
-P 8500 2250
-F 0 "C13" H 8300 2250 50  0000 L CNN
-F 1 "0.1uF" H 8250 2350 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 8500 2250 50  0001 C CNN
-F 3 "~" H 8500 2250 50  0001 C CNN
-	1    8500 2250
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	8500 2450 8500 2350
-Wire Wire Line
-	8500 2150 8500 2050
-Wire Wire Line
-	8500 2050 8300 2050
-Wire Wire Line
-	8300 2050 8300 2600
-Connection ~ 8300 2050
-Wire Wire Line
-	8300 1950 8300 2050
-Wire Wire Line
-	8200 2800 9100 2800
-Connection ~ 9100 2800
-Wire Wire Line
-	8200 2700 8900 2700
-$Comp
-L power:GND #PWR0123
-U 1 1 61A0BB41
-P 8800 2600
-F 0 "#PWR0123" H 8800 2350 50  0001 C CNN
-F 1 "GND" H 8800 2450 50  0000 C CNN
-F 2 "" H 8800 2600 50  0001 C CNN
-F 3 "" H 8800 2600 50  0001 C CNN
-	1    8800 2600
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:Q_PMOS_GSD Q1
-U 1 1 6197C755
-P 1450 3850
-F 0 "Q1" H 1750 4100 50  0000 L CNN
-F 1 "FDN327N" H 1650 4000 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 1650 3950 50  0001 C CNN
-F 3 "~" H 1450 3850 50  0001 C CNN
-	1    1450 3850
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:VBUS #PWR0124
-U 1 1 6197F741
-P 1150 3550
-F 0 "#PWR0124" H 1150 3400 50  0001 C CNN
-F 1 "VBUS" H 1150 3700 50  0000 C CNN
-F 2 "" H 1150 3550 50  0001 C CNN
-F 3 "" H 1150 3550 50  0001 C CNN
-	1    1150 3550
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:+BATT #PWR0125
-U 1 1 61985374
-P 1550 3550
-F 0 "#PWR0125" H 1550 3400 50  0001 C CNN
-F 1 "+BATT" H 1550 3700 50  0000 C CNN
-F 2 "" H 1550 3550 50  0001 C CNN
-F 3 "" H 1550 3550 50  0001 C CNN
-	1    1550 3550
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1550 3650 1550 3550
-Wire Wire Line
-	1900 4150 1550 4150
-Wire Wire Line
-	1550 4150 1550 4050
-$Comp
-L Device:R_Small R1
-U 1 1 619A107D
-P 1150 4350
-F 0 "R1" H 1209 4396 50  0000 L CNN
-F 1 "100K" H 1209 4305 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 1150 4350 50  0001 C CNN
-F 3 "~" H 1150 4350 50  0001 C CNN
-	1    1150 4350
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1150 4450 1150 4550
-$Comp
-L power:GND #PWR0126
-U 1 1 619A5B47
-P 1150 4550
-F 0 "#PWR0126" H 1150 4300 50  0001 C CNN
-F 1 "GND" H 1150 4400 50  0000 C CNN
-F 2 "" H 1150 4550 50  0001 C CNN
-F 3 "" H 1150 4550 50  0001 C CNN
-	1    1150 4550
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1150 3550 1150 3850
-Wire Wire Line
-	1250 3850 1150 3850
-Connection ~ 1150 3850
-Wire Wire Line
-	1150 3850 1150 4150
-$Comp
-L Device:D_Small D1
-U 1 1 619B4F4A
-P 1350 4150
-F 0 "D1" H 1350 3943 50  0000 C CNN
-F 1 "D_Small" H 1350 4034 50  0000 C CNN
-F 2 "Diode_SMD:D_SOD-123" V 1350 4150 50  0001 C CNN
-F 3 "~" V 1350 4150 50  0001 C CNN
-	1    1350 4150
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	1550 4150 1450 4150
-Connection ~ 1550 4150
-Wire Wire Line
-	1250 4150 1150 4150
-Connection ~ 1150 4150
-Wire Wire Line
-	1150 4150 1150 4250
-Text GLabel 5800 3500 0    39   Input ~ 0
-FP_TXD
-Text GLabel 5800 3300 0    39   Input ~ 0
-FP_RXD
-Text GLabel 5800 3400 0    39   Input ~ 0
-FP_RST
-Wire Wire Line
-	6000 3300 5800 3300
-Wire Wire Line
-	6000 3400 5800 3400
-Wire Wire Line
-	6000 3500 5800 3500
-Wire Wire Line
-	5900 2600 5900 2350
-Wire Wire Line
-	5800 2350 5900 2350
-Wire Wire Line
-	5600 2350 5500 2350
-Wire Wire Line
-	5350 2700 6000 2700
-Wire Wire Line
-	5350 2800 6000 2800
-Wire Notes Line
-	6850 7700 600  7700
-Wire Notes Line
-	600  7700 600  550 
-Wire Notes Line
-	600  550  11100 550 
-Wire Notes Line
-	3900 550  3900 5100
-Text Notes 6750 850  0    118  ~ 0
-nRF52832 (BLE)
-Text Notes 1400 950  0    118  ~ 0
-Battery Connector
-Text Notes 1550 3150 0    118  ~ 0
-+3.3V  LDO
-Text Notes 800  5650 0    118  ~ 0
-nRF Reset Switch
-Wire Notes Line
-	600  5100 11100 5100
-Wire Notes Line
-	3900 2650 600  2650
-Text Label 1950 6450 2    39   ~ 0
-nRF_RESET
-Wire Wire Line
-	1450 6450 1950 6450
-$Comp
-L power:+3V3 #PWR0127
-U 1 1 6190E239
-P 1450 6050
-F 0 "#PWR0127" H 1450 5900 50  0001 C CNN
-F 1 "+3V3" H 1450 6200 50  0000 C CNN
-F 2 "" H 1450 6050 50  0001 C CNN
-F 3 "" H 1450 6050 50  0001 C CNN
-	1    1450 6050
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1450 6150 1450 6050
-$Comp
-L Device:R_Small R2
-U 1 1 6190BF5E
-P 1450 6250
-F 0 "R2" H 1509 6296 50  0000 L CNN
-F 1 "10K" H 1509 6205 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 1450 6250 50  0001 C CNN
-F 3 "~" H 1450 6250 50  0001 C CNN
-	1    1450 6250
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1450 6450 1450 6350
-Connection ~ 1450 6450
-Wire Wire Line
-	1450 6450 1350 6450
-$Comp
-L power:GND #PWR0128
-U 1 1 61909562
-P 850 6550
-F 0 "#PWR0128" H 850 6300 50  0001 C CNN
-F 1 "GND" H 850 6400 50  0000 C CNN
-F 2 "" H 850 6550 50  0001 C CNN
-F 3 "" H 850 6550 50  0001 C CNN
-	1    850  6550
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	850  6450 850  6550
-Wire Wire Line
-	950  6450 850  6450
-$Comp
-L power:GND #PWR0129
-U 1 1 61908538
-P 1450 6850
-F 0 "#PWR0129" H 1450 6600 50  0001 C CNN
-F 1 "GND" H 1450 6700 50  0000 C CNN
-F 2 "" H 1450 6850 50  0001 C CNN
-F 3 "" H 1450 6850 50  0001 C CNN
-	1    1450 6850
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1450 6750 1450 6850
-Wire Wire Line
-	1450 6550 1450 6450
-$Comp
-L Device:C_Small C1
-U 1 1 619064F4
-P 1450 6650
-F 0 "C1" H 1600 6700 50  0000 L CNN
-F 1 "0.1uF" H 1550 6600 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 1450 6650 50  0001 C CNN
-F 3 "~" H 1450 6650 50  0001 C CNN
-	1    1450 6650
-	1    0    0    -1  
-$EndComp
-$Comp
-L Switch:SW_Push SW1
-U 1 1 6189EF70
-P 1150 6450
-F 0 "SW1" H 1100 6350 50  0000 C CNN
-F 1 "SW_Push" H 1100 6250 50  0000 C CNN
-F 2 "Button_Switch_SMD:SW_Push_1P1T_NO_6x6mm_H9.5mm" H 1150 6650 50  0001 C CNN
-F 3 "~" H 1150 6650 50  0001 C CNN
-	1    1150 6450
-	1    0    0    -1  
-$EndComp
-Wire Notes Line
-	2700 5100 2700 7700
-$Comp
-L Connector_Generic:Conn_01x04 J1
-U 1 1 61C2B13F
-P 5900 6500
-F 0 "J1" H 5980 6492 50  0000 L CNN
-F 1 "Conn_01x04" H 5980 6401 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 5900 6500 50  0001 C CNN
-F 3 "~" H 5900 6500 50  0001 C CNN
-	1    5900 6500
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	5700 6700 5600 6700
-Wire Wire Line
-	5600 6700 5600 6800
-$Comp
-L power:GND #PWR0133
-U 1 1 61C4D837
-P 5600 6800
-F 0 "#PWR0133" H 5600 6550 50  0001 C CNN
-F 1 "GND" H 5600 6650 50  0000 C CNN
-F 2 "" H 5600 6800 50  0001 C CNN
-F 3 "" H 5600 6800 50  0001 C CNN
-	1    5600 6800
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	5700 6600 5100 6600
-$Comp
-L power:+3V3 #PWR0134
-U 1 1 61C533EF
-P 5100 6600
-F 0 "#PWR0134" H 5100 6450 50  0001 C CNN
-F 1 "+3V3" H 5100 6750 50  0000 C CNN
-F 2 "" H 5100 6600 50  0001 C CNN
-F 3 "" H 5100 6600 50  0001 C CNN
-	1    5100 6600
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	5700 6500 5300 6500
-Wire Wire Line
-	5700 6400 5300 6400
-Wire Wire Line
-	8200 3700 8650 3700
-Wire Wire Line
-	8200 3600 8650 3600
-Wire Wire Line
-	7700 4200 7700 4650
-Text Label 7700 4650 1    39   ~ 0
-nRF_RESET
-Text Label 8650 3600 2    39   ~ 0
-nRF_SWDIO
-Text Label 8650 3700 2    39   ~ 0
-nRF_SWDCLK
-Text Label 5300 6500 0    39   ~ 0
-nRF_SWDCLK
-Text Label 5300 6400 0    39   ~ 0
-nRF_SWDIO
-Wire Notes Line
-	6850 5100 6850 7700
-Wire Notes Line
-	11100 5100 11100 550 
-Text GLabel 6800 4400 3    39   Input ~ 0
-I2C_SCL
-Text GLabel 6700 4400 3    39   BiDi ~ 0
-I2C_SDA
-Text GLabel 7100 4400 3    39   Input ~ 0
-RTC_INT
-Text GLabel 7200 4400 3    39   Input ~ 0
-RTC_CLKOUT
-Text GLabel 5800 2900 0    39   BiDi ~ 0
-Buzzer_EN1
-Text GLabel 7700 2000 1    39   BiDi ~ 0
-Magnetic_Sensor_EN1
-Text GLabel 7200 2000 1    39   BiDi ~ 0
-Magnetic_Sensor_Out1
-Text GLabel 7500 2000 1    39   BiDi ~ 0
-Magnetic_Sensor_EN1
-Text GLabel 7400 2000 1    39   BiDi ~ 0
-Magnetic_Sensor_Out1
-Text GLabel 7600 2000 1    39   BiDi ~ 0
-Magnetic_Sensor_EN1
-Text GLabel 7300 2000 1    39   BiDi ~ 0
-Magnetic_Sensor_Out1
-Text GLabel 5800 3000 0    39   BiDi ~ 0
-Buzzer_EN2
-Text GLabel 7100 2000 1    39   BiDi ~ 0
-Keypad_led_EN
-Text GLabel 6900 4400 3    39   BiDi ~ 0
-Touch_RST
-Text GLabel 8300 3300 2    39   BiDi ~ 0
-NFC_SSI_0
-Text GLabel 7600 4400 3    39   BiDi ~ 0
-NFC_SPI_MISO
-Text GLabel 7500 4400 3    39   BiDi ~ 0
-NFC_SPI_MOSI
-Text GLabel 7400 4400 3    39   BiDi ~ 0
-NFC_SPI_SCK
-Text GLabel 7300 4400 3    39   BiDi ~ 0
-NFC_SPI_SS
-Text GLabel 8300 3400 2    39   BiDi ~ 0
-NFC_IRQ_OUT
-Text GLabel 8300 3500 2    39   BiDi ~ 0
-NFC_IRQ_IN
-Text GLabel 7000 4400 3    39   BiDi ~ 0
-Touch_Chnage
-Text GLabel 5800 3600 0    39   BiDi ~ 0
-FP_INT
-Wire Wire Line
-	6700 4200 6700 4400
-Wire Wire Line
-	6800 4200 6800 4400
-$Comp
-L power:VDD #PWR0135
-U 1 1 619F88C5
-P 1900 4050
-F 0 "#PWR0135" H 1900 3900 50  0001 C CNN
-F 1 "VDD" H 1900 4200 50  0000 C CNN
-F 2 "" H 1900 4050 50  0001 C CNN
-F 3 "" H 1900 4050 50  0001 C CNN
-	1    1900 4050
-	1    0    0    -1  
-$EndComp
-Text GLabel 5800 3700 0    39   BiDi ~ 0
-Motor_~Sleep
-Text GLabel 5800 3100 0    39   BiDi ~ 0
-Motor_IN1
-Text GLabel 5800 3200 0    39   BiDi ~ 0
-Motor_IN2
-Wire Wire Line
-	6000 3600 5800 3600
-Wire Wire Line
-	6000 2900 5800 2900
-Wire Wire Line
-	6000 3000 5800 3000
-Wire Wire Line
-	6000 3100 5800 3100
-Wire Wire Line
-	6000 3200 5800 3200
-Wire Wire Line
-	6900 4200 6900 4400
-Wire Wire Line
-	7000 4200 7000 4400
-Wire Wire Line
-	7100 4200 7100 4400
-Wire Wire Line
-	7200 4200 7200 4400
-Wire Wire Line
-	7300 4200 7300 4400
-Wire Wire Line
-	7400 4200 7400 4400
-Wire Wire Line
-	7500 4200 7500 4400
-Wire Wire Line
-	7600 4200 7600 4400
-$Comp
-L Device:C_Small C12
-U 1 1 61AF83A8
-P 8400 2900
-F 0 "C12" V 8350 2700 50  0000 L CNN
-F 1 "100pF" V 8350 2950 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 8400 2900 50  0001 C CNN
-F 3 "~" H 8400 2900 50  0001 C CNN
-	1    8400 2900
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:C_Small C14
-U 1 1 61AF8D1E
-P 8600 3000
-F 0 "C14" V 8650 2800 50  0000 L CNN
-F 1 "NC" V 8650 3050 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 8600 3000 50  0001 C CNN
-F 3 "~" H 8600 3000 50  0001 C CNN
-	1    8600 3000
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	8300 2900 8200 2900
-Wire Wire Line
-	8500 2900 8900 2900
-Wire Wire Line
-	8500 3000 8200 3000
-Wire Wire Line
-	8900 3000 8900 2900
-Wire Wire Line
-	8700 3000 8900 3000
-Wire Wire Line
-	8200 3100 8900 3100
-Wire Wire Line
-	8900 3100 8900 3000
-Connection ~ 8900 3000
-$Comp
-L power:GND #PWR0136
-U 1 1 61B35D28
-P 9000 2900
-F 0 "#PWR0136" H 9000 2650 50  0001 C CNN
-F 1 "GND" H 9000 2750 50  0000 C CNN
-F 2 "" H 9000 2900 50  0001 C CNN
-F 3 "" H 9000 2900 50  0001 C CNN
-	1    9000 2900
-	0    -1   -1   0   
-$EndComp
-Wire Wire Line
-	9000 2900 8900 2900
-Connection ~ 8900 2900
-Wire Wire Line
-	6800 1500 6800 1700
-Wire Wire Line
-	6800 1100 6800 1300
-Wire Wire Line
-	6800 1900 6800 2100
-Wire Wire Line
-	6900 1100 6900 2100
-Wire Wire Line
-	7000 1250 7000 2100
-Wire Wire Line
-	7200 2100 7200 2000
-Wire Wire Line
-	7300 2100 7300 2000
-Wire Wire Line
-	7400 2000 7400 2100
-Wire Wire Line
-	7500 2100 7500 2000
-Wire Wire Line
-	7600 2100 7600 2000
-Wire Wire Line
-	7700 2100 7700 2000
-Wire Wire Line
-	7100 2100 7100 2000
-Wire Wire Line
-	6000 3700 5800 3700
-Wire Wire Line
-	8300 3500 8200 3500
-Wire Wire Line
-	8300 3400 8200 3400
-Wire Wire Line
-	8300 3300 8200 3300
-Text Notes 4950 5650 0    118  ~ 0
-nRF Prog Header
-$Comp
-L bajaj_lock:2450AT18B100E E1
-U 1 1 6198AF44
-P 10200 3000
-F 0 "E1" H 10325 3097 50  0000 L CNN
-F 1 "2450AT18B100E" H 10325 3006 50  0000 L CNN
-F 2 "bajaj_lock:XDCR_2450AT18B100E" H 10200 3000 50  0001 L BNN
-F 3 "" H 10200 3000 50  0001 L BNN
-F 4 "Johanson Technology" H 10200 3000 50  0001 L BNN "MANUFACTURER"
-F 5 "Manufacturer Recommendation" H 10200 3000 50  0001 L BNN "STANDARD"
-F 6 "1.4 mm" H 10200 3000 50  0001 L BNN "MAXIMUM_PACKAGE_HEIGHT"
-F 7 "4.0" H 10200 3000 50  0001 L BNN "PARTREV"
-	1    10200 3000
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	10000 3200 10200 3200
-Wire Notes Line
-	4700 5100 4700 7700
-$EndSCHEMATC
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    t>
-    <net code="44" name="Net-(U4-Pad13)">
-      <node ref="U4" pin="13"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>/home/cayden/biggem/Tester/MSA/pcb/ver0.1/mico.sch</source>
+    <date>Tue 08 Feb 2022 10:19:01 PM</date>
+    <tool>Eeschema 5.1.5+dfsg1-2build2</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>Multi Speaker Wearable Array</title>
+        <company/>
+        <rev>V 0.1</rev>
+        <date>2021-11-20</date>
+        <source>mico.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value="Fork of: Mico, Electronuts Labs"/>
+        <comment number="4" value="Design: Cayden Pierce"/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="C10">
+      <value>0.1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>6199CC04</tstamp>
+    </comp>
+    <comp ref="R4">
+      <value>27R</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R_Small" description="Resistor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>6199D715</tstamp>
+    </comp>
+    <comp ref="C8">
+      <value>1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>619AB59C</tstamp>
+    </comp>
+    <comp ref="C7">
+      <value>0.1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>619ABEC7</tstamp>
+    </comp>
+    <comp ref="C6">
+      <value>0.1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>619E21C3</tstamp>
+    </comp>
+    <comp ref="C9">
+      <value>1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>619E6466</tstamp>
+    </comp>
+    <comp ref="R5">
+      <value>27R</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R_Small" description="Resistor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61A16823</tstamp>
+    </comp>
+    <comp ref="R7">
+      <value>1K</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R_Small" description="Resistor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61B21DF4</tstamp>
+    </comp>
+    <comp ref="C18">
+      <value>27pF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61B3D576</tstamp>
+    </comp>
+    <comp ref="C19">
+      <value>27pF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61B3DFC4</tstamp>
+    </comp>
+    <comp ref="C17">
+      <value>10uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61B4AF55</tstamp>
+    </comp>
+    <comp ref="R6">
+      <value>470R</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R_Small" description="Resistor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61B8F195</tstamp>
+    </comp>
+    <comp ref="D1">
+      <value>APA3010SECK</value>
+      <footprint>LED_SMD:LED_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="LED_Small" description="Light emitting diode, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61B9072F</tstamp>
+    </comp>
+    <comp ref="J2">
+      <value>SWD Prog</value>
+      <footprint>mico:SMD_1x04_P1.27mm</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Connector_Generic" part="Conn_01x04" description="Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61BB7E1F</tstamp>
+    </comp>
+    <comp ref="TP2">
+      <value>TestPoint</value>
+      <footprint>mico:SMD_1x01_P1.27mm</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Connector" part="TestPoint" description="test point"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61BDB9E7</tstamp>
+    </comp>
+    <comp ref="C11">
+      <value>0.1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61B6FFC3</tstamp>
+    </comp>
+    <comp ref="C12">
+      <value>0.1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61B70246</tstamp>
+    </comp>
+    <comp ref="C13">
+      <value>0.1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61B7075A</tstamp>
+    </comp>
+    <comp ref="C14">
+      <value>0.1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61BAF077</tstamp>
+    </comp>
+    <comp ref="C15">
+      <value>0.1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61BBA4B9</tstamp>
+    </comp>
+    <comp ref="C16">
+      <value>0.1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61BBFB92</tstamp>
+    </comp>
+    <comp ref="U1">
+      <value>MCP1702</value>
+      <footprint>Package_TO_SOT_SMD:SOT-23</footprint>
+      <datasheet>http://ww1.microchip.com/downloads/en/DeviceDoc/20001826D.pdf</datasheet>
+      <libsource lib="Regulator_Linear" part="MCP1700-3302E_SOT23" description="250mA Low Quiscent Current LDO, 3.3V output, SOT-23"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61ED8482</tstamp>
+    </comp>
+    <comp ref="C5">
+      <value>10uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61EED129</tstamp>
+    </comp>
+    <comp ref="C1">
+      <value>10uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61EEE94B</tstamp>
+    </comp>
+    <comp ref="U3">
+      <value>W25Q128JV</value>
+      <footprint>mico:PSON50P300X200X60-9N</footprint>
+      <libsource lib="mico" part="W25Q128JV" description=""/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>619A27F7</tstamp>
+    </comp>
+    <comp ref="C4">
+      <value>0.1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61AE1583</tstamp>
+    </comp>
+    <comp ref="R3">
+      <value>10K</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R_Small" description="Resistor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61AD6E2E</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>1K</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R_Small" description="Resistor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61AA2821</tstamp>
+    </comp>
+    <comp ref="TP1">
+      <value>TestPoint_2Pole</value>
+      <footprint>mico:SMD_1x02_P1.27mm</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Connector" part="TestPoint_2Pole" description="2-polar test point"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61A37DE0</tstamp>
+    </comp>
+    <comp ref="Y1">
+      <value>H130B-12.000-20-3050-EXT-TR</value>
+      <footprint>Crystal:Crystal_SMD_5032-4Pin_5.0x3.2mm</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="Crystal_GND24_Small" description="Four pin crystal, GND on pins 2 and 4, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>6205DA72</tstamp>
+    </comp>
+    <comp ref="FID1">
+      <value>Fiducial</value>
+      <footprint>Fiducial:Fiducial_0.5mm_Mask1mm</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Mechanical" part="Fiducial" description="Fiducial Marker"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>619B5914</tstamp>
+    </comp>
+    <comp ref="FID2">
+      <value>Fiducial</value>
+      <footprint>Fiducial:Fiducial_0.5mm_Mask1mm</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Mechanical" part="Fiducial" description="Fiducial Marker"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>619A968D</tstamp>
+    </comp>
+    <comp ref="FID3">
+      <value>Fiducial</value>
+      <footprint>Fiducial:Fiducial_0.5mm_Mask1mm</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Mechanical" part="Fiducial" description="Fiducial Marker"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>619A9AC9</tstamp>
+    </comp>
+    <comp ref="J1">
+      <value>USB_A</value>
+      <footprint>mico:USB-A</footprint>
+      <datasheet> ~</datasheet>
+      <libsource lib="mico-rescue" part="USB_A-Connector" description=""/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>61A6EA19</tstamp>
+    </comp>
+    <comp ref="U2">
+      <value>MP23DB01HPTR</value>
+      <footprint>mico:MIC_SPH0641LU4H-1</footprint>
+      <libsource lib="mico" part="MP23DB01HPTR" description=""/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620966B1</tstamp>
+    </comp>
+    <comp ref="R8">
+      <value>10K</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R_Small" description="Resistor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620966BE</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>10K</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R_Small" description="Resistor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620966CA</tstamp>
+    </comp>
+    <comp ref="C3">
+      <value>1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620966E3</tstamp>
+    </comp>
+    <comp ref="C2">
+      <value>0.1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620966E9</tstamp>
+    </comp>
+    <comp ref="R10">
+      <value>10K</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R_Small" description="Resistor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620D00D1</tstamp>
+    </comp>
+    <comp ref="R9">
+      <value>10K</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R_Small" description="Resistor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620D00DB</tstamp>
+    </comp>
+    <comp ref="C21">
+      <value>1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620D00F4</tstamp>
+    </comp>
+    <comp ref="C20">
+      <value>0.1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620D00FA</tstamp>
+    </comp>
+    <comp ref="U6">
+      <value>MP23DB01HPTR</value>
+      <footprint>mico:MIC_SPH0641LU4H-1</footprint>
+      <libsource lib="mico" part="MP23DB01HPTR" description=""/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620DFB67</tstamp>
+    </comp>
+    <comp ref="R12">
+      <value>10K</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R_Small" description="Resistor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620DFB74</tstamp>
+    </comp>
+    <comp ref="R11">
+      <value>10K</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R_Small" description="Resistor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620DFB7E</tstamp>
+    </comp>
+    <comp ref="C23">
+      <value>1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620DFB97</tstamp>
+    </comp>
+    <comp ref="C22">
+      <value>0.1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620DFB9D</tstamp>
+    </comp>
+    <comp ref="U7">
+      <value>MP23DB01HPTR</value>
+      <footprint>mico:MIC_SPH0641LU4H-1</footprint>
+      <libsource lib="mico" part="MP23DB01HPTR" description=""/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620F082B</tstamp>
+    </comp>
+    <comp ref="R14">
+      <value>10K</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R_Small" description="Resistor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620F0838</tstamp>
+    </comp>
+    <comp ref="R13">
+      <value>10K</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R_Small" description="Resistor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620F0842</tstamp>
+    </comp>
+    <comp ref="C25">
+      <value>1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620F085B</tstamp>
+    </comp>
+    <comp ref="C24">
+      <value>0.1uF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C_Small" description="Unpolarized capacitor, small symbol"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620F0861</tstamp>
+    </comp>
+    <comp ref="U5">
+      <value>MP23DB01HPTR</value>
+      <footprint>mico:MIC_SPH0641LU4H-1</footprint>
+      <libsource lib="mico" part="MP23DB01HPTR" description=""/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>620D00C4</tstamp>
+    </comp>
+    <comp ref="U4">
+      <value>RP2040</value>
+      <footprint>mico:QFN40P700X700X90-57N</footprint>
+      <fields>
+        <field name="MANUFACTURER">Raspberry Pi</field>
+        <field name="MAXIMUM_PACKAGE_HEIGHT">0.9 mm</field>
+        <field name="PARTREV">1.6.1</field>
+        <field name="STANDARD">IPC 7351B</field>
+      </fields>
+      <libsource lib="mico" part="RP2040" description=""/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>6199EEDE</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="Connector" part="TestPoint">
+      <description>test point</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Pin*</fp>
+        <fp>Test*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">TP</field>
+        <field name="Value">TestPoint</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Connector" part="TestPoint_2Pole">
+      <description>2-polar test point</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Pin*</fp>
+        <fp>Test*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">TP</field>
+        <field name="Value">TestPoint_2Pole</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Connector_Generic" part="Conn_01x04">
+      <description>Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Connector*:*_1x??_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x04</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+        <pin num="3" name="Pin_3" type="passive"/>
+        <pin num="4" name="Pin_4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="C_Small">
+      <description>Unpolarized capacitor, small symbol</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>C_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C_Small</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="Crystal_GND24_Small">
+      <description>Four pin crystal, GND on pins 2 and 4, small symbol</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Crystal*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">Y</field>
+        <field name="Value">Crystal_GND24_Small</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+        <pin num="4" name="4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="LED_Small">
+      <description>Light emitting diode, small symbol</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>LED*</fp>
+        <fp>LED_SMD:*</fp>
+        <fp>LED_THT:*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">LED_Small</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="R_Small">
+      <description>Resistor, small symbol</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R_Small</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mechanical" part="Fiducial">
+      <description>Fiducial Marker</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Fiducial*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">FID</field>
+        <field name="Value">Fiducial</field>
+      </fields>
+    </libpart>
+    <libpart lib="Regulator_Linear" part="MCP1700-3002E_SOT23">
+      <aliases>
+        <alias>MCP1700-1202E_SOT23</alias>
+        <alias>MCP1700-1802E_SOT23</alias>
+        <alias>MCP1700-2502E_SOT23</alias>
+        <alias>MCP1700-2802E_SOT23</alias>
+        <alias>MCP1700-3302E_SOT23</alias>
+        <alias>MCP1700-5002E_SOT23</alias>
+      </aliases>
+      <description>250mA Low Quiscent Current LDO, 3.0V output, SOT-23</description>
+      <docs>http://ww1.microchip.com/downloads/en/DeviceDoc/20001826D.pdf</docs>
+      <footprints>
+        <fp>SOT?23*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">MCP1700-3002E_SOT23</field>
+        <field name="Footprint">Package_TO_SOT_SMD:SOT-23</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="power_in"/>
+        <pin num="2" name="VO" type="power_out"/>
+        <pin num="3" name="VI" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="mico" part="MP23DB01HPTR">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">MP23DB01HPTR</field>
+      </fields>
+      <pins>
+        <pin num="1" name="DOUT" type="output"/>
+        <pin num="2" name="L/R" type="input"/>
+        <pin num="3" name="GND" type="power_in"/>
+        <pin num="4" name="CLK" type="input"/>
+        <pin num="5" name="VDD" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="mico" part="RP2040">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">RP2040</field>
+        <field name="Footprint">QFN40P700X700X90-57N</field>
+        <field name="MAXIMUM_PACKAGE_HEIGHT">0.9 mm</field>
+        <field name="MANUFACTURER">Raspberry Pi</field>
+        <field name="PARTREV">1.6.1</field>
+        <field name="STANDARD">IPC 7351B</field>
+      </fields>
+      <pins>
+        <pin num="1" name="IOVDD" type="power_in"/>
+        <pin num="2" name="GPIO0" type="BiDi"/>
+        <pin num="3" name="GPIO1" type="BiDi"/>
+        <pin num="4" name="GPIO2" type="BiDi"/>
+        <pin num="5" name="GPIO3" type="BiDi"/>
+        <pin num="6" name="GPIO4" type="BiDi"/>
+        <pin num="7" name="GPIO5" type="BiDi"/>
+        <pin num="8" name="GPIO6" type="BiDi"/>
+        <pin num="9" name="GPIO7" type="BiDi"/>
+        <pin num="10" name="IOVDD" type="power_in"/>
+        <pin num="11" name="GPIO8" type="BiDi"/>
+        <pin num="12" name="GPIO9" type="BiDi"/>
+        <pin num="13" name="GPIO10" type="BiDi"/>
+        <pin num="14" name="GPIO11" type="BiDi"/>
+        <pin num="15" name="GPIO12" type="BiDi"/>
+        <pin num="16" name="GPIO13" type="BiDi"/>
+        <pin num="17" name="GPIO14" type="BiDi"/>
+        <pin num="18" name="GPIO15" type="BiDi"/>
+        <pin num="19" name="TESTEN" type="passive"/>
+        <pin num="20" name="XIN" type="input"/>
+        <pin num="21" name="XOUT" type="output"/>
+        <pin num="22" name="IOVDD" type="power_in"/>
+        <pin num="23" name="DVDD" type="power_in"/>
+        <pin num="24" name="SWCLK" type="input"/>
+        <pin num="25" name="SWD" type="BiDi"/>
+        <pin num="26" name="RUN" type="input"/>
+        <pin num="27" name="GPIO16" type="BiDi"/>
+        <pin num="28" name="GPIO17" type="BiDi"/>
+        <pin num="29" name="GPIO18" type="BiDi"/>
+        <pin num="30" name="GPIO19" type="BiDi"/>
+        <pin num="31" name="GPIO20" type="BiDi"/>
+        <pin num="32" name="GPIO21" type="BiDi"/>
+        <pin num="33" name="IOVDD" type="power_in"/>
+        <pin num="34" name="GPIO22" type="BiDi"/>
+        <pin num="35" name="GPIO23" type="BiDi"/>
+        <pin num="36" name="GPIO24" type="BiDi"/>
+        <pin num="37" name="GPIO25" type="BiDi"/>
+        <pin num="38" name="GPIO26/ADC0" type="BiDi"/>
+        <pin num="39" name="GPIO27/ADC1" type="BiDi"/>
+        <pin num="40" name="GPIO28/ADC2" type="BiDi"/>
+        <pin num="41" name="GPIO29/ADC3" type="BiDi"/>
+        <pin num="42" name="IOVDD" type="power_in"/>
+        <pin num="43" name="ADC_AVDD" type="power_in"/>
+        <pin num="44" name="VREG_VIN" type="input"/>
+        <pin num="45" name="VREG_VOUT" type="output"/>
+        <pin num="46" name="USB_DM" type="BiDi"/>
+        <pin num="47" name="USB_DP" type="BiDi"/>
+        <pin num="48" name="USB_VDD" type="power_in"/>
+        <pin num="49" name="IOVDD" type="power_in"/>
+        <pin num="50" name="DVDD" type="power_in"/>
+        <pin num="51" name="QSPI_SD3" type="BiDi"/>
+        <pin num="52" name="QSPI_SCLK" type="BiDi"/>
+        <pin num="53" name="QSPI_SD0" type="BiDi"/>
+        <pin num="54" name="QSPI_SD2" type="BiDi"/>
+        <pin num="55" name="QSPI_SD1" type="BiDi"/>
+        <pin num="56" name="QSPI_CSN" type="BiDi"/>
+        <pin num="57" name="GND" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="mico" part="W25Q128JV">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">W25Q128JV</field>
+      </fields>
+      <pins>
+        <pin num="1" name="/CS" type="input"/>
+        <pin num="2" name="DO" type="BiDi"/>
+        <pin num="3" name="/WP" type="BiDi"/>
+        <pin num="4" name="GND" type="power_in"/>
+        <pin num="5" name="DI" type="BiDi"/>
+        <pin num="6" name="CLK" type="input"/>
+        <pin num="7" name="/HOLD" type="BiDi"/>
+        <pin num="8" name="VCC" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="mico-rescue" part="USB_A-Connector">
+      <footprints>
+        <fp>USB*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">USB_A-Connector</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VBUS" type="power_in"/>
+        <pin num="2" name="D-" type="BiDi"/>
+        <pin num="3" name="D+" type="BiDi"/>
+        <pin num="4" name="GND" type="power_in"/>
+        <pin num="5" name="Shield" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="Connector">
+      <uri>/usr/share/kicad/library/Connector.lib</uri>
+    </library>
+    <library logical="Connector_Generic">
+      <uri>/usr/share/kicad/library/Connector_Generic.lib</uri>
+    </library>
+    <library logical="Device">
+      <uri>/usr/share/kicad/library/Device.lib</uri>
+    </library>
+    <library logical="Mechanical">
+      <uri>/usr/share/kicad/library/Mechanical.lib</uri>
+    </library>
+    <library logical="Regulator_Linear">
+      <uri>/usr/share/kicad/library/Regulator_Linear.lib</uri>
+    </library>
+    <library logical="mico">
+      <uri>/home/cayden/biggem/Tester/MSA/pcb/ver0.1/mico.lib</uri>
+    </library>
+    <library logical="mico-rescue">
+      <uri>/home/cayden/biggem/Tester/MSA/pcb/ver0.1/mico-rescue.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="/MIC_DOUT_0">
+      <node ref="U2" pin="1"/>
+      <node ref="U4" pin="6"/>
     </net>
-    <net code="45" name="/USB_DM">
+    <net code="2" name="+3V3">
+      <node ref="U1" pin="2"/>
+      <node ref="U2" pin="5"/>
+      <node ref="U4" pin="33"/>
+      <node ref="C9" pin="1"/>
+      <node ref="R1" pin="1"/>
+      <node ref="C4" pin="1"/>
+      <node ref="C24" pin="2"/>
+      <node ref="U4" pin="43"/>
+      <node ref="C17" pin="1"/>
+      <node ref="U4" pin="42"/>
+      <node ref="C5" pin="1"/>
+      <node ref="U3" pin="8"/>
+      <node ref="U5" pin="5"/>
+      <node ref="R13" pin="1"/>
+      <node ref="R3" pin="1"/>
+      <node ref="C15" pin="1"/>
+      <node ref="U7" pin="5"/>
+      <node ref="U4" pin="22"/>
+      <node ref="C25" pin="2"/>
+      <node ref="U4" pin="1"/>
+      <node ref="U4" pin="10"/>
+      <node ref="C14" pin="1"/>
+      <node ref="C11" pin="1"/>
+      <node ref="C12" pin="1"/>
+      <node ref="J2" pin="2"/>
+      <node ref="C13" pin="1"/>
+      <node ref="C16" pin="1"/>
+      <node ref="C22" pin="2"/>
+      <node ref="C23" pin="2"/>
+      <node ref="C3" pin="2"/>
+      <node ref="C2" pin="2"/>
+      <node ref="C20" pin="2"/>
+      <node ref="R9" pin="1"/>
+      <node ref="R11" pin="1"/>
+      <node ref="U4" pin="49"/>
+      <node ref="C10" pin="1"/>
+      <node ref="C21" pin="2"/>
+      <node ref="U4" pin="48"/>
+      <node ref="U6" pin="5"/>
+      <node ref="U4" pin="44"/>
+    </net>
+    <net code="3" name="Net-(R10-Pad1)">
+      <node ref="R10" pin="1"/>
+      <node ref="U5" pin="2"/>
+      <node ref="R9" pin="2"/>
+    </net>
+    <net code="4" name="GND">
+      <node ref="C24" pin="1"/>
+      <node ref="C25" pin="1"/>
+      <node ref="R12" pin="2"/>
+      <node ref="C8" pin="2"/>
+      <node ref="C17" pin="2"/>
+      <node ref="D1" pin="1"/>
+      <node ref="C18" pin="1"/>
+      <node ref="C7" pin="2"/>
+      <node ref="C6" pin="2"/>
+      <node ref="C10" pin="2"/>
+      <node ref="U7" pin="3"/>
+      <node ref="C1" pin="2"/>
+      <node ref="R14" pin="2"/>
+      <node ref="C4" pin="2"/>
+      <node ref="C9" pin="2"/>
+      <node ref="U3" pin="4"/>
+      <node ref="C19" pin="1"/>
+      <node ref="J1" pin="5"/>
+      <node ref="J1" pin="4"/>
+      <node ref="C21" pin="1"/>
+      <node ref="U2" pin="3"/>
+      <node ref="R8" pin="2"/>
+      <node ref="U1" pin="1"/>
+      <node ref="C13" pin="2"/>
+      <node ref="R10" pin="2"/>
+      <node ref="C2" pin="1"/>
+      <node ref="C3" pin="1"/>
+      <node ref="Y1" pin="2"/>
+      <node ref="C20" pin="1"/>
+      <node ref="U6" pin="3"/>
+      <node ref="U5" pin="3"/>
+      <node ref="C14" pin="2"/>
+      <node ref="C5" pin="2"/>
+      <node ref="U4" pin="57"/>
+      <node ref="TP1" pin="1"/>
+      <node ref="C12" pin="2"/>
+      <node ref="J2" pin="1"/>
+      <node ref="C11" pin="2"/>
+      <node ref="Y1" pin="4"/>
+      <node ref="C22" pin="1"/>
+      <node ref="C23" pin="1"/>
+      <node ref="U4" pin="19"/>
+      <node ref="C16" pin="2"/>
+      <node ref="C15" pin="2"/>
+    </net>
+    <net code="5" name="Net-(U4-Pad40)">
+      <node ref="U4" pin="40"/>
+    </net>
+    <net code="6" name="Net-(U4-Pad41)">
+      <node ref="U4" pin="41"/>
+    </net>
+    <net code="7" name="Net-(U4-Pad39)">
+      <node ref="U4" pin="39"/>
+    </net>
+    <net code="8" name="Net-(U4-Pad38)">
+      <node ref="U4" pin="38"/>
+    </net>
+    <net code="9" name="Net-(U4-Pad35)">
+      <node ref="U4" pin="35"/>
+    </net>
+    <net code="10" name="Net-(U4-Pad32)">
+      <node ref="U4" pin="32"/>
+    </net>
+    <net code="11" name="Net-(U4-Pad31)">
+      <node ref="U4" pin="31"/>
+    </net>
+    <net code="12" name="Net-(U4-Pad30)">
+      <node ref="U4" pin="30"/>
+    </net>
+    <net code="13" name="Net-(U4-Pad29)">
+      <node ref="U4" pin="29"/>
+    </net>
+    <net code="14" name="Net-(U4-Pad28)">
+      <node ref="U4" pin="28"/>
+    </net>
+    <net code="15" name="Net-(U4-Pad27)">
+      <node ref="U4" pin="27"/>
+    </net>
+    <net code="16" name="/SWDIO">
+      <node ref="U4" pin="25"/>
+      <node ref="J2" pin="3"/>
+    </net>
+    <net code="17" name="/SWDCLK">
+      <node ref="U4" pin="24"/>
+      <node ref="J2" pin="4"/>
+    </net>
+    <net code="18" name="/USB-D_P">
+      <node ref="R4" pin="1"/>
+      <node ref="U4" pin="47"/>
+    </net>
+    <net code="19" name="/USB-D_N">
+      <node ref="U4" pin="46"/>
       <node ref="R5" pin="1"/>
+    </net>
+    <net code="20" name="/USB0-D_P">
+      <node ref="R4" pin="2"/>
       <node ref="J1" pin="3"/>
     </net>
-    <net code="46" name="/USB_DP">
-      <node ref="R4" pin="1"/>
+    <net code="21" name="/USB0-D_N">
+      <node ref="R5" pin="2"/>
       <node ref="J1" pin="2"/>
     </net>
-    <net code="47" name="Net-(R5-Pad2)">
-      <node ref="U4" pin="46"/>
-      <node ref="R5" pin="2"/>
+    <net code="22" name="Net-(U4-Pad18)">
+      <node ref="U4" pin="18"/>
     </net>
-    <net code="48" name="/RED_LED">
+    <net code="23" name="/MIC_CLK">
+      <node ref="U5" pin="4"/>
+      <node ref="U4" pin="14"/>
+      <node ref="U2" pin="4"/>
+      <node ref="U6" pin="4"/>
+      <node ref="U7" pin="4"/>
+    </net>
+    <net code="24" name="Net-(R1-Pad2)">
+      <node ref="R1" pin="2"/>
+      <node ref="U2" pin="2"/>
+      <node ref="R8" pin="1"/>
+    </net>
+    <net code="25" name="Net-(U4-Pad7)">
+      <node ref="U4" pin="7"/>
+    </net>
+    <net code="26" name="Net-(U4-Pad17)">
+      <node ref="U4" pin="17"/>
+    </net>
+    <net code="27" name="Net-(U4-Pad16)">
+      <node ref="U4" pin="16"/>
+    </net>
+    <net code="28" name="Net-(U4-Pad15)">
+      <node ref="U4" pin="15"/>
+    </net>
+    <net code="29" name="/MIC_DOUT_1">
+      <node ref="U4" pin="13"/>
+      <node ref="U5" pin="1"/>
+    </net>
+    <net code="30" name="Net-(U4-Pad12)">
+      <node ref="U4" pin="12"/>
+    </net>
+    <net code="31" name="Net-(U4-Pad11)">
+      <node ref="U4" pin="11"/>
+    </net>
+    <net code="32" name="Net-(U4-Pad9)">
+      <node ref="U4" pin="9"/>
+    </net>
+    <net code="33" name="Net-(U4-Pad8)">
+      <node ref="U4" pin="8"/>
+    </net>
+    <net code="34" name="Net-(U4-Pad3)">
+      <node ref="U4" pin="3"/>
+    </net>
+    <net code="35" name="Net-(U4-Pad2)">
+      <node ref="U4" pin="2"/>
+    </net>
+    <net code="36" name="/XOUT">
+      <node ref="U4" pin="21"/>
+      <node ref="R7" pin="1"/>
+    </net>
+    <net code="37" name="/RP_RUN">
+      <node ref="U4" pin="26"/>
+      <node ref="TP2" pin="1"/>
+    </net>
+    <net code="38" name="/MIC_DOUT_3">
+      <node ref="U7" pin="1"/>
       <node ref="U4" pin="37"/>
+    </net>
+    <net code="39" name="/QSPI_SD3">
+      <node ref="U3" pin="7"/>
+      <node ref="U4" pin="51"/>
+    </net>
+    <net code="40" name="/QSPI_SCLK">
+      <node ref="U4" pin="52"/>
+      <node ref="U3" pin="6"/>
+    </net>
+    <net code="41" name="/QSPI_SD0">
+      <node ref="U4" pin="53"/>
+      <node ref="U3" pin="5"/>
+    </net>
+    <net code="42" name="/QSPI_SD1">
+      <node ref="U3" pin="2"/>
+      <node ref="U4" pin="55"/>
+    </net>
+    <net code="43" name="/QSPI_SS">
+      <node ref="R2" pin="1"/>
+      <node ref="U4" pin="56"/>
+      <node ref="U3" pin="1"/>
+      <node ref="R3" pin="2"/>
+    </net>
+    <net code="44" name="Net-(U4-Pad5)">
+      <node ref="U4" pin="5"/>
+    </net>
+    <net code="45" name="/MIC_DOUT_2">
+      <node ref="U4" pin="36"/>
+      <node ref="U6" pin="1"/>
+    </net>
+    <net code="46" name="/RED_LED">
+      <node ref="U4" pin="34"/>
       <node ref="R6" pin="2"/>
     </net>
-    <net code="49" name="Net-(D1-Pad2)">
+    <net code="47" name="Net-(U4-Pad4)">
+      <node ref="U4" pin="4"/>
+    </net>
+    <net code="48" name="Net-(R11-Pad2)">
+      <node ref="U6" pin="2"/>
+      <node ref="R12" pin="1"/>
+      <node ref="R11" pin="2"/>
+    </net>
+    <net code="49" name="Net-(R13-Pad2)">
+      <node ref="U7" pin="2"/>
+      <node ref="R14" pin="1"/>
+      <node ref="R13" pin="2"/>
+    </net>
+    <net code="50" name="Net-(D1-Pad2)">
       <node ref="R6" pin="1"/>
       <node ref="D1" pin="2"/>
     </net>
-    <net code="50" name="Net-(U4-Pad12)">
-      <node ref="U4" pin="12"/>
+    <net code="51" name="VBUS">
+      <node ref="C1" pin="1"/>
+      <node ref="J1" pin="1"/>
+      <node ref="U1" pin="3"/>
     </net>
-    <net code="51" name="Net-(U4-Pad11)">
-      <node ref="U4" pin="11"/>
+    <net code="52" name="/XIN">
+      <node ref="U4" pin="20"/>
+      <node ref="C18" pin="2"/>
+      <node ref="Y1" pin="3"/>
     </net>
-    <net code="52" name="/RP_RUN">
-      <node ref="TP2" pin="1"/>
-      <node ref="U4" pin="26"/>
+    <net code="53" name="+1V1">
+      <node ref="U4" pin="50"/>
+      <node ref="C6" pin="1"/>
+      <node ref="C7" pin="1"/>
+      <node ref="C8" pin="1"/>
+      <node ref="U4" pin="23"/>
+      <node ref="U4" pin="45"/>
     </net>
-    <net code="53" name="/MIC_L\R">
-      <node ref="R8" pin="2"/>
-      <node ref="U2" pin="2"/>
-      <node ref="R1" pin="1"/>
+    <net code="54" name="/QSPI_SD2">
+      <node ref="U4" pin="54"/>
+      <node ref="U3" pin="3"/>
+    </net>
+    <net code="55" name="/USB_BOOT">
+      <node ref="TP1" pin="2"/>
+      <node ref="R2" pin="2"/>
+    </net>
+    <net code="56" name="Net-(C19-Pad2)">
+      <node ref="Y1" pin="1"/>
+      <node ref="R7" pin="2"/>
+      <node ref="C19" pin="2"/>
     </net>
   </nets>
 </export>

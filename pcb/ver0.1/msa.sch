@@ -188,7 +188,7 @@ Connection ~ 4650 1450
 Wire Wire Line
 	4650 1450 4250 1450
 Wire Wire Line
-	5200 1450 5200 1900
+	5200 1450 5200 1700
 Wire Wire Line
 	4650 1450 5200 1450
 Connection ~ 5200 1900
@@ -1089,8 +1089,6 @@ Wire Wire Line
 Wire Wire Line
 	1100 1700 1100 1800
 Wire Wire Line
-	1100 1800 1200 1800
-Wire Wire Line
 	1200 1800 1200 1700
 Wire Wire Line
 	1200 1900 1200 1800
@@ -1133,7 +1131,7 @@ F 3 "" H 4850 12150 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5250 11650 5650 11650
+	5250 11650 5400 11650
 Wire Wire Line
 	4450 11750 4050 11750
 $Comp
@@ -1287,7 +1285,7 @@ F 3 "" H 6850 12150 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	7250 11650 7650 11650
+	7250 11650 7350 11650
 Wire Wire Line
 	6450 11750 6050 11750
 $Comp
@@ -1426,7 +1424,7 @@ F 3 "" H 8850 12150 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	9250 11650 9650 11650
+	9250 11650 9350 11650
 Wire Wire Line
 	8450 11750 8050 11750
 $Comp
@@ -1576,7 +1574,7 @@ F 3 "" H 10850 12150 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	11250 11650 11650 11650
+	11250 11650 11350 11650
 Wire Wire Line
 	10450 11750 10050 11750
 $Comp
@@ -1736,7 +1734,7 @@ $EndComp
 Wire Wire Line
 	7200 4050 7600 4050
 Wire Wire Line
-	7200 4150 7600 4150
+	7200 4150 7400 4150
 Wire Wire Line
 	7200 3450 7600 3450
 Wire Wire Line
@@ -1774,4 +1772,125 @@ Text Label 7650 5250 2    50   ~ 0
 RED_LED
 Wire Wire Line
 	7650 5250 7200 5250
+$Comp
+L Connector:TestPoint TP7
+U 1 1 6206D2D0
+P 5400 11650
+F 0 "TP7" H 5342 11676 50  0000 R CNN
+F 1 "TestPoint" H 5342 11767 50  0000 R CNN
+F 2 "mico:SMD_1x01_P1.27mm" H 5600 11650 50  0001 C CNN
+F 3 "~" H 5600 11650 50  0001 C CNN
+	1    5400 11650
+	-1   0    0    1   
+$EndComp
+Connection ~ 5400 11650
+Wire Wire Line
+	5400 11650 5650 11650
+$Comp
+L Connector:TestPoint TP8
+U 1 1 6206DDB3
+P 7350 11650
+F 0 "TP8" H 7292 11676 50  0000 R CNN
+F 1 "TestPoint" H 7292 11767 50  0000 R CNN
+F 2 "mico:SMD_1x01_P1.27mm" H 7550 11650 50  0001 C CNN
+F 3 "~" H 7550 11650 50  0001 C CNN
+	1    7350 11650
+	-1   0    0    1   
+$EndComp
+Connection ~ 7350 11650
+Wire Wire Line
+	7350 11650 7650 11650
+$Comp
+L Connector:TestPoint TP10
+U 1 1 62073EE7
+P 9350 11650
+F 0 "TP10" H 9292 11676 50  0000 R CNN
+F 1 "TestPoint" H 9292 11767 50  0000 R CNN
+F 2 "mico:SMD_1x01_P1.27mm" H 9550 11650 50  0001 C CNN
+F 3 "~" H 9550 11650 50  0001 C CNN
+	1    9350 11650
+	-1   0    0    1   
+$EndComp
+Connection ~ 9350 11650
+Wire Wire Line
+	9350 11650 9650 11650
+$Comp
+L Connector:TestPoint TP11
+U 1 1 620763A4
+P 11350 11650
+F 0 "TP11" H 11292 11676 50  0000 R CNN
+F 1 "TestPoint" H 11292 11767 50  0000 R CNN
+F 2 "mico:SMD_1x01_P1.27mm" H 11550 11650 50  0001 C CNN
+F 3 "~" H 11550 11650 50  0001 C CNN
+	1    11350 11650
+	-1   0    0    1   
+$EndComp
+Connection ~ 11350 11650
+Wire Wire Line
+	11350 11650 11650 11650
+Wire Wire Line
+	1100 1800 1200 1800
+$Comp
+L Connector:TestPoint TP3
+U 1 1 6207B42E
+P 1200 1800
+F 0 "TP3" V 1154 1988 50  0000 L CNN
+F 1 "TestPoint" V 1245 1988 50  0000 L CNN
+F 2 "mico:SMD_1x01_P1.27mm" H 1400 1800 50  0001 C CNN
+F 3 "~" H 1400 1800 50  0001 C CNN
+	1    1200 1800
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector:TestPoint TP4
+U 1 1 62080B84
+P 1700 1100
+F 0 "TP4" V 1654 1288 50  0000 L CNN
+F 1 "TestPoint" V 1745 1288 50  0000 L CNN
+F 2 "mico:SMD_1x01_P1.27mm" H 1900 1100 50  0001 C CNN
+F 3 "~" H 1900 1100 50  0001 C CNN
+	1    1700 1100
+	0    1    1    0   
+$EndComp
+Connection ~ 1700 1100
+$Comp
+L Connector:TestPoint TP5
+U 1 1 62082521
+P 2550 2800
+F 0 "TP5" V 2504 2988 50  0000 L CNN
+F 1 "TestPoint" V 2595 2988 50  0000 L CNN
+F 2 "mico:SMD_1x01_P1.27mm" H 2750 2800 50  0001 C CNN
+F 3 "~" H 2750 2800 50  0001 C CNN
+	1    2550 2800
+	0    1    1    0   
+$EndComp
+Connection ~ 2550 2800
+$Comp
+L Connector:TestPoint TP6
+U 1 1 620829BE
+P 5200 1700
+F 0 "TP6" V 5154 1888 50  0000 L CNN
+F 1 "TestPoint" V 5245 1888 50  0000 L CNN
+F 2 "mico:SMD_1x01_P1.27mm" H 5400 1700 50  0001 C CNN
+F 3 "~" H 5400 1700 50  0001 C CNN
+	1    5200 1700
+	0    1    1    0   
+$EndComp
+Connection ~ 5200 1700
+Wire Wire Line
+	5200 1700 5200 1900
+$Comp
+L Connector:TestPoint TP9
+U 1 1 62089103
+P 7400 4150
+F 0 "TP9" H 7342 4176 50  0000 R CNN
+F 1 "TestPoint" H 7342 4267 50  0000 R CNN
+F 2 "mico:SMD_1x01_P1.27mm" H 7600 4150 50  0001 C CNN
+F 3 "~" H 7600 4150 50  0001 C CNN
+	1    7400 4150
+	-1   0    0    1   
+$EndComp
+Connection ~ 7400 4150
+Wire Wire Line
+	7400 4150 7600 4150
 $EndSCHEMATC

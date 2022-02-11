@@ -1,39 +1,66 @@
-Title,mico.priv
-Revision,V 0.1
-Date,2021-11-20
-Generated,Sun Nov 21 01:11:48 2021
-Company,Electronut Labs
-Comment 1,Designed by Mahesh Venkitachalam
-Comment 2,Drawn by Sivaprakash
-Comment 3,
-Comment 4,
-Total Parts,37
-Total Unique Parts,18
-
-
-
-Ref,Qty,Value,Footprint,Datasheet,MANUFACTURER,MAXIMUM_PACKAGE_HEIGHT,PARTREV,STANDARD,
-C1 C5 C17 ,3,10uF,Capacitor_SMD:C_0402_1005Metric,~, , , , 
-C2 C4 C6 C7 C10 C11 C12 C13 C14 C15 C16 ,11,0.1uF,Capacitor_SMD:C_0402_1005Metric,~, , , , 
-C3 C8 C9 ,3,1uF,Capacitor_SMD:C_0402_1005Metric,~, , , , 
-C18 C19 ,2,27pF,Capacitor_SMD:C_0402_1005Metric,~, , , , 
-D1 ,1,APA3010SECK,mico:APA3010SECK,~, , , , 
-J1 ,1,USB_plug,mico:usb-PCB,, , , , 
-J2 ,1,SWD Prog,mico:SMD_1x04_P1.27mm,~, , , , 
-R1 R3 R8 ,3,10K,Resistor_SMD:R_0402_1005Metric,~, , , , 
-R2 R7 ,2,1K,Resistor_SMD:R_0402_1005Metric,~, , , , 
-R4 R5 ,2,27R,Resistor_SMD:R_0402_1005Metric,~, , , , 
-R6 ,1,470R,Resistor_SMD:R_0402_1005Metric,~, , , , 
-TP1 ,1,TestPoint_2Pole,mico:SMD_1x02_P1.27mm,~, , , , 
-TP2 ,1,TestPoint,TestPoint:TestPoint_Pad_D1.0mm,~, , , , 
-U1 ,1,MCP1702,Package_TO_SOT_SMD:SOT-23,http://ww1.microchip.com/downloads/en/DeviceDoc/20001826D.pdf, , , , 
-U2 ,1,MP23DB01HPTR,mico:MP23DB01HP,, , , , 
-U3 ,1,W25Q128JV,mico:SOIC127P790X216-8N,, , , , 
-U4 ,1,RP2040,mico:QFN40P700X700X90-57N,,Raspberry Pi,0.9 mm,1.6.1,IPC 7351B
-Y1 ,1,H130B-12.000-20-3050-EXT-TR,Crystal:Crystal_SMD_5032-4Pin_5.0x3.2mm,~, , , , 
-
-
-
-
-BOM made with KICAD_BOM_WIZARD (https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git)
-Generated Sun Nov 21 01:11:48 2021
+Reference, Quantity, Value, Footprint, Datasheet, MANUFACTURER, MAXIMUM_PACKAGE_HEIGHT, PARTREV, STANDARD,Digikey Link,Digikey cost (CAD),Digikey PN,Total Price
+C10 C7 C6 C11 C12 C13 C14 C15 C16 C4 C2 C20 C22 C24 ,14,0.1uF,Capacitor_SMD:C_0402_1005Metric,~,,,,,https://www.digikey.ca/en/products/detail/murata-electronics/GJM1555C1HR10BB01D/702270,0.27,,3.78
+C17 C5 C1 ,3,10uF,Capacitor_SMD:C_0402_1005Metric,~,,,,,,,,0
+C18 C19 ,2,27pF,Capacitor_SMD:C_0402_1005Metric,~,,,,,,,,0
+C8 C9 C3 C21 C23 C25 ,6,1uF,Capacitor_SMD:C_0402_1005Metric,~,,,,,,,,0
+D1 ,1,APA3010SECK,LED_SMD:LED_0402_1005Metric,~,,,,,,,,0
+FID1 FID2 FID3 ,3,Fiducial,Fiducial:Fiducial_0.5mm_Mask1mm,~,,,,,,,,0
+J1 ,1,USB_A,mico:USB-A, ~,,,,,,,,0
+J2 ,1,SWD Prog,mico:SMD_1x04_P1.27mm,~,,,,,,,,0
+R3 R8 R1 R10 R9 R12 R11 R14 R13 ,9,10K,Resistor_SMD:R_0402_1005Metric,~,,,,,,,,0
+R4 R5 ,2,27R,Resistor_SMD:R_0402_1005Metric,~,,,,,,,,0
+R6 ,1,470R,Resistor_SMD:R_0402_1005Metric,~,,,,,,,,0
+R7 R2 ,2,1K,Resistor_SMD:R_0402_1005Metric,~,,,,,,,,0
+TP1 ,1,TestPoint_2Pole,mico:SMD_1x02_P1.27mm,~,,,,,,,,0
+TP2 ,1,TestPoint,mico:SMD_1x01_P1.27mm,~,,,,,,,,0
+U1 ,1,MCP1702,Package_TO_SOT_SMD:SOT-23,http://ww1.microchip.com/downloads/en/DeviceDoc/20001826D.pdf,,,,,,,,0
+U2 U6 U7 U5 ,4,MP23DB01HPTR,mico:MIC_SPH0641LU4H-1,,,,,,,,,0
+U3 ,1,W25Q128JV,mico:PSON50P300X200X60-9N,,,,,,,,,0
+U4 ,1,RP2040,mico:QFN40P700X700X90-57N,,Raspberry Pi,0.9 mm,1.6.1,IPC 7351B,,,,0
+Y1 ,1,H130B-12.000-20-3050-EXT-TR,Crystal:Crystal_SMD_5032-4Pin_5.0x3.2mm,~,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
+,,,,,,,,,,,,0
