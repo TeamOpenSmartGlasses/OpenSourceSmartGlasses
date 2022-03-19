@@ -35,9 +35,8 @@ typedef struct pdm_mic {
     pdm_samples_ready_handler_t samples_ready_handler;
 };
 
+//handle up to n mics in an array, can be made bigger than 4, but to do so, dev will need to use other pio block or be fancy with each state machine using multiple shift registers and playing with time of read ins per state machine - cayden
 #define num_mics 4
-//handle up to n mics in an array, can be made bigger, but to do so, dev will need to make new dma handler functions (see 4 almost identical functions at bottom of this file, and see the associated comment
-
 struct pdm_mic pdm_mics[num_mics];
 
 static void pdm_dma_dispatch_handler();
@@ -305,8 +304,8 @@ static void pdm_dma_single_handler(int id) {
         pdm_mics[id].raw_buffer_size
     );
 
-//    if (pdm_mics[id].samples_ready_handler) {
-//        pdm_mics[id].samples_ready_handler(id);
-//    }
+    if (pdm_mics[id].samples_ready_handler) {
+        pdm_mics[id].samples_ready_handler(id);
+    }
 
 }

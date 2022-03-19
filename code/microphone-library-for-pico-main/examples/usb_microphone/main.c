@@ -14,7 +14,7 @@
 
 #include "pico/pdm_microphone.h"
 #include "blink.pio.h"
-//#include "usb_microphone.h"
+#include "usb_microphone.h"
 #include "hardware/clocks.h"
 #include "tusb_config.h"
 
@@ -38,7 +38,7 @@ uint16_t sample_buffer[num_mics][SAMPLE_BUFFER_SIZE];
 
 // callback functions
 void on_pdm_samples_ready(int);
-//void on_usb_microphone_tx_ready();
+void on_usb_microphone_tx_ready();
 
 void blink_pin_forever(PIO pio, uint sm, uint offset, uint pin, uint freq) {
     blink_program_init(pio, sm, offset, pin);
@@ -72,7 +72,7 @@ int main(void)
       printf("Configuring microphone: %d", i);
 
       //check if we are at the last mic in the list. If so, make the next mic the master that starts the others and runs the clock
-      if (i == (num_mics - 1)){
+      if (i == 0){
           printf("Master mic creating...\n");
           pdm_microphone_init(&curr_config, 1, i);
       } else{
@@ -90,8 +90,8 @@ int main(void)
 
 
   // initialize the USB microphone interface
-  //usb_microphone_init();
-  //usb_microphone_set_tx_ready_handler(on_usb_microphone_tx_ready);
+  usb_microphone_init();
+  usb_microphone_set_tx_ready_handler(on_usb_microphone_tx_ready);
 
   // enable to make LED blink
 #if 0
@@ -104,8 +104,7 @@ int main(void)
 
   while (1) {
     // run the USB microphone task continuously
-    //usb_microphone_task();
-    sleep_ms(10);
+    usb_microphone_task();
   }
 
   return 0;
@@ -117,25 +116,16 @@ void on_pdm_samples_ready(int id)
   // internal sample buffer are ready for reading.
   //
   // Read new samples into local buffer.
-//  printf("got audio sample from mic: %d\n\n", id);
-//  if (id == (num_mics - 1)){
-//      printf("---detected final mic\n");
-//      //pdm_microphone_read(sample_buffer, SAMPLE_BUFFER_SIZE, id);
-//  }
-    //pdm_microphone_read(sample_buffer[id], SAMPLE_BUFFER_SIZE, id);
-    printf("MIC %d DATA: \n", id);
-    for (int i = 0; i < SAMPLE_BUFFER_SIZE; i++){
-        //printf("--- %d", sample_buffer[id][i]);
-        uint16_t this_thing = sample_buffer[id][i];
-    }
-    printf("\n");
+  if (id == 0){
+      pdm_microphone_read(sample_buffer, SAMPLE_BUFFER_SIZE, id);
+  }
 }
 
-//void on_usb_microphone_tx_ready()
-//{
-//  // Callback from TinyUSB library when all data is ready
-//  // to be transmitted.
-//  //
-//  // Write local buffer to the USB microphone
-//  usb_microphone_write(sample_buffer, sizeof(sample_buffer));
-//}
+void on_usb_microphone_tx_ready()
+{
+  // Callback from TinyUSB library when all data is ready
+  // to be transmitted.
+  //
+  // Write local buffer to the USB microphone
+  usb_microphone_write(sample_buffer[0], sizeof(sample_buffer[0])); //0 index to only write out only master microphone
+}
