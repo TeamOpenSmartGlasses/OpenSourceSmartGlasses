@@ -40,7 +40,8 @@ typedef struct pdm_mic {
 
 struct pdm_mic pdm_mics[num_mics];
 
-static void pdm_dma_handler();
+static void pdm_dma_dispatch_handler();
+static void pdm_dma_single_handler(int);
 //static void pdm_dma_handler_mic_zero();
 //static void pdm_dma_handler_mic_one();
 //static void pdm_dma_handler_mic_two();
@@ -152,7 +153,8 @@ int pdm_microphone_start(int id) {
     printf("setting handler...\n");
     //if (irq_get_exclusive_handler(pdm_mics[id].dma_irq == NULL)){ //if we haven't yet set the handler
     if (id == 0){ //if we haven't yet set the handler
-        printf("WAS NULL, so set"); irq_set_exclusive_handler(pdm_mics[id].dma_irq, pdm_dma_handler);
+        printf("irq exclusive handler WAS NULL, so set");
+        irq_set_exclusive_handler(pdm_mics[id].dma_irq, pdm_dma_dispatch_handler);
     }
 
     printf("handler set\n");
@@ -171,30 +173,23 @@ int pdm_microphone_start(int id) {
     Open_PDM_Filter_Init(&pdm_mics[id].filter);
     printf("DONE PDM filter init...");
 
-//    printf("piosmsetenabled...\n");
-//    pio_sm_set_enabled(
-//        pdm_mics[id].config.pio,
-//        pdm_mics[id].config.pio_sm,
-//        true
-//    );
-//    printf("piosmsetenabled DONE\n");
-
     pdm_mics[id].raw_buffer_write_index = 0;
     pdm_mics[id].raw_buffer_read_index = 0;
-
-    printf("dma_channel_transfer_to_buffer_now...\n");
-    dma_channel_transfer_to_buffer_now(
-        pdm_mics[id].dma_channel,
-        pdm_mics[id].raw_buffer[0],
-        pdm_mics[id].raw_buffer_size
-    );
-    printf("dma_channel_transfer_to_buffer_now DONE\n");
 }
 
 //start all mics running together with clocks in sync
 void pdm_start_mic_array(){
     uint32_t enable_mask = (1<<0) | (1<<1) | (1<<2) | (1<<3); //enable the first two, for now
     pio_enable_sm_mask_in_sync(pio0, enable_mask);
+    for (int i = 0; i < num_mics; i++){
+        printf("dma_channel_transfer_to_buffer_now...\n");
+        dma_channel_transfer_to_buffer_now(
+            pdm_mics[i].dma_channel,
+            pdm_mics[i].raw_buffer[0],
+            pdm_mics[i].raw_buffer_size
+        );
+        printf("dma_channel_transfer_to_buffer_now DONE\n");
+    }
 }
 
 void pdm_microphone_stop(int id) {
@@ -264,16 +259,32 @@ int pdm_microphone_read(int16_t* buffer, size_t samples, int id) {
     return samples;
 }
 
-static void pdm_dma_handler() {
+//it seems that our handler is sometimes not called for every single IRQ that is set, so whenever we get a handler, we deal with all possible full pdm FIFO's using pdm_dma_single_handler
+static void pdm_dma_dispatch_handler() {
     //which DMA channel raised the IRQ?
     int id = -1;
-    for (int i = 0; i < num_mics; i++){
-        if (dma_channel_get_irq0_status(pdm_mics[i].dma_channel)){
-            id = i;
+    while(1){
+        id = -1;
+        for (int i = 0; i < num_mics; i++){
+            if (dma_channel_get_irq0_status(pdm_mics[i].dma_channel)){
+                id = i;
+                break;
+            }
         }
-    }
-    printf("pdm_dma_handler, mic id: %d\n", id);
 
+        //make sure we found the proper channel, if not, exit
+        if (id == -1){
+            return;
+        }
+
+        printf("pdm_dma_handler, mic id: %d\n", id);
+
+        //deal with the id we found
+        pdm_dma_single_handler(id);
+    }
+}
+
+static void pdm_dma_single_handler(int id) {
     // clear IRQ
     if (pdm_mics[id].dma_irq == DMA_IRQ_0) {
         dma_hw->ints0 = (1u << pdm_mics[id].dma_channel);
@@ -281,11 +292,6 @@ static void pdm_dma_handler() {
         dma_hw->ints1 = (1u << pdm_mics[id].dma_channel);
     }
     
-    //make sure we found the proper channel, if not, exit
-    if (id == -1){
-        return;
-    }
-
     // get the current buffer index
     pdm_mics[id].raw_buffer_read_index = pdm_mics[id].raw_buffer_write_index;
 
@@ -299,7 +305,8 @@ static void pdm_dma_handler() {
         pdm_mics[id].raw_buffer_size
     );
 
-    if (pdm_mics[id].samples_ready_handler) {
-        pdm_mics[id].samples_ready_handler(id);
-    }
+//    if (pdm_mics[id].samples_ready_handler) {
+//        pdm_mics[id].samples_ready_handler(id);
+//    }
+
 }

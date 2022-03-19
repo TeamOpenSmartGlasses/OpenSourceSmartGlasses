@@ -122,7 +122,7 @@ void on_pdm_samples_ready(int id)
 //      printf("---detected final mic\n");
 //      //pdm_microphone_read(sample_buffer, SAMPLE_BUFFER_SIZE, id);
 //  }
-    pdm_microphone_read(sample_buffer[id], SAMPLE_BUFFER_SIZE, id);
+    //pdm_microphone_read(sample_buffer[id], SAMPLE_BUFFER_SIZE, id);
     printf("MIC %d DATA: \n", id);
     for (int i = 0; i < SAMPLE_BUFFER_SIZE; i++){
         //printf("--- %d", sample_buffer[id][i]);
