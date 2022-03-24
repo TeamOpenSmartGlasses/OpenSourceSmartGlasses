@@ -1,4 +1,4 @@
-20184451391420532
+20186099540964252
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -60215,6 +60215,13 @@ net tie
 4
 OpenSourceSmartGlasses
 slim_stack_molex_PLUG_5035521222
+
+
+0
+28
+14
+OpenSourceSmartGlasses
+slim_stack_molex_RECEPTACLE_5035481222
 
 
 0
