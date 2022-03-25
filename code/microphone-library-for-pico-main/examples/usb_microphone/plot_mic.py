@@ -10,16 +10,23 @@ if __name__ == '__main__':
     # print(sd.query_devices())
 
     fs = 16000  		# Sample rate
-    duration = 5   # Duration of recording
+    duration = 1  # Duration of recording
     channels = 4
 
     print(sd.query_devices())
-    device ='MSA_ASR_Mic'
+    #device ='MSA_ASR_Mic'
+    device = "MicNode_4_Ch"
 
     myrecording = sd.rec(int(duration * fs), samplerate=fs, channels=channels, dtype='int16', device=device)
     print('Waiting...')
     sd.wait()  # Wait until recording is finished
     print('Done!')
+
+    print("Shape of result: ")
+    print(myrecording.shape)
+    for ci in range(channels):
+        print("Channel {}:".format(ci))
+        print(myrecording[:,ci])
 
 #    print("Playing back channel...")
 #    for c in channels:

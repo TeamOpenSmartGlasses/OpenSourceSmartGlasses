@@ -81,7 +81,18 @@ enum
 
 #define CONFIG_TOTAL_LEN    	(TUD_CONFIG_DESC_LEN + CFG_TUD_AUDIO * TUD_AUDIO_MIC_FOUR_CH_DESC_LEN)
 
-#define EPNUM_AUDIO   0x01
+#if TU_CHECK_MCU(LPC175X_6X) || TU_CHECK_MCU(LPC177X_8X) || TU_CHECK_MCU(LPC40XX)
+  // LPC 17xx and 40xx endpoint type (bulk/interrupt/iso) are fixed by its number
+  // 0 control, 1 In, 2 Bulk, 3 Iso, 4 In etc ...
+  #define EPNUM_AUDIO   0x03
+
+#elif TU_CHECK_MCU(NRF5X)
+  // nRF5x ISO can only be endpoint 8
+  #define EPNUM_AUDIO   0x08
+
+#else
+  #define EPNUM_AUDIO   0x01
+#endif
 
 uint8_t const desc_configuration[] =
 {
@@ -110,7 +121,7 @@ char const* string_desc_arr [] =
 {
     (const char[]) { 0x09, 0x04 }, 	// 0: is supported language is English (0x0409)
     "CaydenPierce",                   	// 1: Manufacturer
-    "MSA_ASR_Mic",              		// 2: Product
+    "MSA_Mic_array",    		// 2: Product
     "123458",                      	// 3: Serials, should use chip ID
     "UAC2",                 	 	// 4: Audio Interface
 };
