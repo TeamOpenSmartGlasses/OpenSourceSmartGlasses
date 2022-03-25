@@ -2,7 +2,7 @@
 add_executable(usb_microphone
     main.c
     usb_descriptors.c
-    usb_microphone.c
+    #usb_microphone.c
 )
 
 target_link_libraries(usb_microphone tinyusb_device tinyusb_board pico_stdlib pico_pdm_microphone)
