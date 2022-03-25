@@ -19,7 +19,7 @@
 #include "tusb_config.h"
 
 #ifndef SAMPLE_RATE
-#define SAMPLE_RATE ((CFG_TUD_AUDIO_EP_SZ_IN / 2) - 1) * 1000
+#define SAMPLE_RATE 16000
 #endif
 
 #ifndef SAMPLE_BUFFER_SIZE
@@ -88,7 +88,6 @@ int main(void)
   //now that all mics configured and ready, start the array in sync
   pdm_start_mic_array();
 
-
   // initialize the USB microphone interface
   usb_microphone_init();
   usb_microphone_set_tx_ready_handler(on_usb_microphone_tx_ready);
@@ -127,5 +126,11 @@ void on_usb_microphone_tx_ready()
   // to be transmitted.
   //
   // Write local buffer to the USB microphone
-  usb_microphone_write(sample_buffer[0], sizeof(sample_buffer[0])); //0 index to only write out only master microphone
+  //usb_microphone_write(sample_buffer[0], sizeof(sample_buffer[0])); //0 index to only write out only master microphone
+  //write to the SW-FIFO, which will encode, then write to Linear buffer, then push out over USB
+  tud_audio_write_support_ff(0, sample_buffer[0], sizeof(sample_buffer[0]));
+  tud_audio_write_support_ff(1, sample_buffer[0], sizeof(sample_buffer[0]));
+  tud_audio_write_support_ff(2, sample_buffer[0], sizeof(sample_buffer[0]));
+  tud_audio_write_support_ff(3, sample_buffer[0], sizeof(sample_buffer[0]));
 }
+

@@ -11,7 +11,7 @@
 #include "tusb.h"
 
 #ifndef SAMPLE_RATE
-#define SAMPLE_RATE ((CFG_TUD_AUDIO_EP_SZ_IN / 2) - 1) * 1000
+#define SAMPLE_RATE 16000
 #endif
 
 #ifndef SAMPLE_BUFFER_SIZE
