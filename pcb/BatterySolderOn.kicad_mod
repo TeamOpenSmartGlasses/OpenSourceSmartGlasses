@@ -14,6 +14,6 @@
     (effects (font (size 1 1) (thickness 0.15)))
     (tstamp ffcbb95a-e991-4006-85d8-9929dc439e2e)
   )
-  (pad "1" smd circle (at -0.95 0) (size 1 1) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp 5fb72395-efe9-4c1f-9345-e9eef27c8790))
-  (pad "2" smd circle (at 1.05 0) (size 1 1) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp 33181e37-205a-4743-8576-04112e6b359f))
+  (pad "1" smd circle (at -1.2 0) (size 1.5 1.5) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp 5fb72395-efe9-4c1f-9345-e9eef27c8790))
+  (pad "2" smd circle (at 1.35 0) (size 1.5 1.5) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp 33181e37-205a-4743-8576-04112e6b359f))
 )
