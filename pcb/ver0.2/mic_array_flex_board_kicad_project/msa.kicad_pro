@@ -398,7 +398,7 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "../../mic_array_flex_board_kicad_project.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""
