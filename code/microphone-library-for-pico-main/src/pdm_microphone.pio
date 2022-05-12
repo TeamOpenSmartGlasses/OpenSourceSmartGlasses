@@ -1,0 +1,38 @@
+/*
+ * Copyright (c) 2021 Arm Limited and Contributors. All rights reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ * 
+ */
+
+.program pdm_microphone_data
+.side_set 1
+.wrap_target
+    nop side 0
+    in pins, 1 side 0
+    push iffull noblock side 1
+    nop side 1
+.wrap
+
+% c-sdk {
+
+static inline void pdm_microphone_data_init(PIO pio, uint sm, uint offset, float clk_div, uint data_pin, uint clk_pin) {
+    pio_sm_set_consecutive_pindirs(pio, sm, data_pin, 1, false);
+    pio_sm_set_consecutive_pindirs(pio, sm, clk_pin, 1, true);
+
+    pio_sm_config c = pdm_microphone_data_program_get_default_config(offset);
+    
+    sm_config_set_sideset_pins(&c, clk_pin);
+    sm_config_set_in_pins(&c, data_pin);
+
+    pio_gpio_init(pio, clk_pin);
+    pio_gpio_init(pio, data_pin);
+    
+    sm_config_set_in_shift(&c, false, false, 8);
+    sm_config_set_fifo_join(&c, PIO_FIFO_JOIN_RX);
+
+    sm_config_set_clkdiv(&c, clk_div);
+    
+    pio_sm_init(pio, sm, offset, &c);
+}
+%}
