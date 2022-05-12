@@ -9,8 +9,8 @@ if __name__ == '__main__':
     # differently from tested list below. Uncomment the next line to see full list and try to pick correct one
     # print(sd.query_devices())
 
-    fs = 16000  		# Sample rate
-    duration = 1  # Duration of recording
+    fs = 48000  		# Sample rate
+    duration = 3  # Duration of recording
     channels = 4
 
     print(sd.query_devices())
@@ -41,3 +41,7 @@ if __name__ == '__main__':
     plt.title('MicNode 4 Channel')
     plt.show()
     
+    for ci in range(channels):
+        print("Playing back Channel {}:".format(ci))
+        sd.play(myrecording[:,ci], fs)
+        sd.wait()  # Wait until recording is finished

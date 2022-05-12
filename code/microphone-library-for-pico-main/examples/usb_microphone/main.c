@@ -51,11 +51,11 @@
 //--------------------------------------------------------------------+
 
 #ifndef AUDIO_SAMPLE_RATE
-#define AUDIO_SAMPLE_RATE   16000
+#define AUDIO_SAMPLE_RATE   48000
 #endif
 
 #ifndef SAMPLE_RATE
-#define SAMPLE_RATE 16000
+#define SAMPLE_RATE 48000
 #endif
 
 #ifndef SAMPLE_BUFFER_SIZE
