@@ -1,5 +1,0 @@
-(sym_lib_table
-  (lib (name "FS8205A")(type "Legacy")(uri "C:/Users/nic/Desktop/FS8205A.lib")(options "")(descr ""))
-  (lib (name "DW01A")(type "Legacy")(uri "C:/Users/nic/Desktop/DW01A.lib")(options "")(descr ""))
-  (lib (name "TP4056")(type "Legacy")(uri "C:/Users/nic/Desktop/TP4056.lib")(options "")(descr ""))
-)
