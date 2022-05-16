@@ -1,3 +1,4 @@
 (sym_lib_table
   (lib (name "OSSG_components_lib")(type "KiCad")(uri "${KIPRJMOD}/OSSG_components_lib.kicad_sym")(options "")(descr ""))
+  (lib (name "NCP167BMX330TBG")(type "Legacy")(uri "${KIPRJMOD}/NCP167BMX330TBG.lib")(options "")(descr ""))
 )
