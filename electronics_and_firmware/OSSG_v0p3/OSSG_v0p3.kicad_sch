@@ -3447,7 +3447,7 @@
     (property "Reference" "R5" (id 0) (at 265.811 34.0903 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "TBD" (id 1) (at 265.811 36.6272 0)
+    (property "Value" "4K" (id 1) (at 265.811 36.6272 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "" (id 2) (at 262.255 34.925 90)
@@ -3821,7 +3821,7 @@
       (reference "R4") (unit 1) (value "1K") (footprint "")
     )
     (path "/cba9edfe-b8ef-4c9f-be1e-c8964a4daf28"
-      (reference "R5") (unit 1) (value "TBD") (footprint "")
+      (reference "R5") (unit 1) (value "4K") (footprint "")
     )
     (path "/3d91cef1-0f8a-4867-8657-74f579fc0647"
       (reference "R6") (unit 1) (value "10K") (footprint "")
