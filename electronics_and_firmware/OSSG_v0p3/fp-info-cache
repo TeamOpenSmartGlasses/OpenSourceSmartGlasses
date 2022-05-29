@@ -1,4 +1,4 @@
-20172958096594365
+20176266689844689
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -60214,6 +60214,13 @@ net tie
 4
 4
 OSSG_v0p3-backups
+ANT_PRO-OB-440
+
+
+0
+4
+4
+OSSG_v0p3-backups
 REG_NCP167BMX330TBG
 
 
@@ -60250,6 +60257,13 @@ Mount_hole_small_0.7mm
 0
 OpenSourceSmartGlasses
 Mount_hole_small_0.8mm
+
+
+0
+0
+0
+OpenSourceSmartGlasses
+PRO_OB_440_antenna
 
 
 0
