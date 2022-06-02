@@ -3394,10 +3394,10 @@
     (property "Reference" "AE1" (id 0) (at 98.298 95.5583 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "PRO-OB-440" (id 1) (at 98.298 98.0952 0)
+    (property "Value" "2450AT14A0100T" (id 1) (at 98.298 98.0952 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "OpenSourceSmartGlasses:PRO_OB_440_antenna" (id 2) (at 96.266 95.758 0)
+    (property "Footprint" "Capacitor_SMD:C_0603_1608Metric" (id 2) (at 96.266 95.758 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 96.266 95.758 0)
@@ -4882,10 +4882,10 @@
   (symbol (lib_id "power:GND") (at 257.175 103.124 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid fce95b58-d0cb-4a6a-b050-7e1d17ae1402)
-    (property "Reference" "#PWR?" (id 0) (at 257.175 109.474 0)
+    (property "Reference" "#PWR0107" (id 0) (at 257.175 109.474 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Value" "" (id 1) (at 257.175 107.95 0))
+    (property "Value" "GND" (id 1) (at 257.175 107.95 0))
     (property "Footprint" "" (id 2) (at 257.175 103.124 0)
       (effects (font (size 1.27 1.27)) hide)
     )
@@ -4969,6 +4969,9 @@
     (path "/01916084-eff4-4086-b47c-b1978bf395cc"
       (reference "#PWR0106") (unit 1) (value "+3.3VA") (footprint "")
     )
+    (path "/fce95b58-d0cb-4a6a-b050-7e1d17ae1402"
+      (reference "#PWR0107") (unit 1) (value "GND") (footprint "")
+    )
     (path "/129191ec-9e72-4fd2-b1c8-c19487723c55"
       (reference "#PWR0110") (unit 1) (value "GND") (footprint "")
     )
@@ -4978,11 +4981,8 @@
     (path "/48e62fd4-ea15-4c3f-81bd-76444d919ec3"
       (reference "#PWR0112") (unit 1) (value "GND") (footprint "")
     )
-    (path "/fce95b58-d0cb-4a6a-b050-7e1d17ae1402"
-      (reference "#PWR?") (unit 1) (value "GND") (footprint "")
-    )
     (path "/3777412d-3741-4ca0-a315-3047d5599115"
-      (reference "AE1") (unit 1) (value "PRO-OB-440") (footprint "OpenSourceSmartGlasses:PRO_OB_440_antenna")
+      (reference "AE1") (unit 1) (value "2450AT14A0100T") (footprint "Capacitor_SMD:C_0603_1608Metric")
     )
     (path "/f88b4835-e2ea-46c6-bb0c-93876903a6c2"
       (reference "C1") (unit 1) (value "1uF") (footprint "Capacitor_SMD:C_0402_1005Metric")
