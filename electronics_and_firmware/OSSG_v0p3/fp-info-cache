@@ -1,4 +1,4 @@
-20176268231839248
+20177923301698117
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -60269,6 +60269,13 @@ PRO_OB_440_antenna
 0
 4
 4
+OpenSourceSmartGlasses
+QFN32_5mmx5mm_smallEP
+
+
+0
+37
+33
 OpenSourceSmartGlasses
 micro_usb_right_angle_1050170001_molex
 
