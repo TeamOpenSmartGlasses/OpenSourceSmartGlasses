@@ -1,0 +1,127 @@
+EESchema-LIBRARY Version 2.4
+#encoding utf-8
+#
+# Connector_Conn_01x04_Male
+#
+DEF Connector_Conn_01x04_Male J 0 40 Y N 1 F N
+F0 "J" 0 200 50 H V C CNN
+F1 "Connector_Conn_01x04_Male" 0 -300 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ Connector*:*_1x??_*
+$ENDFPLIST
+DRAW
+S 34 -195 0 -205 1 1 6 F
+S 34 -95 0 -105 1 1 6 F
+S 34 5 0 -5 1 1 6 F
+S 34 105 0 95 1 1 6 F
+P 2 1 1 6 50 -200 34 -200 N
+P 2 1 1 6 50 -100 34 -100 N
+P 2 1 1 6 50 0 34 0 N
+P 2 1 1 6 50 100 34 100 N
+X Pin_1 1 200 100 150 L 50 50 1 1 P
+X Pin_2 2 200 0 150 L 50 50 1 1 P
+X Pin_3 3 200 -100 150 L 50 50 1 1 P
+X Pin_4 4 200 -200 150 L 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# Device_C_Small
+#
+DEF Device_C_Small C 0 10 N N 1 F N
+F0 "C" 10 70 50 H V L CNN
+F1 "Device_C_Small" 10 -80 50 H V L CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ C_*
+$ENDFPLIST
+DRAW
+P 2 0 1 13 -60 -20 60 -20 N
+P 2 0 1 12 -60 20 60 20 N
+X ~ 1 0 100 80 D 50 50 1 1 P
+X ~ 2 0 -100 80 U 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# Device_R_Small
+#
+DEF Device_R_Small R 0 10 N N 1 F N
+F0 "R" 30 20 50 H V L CNN
+F1 "Device_R_Small" 30 -40 50 H V L CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ R_*
+$ENDFPLIST
+DRAW
+S -30 70 30 -70 0 1 8 N
+X ~ 1 0 100 30 D 50 50 1 1 P
+X ~ 2 0 -100 30 U 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# Mechanical_MountingHole
+#
+DEF Mechanical_MountingHole H 0 40 Y Y 1 F N
+F0 "H" 0 200 50 H V C CNN
+F1 "Mechanical_MountingHole" 0 125 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ MountingHole*
+$ENDFPLIST
+DRAW
+C 0 0 50 0 1 50 N
+ENDDRAW
+ENDDEF
+#
+# Pauls_Symbol_Library_MP23DB01HPTR
+#
+DEF Pauls_Symbol_Library_MP23DB01HPTR U 0 40 Y Y 1 F N
+F0 "U" 0 -200 50 H V C CNN
+F1 "Pauls_Symbol_Library_MP23DB01HPTR" 0 200 50 H V C CNN
+F2 "" -250 -450 50 H I C CNN
+F3 "" -250 -450 50 H I C CNN
+DRAW
+C 100 0 50 0 1 0 N
+S -200 150 250 -150 0 1 0 f
+P 2 0 1 0 150 50 150 -50 N
+X DOUT 1 350 -100 100 L 50 50 1 1 I
+X L/R 2 -300 0 100 R 50 50 1 1 I
+X GND 3 -300 -100 100 R 50 50 1 1 I
+X CLK 4 -300 100 100 R 50 50 1 1 I
+X VDD 5 350 100 100 L 50 50 1 1 W
+ENDDRAW
+ENDDEF
+#
+# Pauls_Symbol_Library_Microphone_Graphic
+#
+DEF Pauls_Symbol_Library_Microphone_Graphic G 0 40 Y Y 1 F N
+F0 "G" 0 -90 50 H V C CNN
+F1 "Pauls_Symbol_Library_Microphone_Graphic" -40 80 50 H V C CNN
+F2 "Pauls_KiCAD_Libraries:Microhone_Graphic" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+A 0 0 10 901 -901 0 1 0 N 0 10 0 -10
+A 0 0 20 901 -901 0 1 0 N 0 20 0 -20
+A 0 0 30 901 -901 0 1 0 N 0 30 0 -30
+A 0 0 40 901 -901 0 1 0 N 0 40 0 -40
+ENDDRAW
+ENDDEF
+#
+# power_GND
+#
+DEF power_GND #PWR 0 0 Y Y 1 F P
+F0 "#PWR" 0 -250 50 H I C CNN
+F1 "power_GND" 0 -150 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+P 6 0 1 0 0 0 0 -50 50 -50 0 -100 -50 -50 0 -50 N
+X GND 1 0 0 0 D 50 50 1 1 W N
+ENDDRAW
+ENDDEF
+#
+#End Library

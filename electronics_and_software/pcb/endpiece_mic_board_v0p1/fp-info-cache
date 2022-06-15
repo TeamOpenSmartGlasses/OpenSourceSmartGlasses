@@ -1,0 +1,918 @@
+211850852392215
+Pauls_KiCAD_Libraries
+1.5uH_YXMAA0402-1R5M-ANP
+
+
+0
+2
+2
+Pauls_KiCAD_Libraries
+3mmx12mmHollowRivet
+
+
+0
+1
+1
+Pauls_KiCAD_Libraries
+5-way_navigation_switch_SMD
+
+
+0
+6
+6
+Pauls_KiCAD_Libraries
+240VAC-5VDC_PSU
+
+
+0
+4
+4
+Pauls_KiCAD_Libraries
+AN9520
+
+
+0
+2
+2
+Pauls_KiCAD_Libraries
+ANT3216LL00
+
+
+0
+2
+2
+Pauls_KiCAD_Libraries
+Accelerometer_Graphic
+
+
+0
+0
+0
+Pauls_KiCAD_Libraries
+Antenna_Graphic
+
+
+0
+0
+0
+Pauls_KiCAD_Libraries
+Apple Lightning Connector Female
+
+
+0
+14
+11
+Pauls_KiCAD_Libraries
+Audio-Jack_2.5mm_CUI_SJ2-25414D-SMT-TR
+
+
+0
+6
+6
+Pauls_KiCAD_Libraries
+Audio-Jack_CUI_SJ-43504-SMT-TR
+
+
+0
+6
+6
+Pauls_KiCAD_Libraries
+BarrelJack_2.1mm_SZ
+
+
+0
+4
+3
+Pauls_KiCAD_Libraries
+Battery_CR1632_Housing
+
+
+0
+3
+2
+Pauls_KiCAD_Libraries
+Buzzer
+
+
+0
+2
+2
+Pauls_KiCAD_Libraries
+CP2102N-A02-GQFN20R
+
+
+0
+21
+21
+Pauls_KiCAD_Libraries
+CSD87312Q3E
+
+
+0
+9
+9
+Pauls_KiCAD_Libraries
+DF37C-24DP-0.4V(51)
+
+
+0
+24
+24
+Pauls_KiCAD_Libraries
+DFN100X60X40-3N
+
+
+0
+3
+3
+Pauls_KiCAD_Libraries
+DPAK170P1435X465-6N
+
+
+0
+6
+6
+Pauls_KiCAD_Libraries
+D_SMA
+Diode SMA (DO-214AC)
+Diode SMA (DO-214AC)
+0
+2
+2
+Pauls_KiCAD_Libraries
+ESPRESSIF_ESP32_MIFA_2.4GHz_Right
+https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf
+PCB antenna
+0
+2
+2
+Pauls_KiCAD_Libraries
+Electret Microphone
+
+
+0
+2
+2
+Pauls_KiCAD_Libraries
+Fuse_01005_0402Metric
+Fuse SMD 01005 (0402 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: http://www.vishay.com/docs/20056/crcw01005e3.pdf), generated with kicad-footprint-generator
+resistor
+0
+4
+2
+Pauls_KiCAD_Libraries
+Fuse_Holder_1808_10.0mmx5mm
+
+
+0
+2
+2
+Pauls_KiCAD_Libraries
+Hirose_DF13C-02P-1.25V_02x1.25mm_Straight
+Hirose DF13 series connector, 1.25mm pitch, top entry SMT
+connector hirose df13 top straight vertical surface mount SMD SMT
+0
+4
+2
+Pauls_KiCAD_Libraries
+IR_Graphic
+
+
+0
+0
+0
+Pauls_KiCAD_Libraries
+Inductor_SMD_6.4x6.4_JSHC0650
+
+
+0
+2
+2
+Pauls_KiCAD_Libraries
+Inductor_SMD_6.8x8.8mm_4.7uH
+
+
+0
+2
+2
+Pauls_KiCAD_Libraries
+JST-PH-2P_SMD
+
+JST XH 2P connector 
+0
+4
+2
+Pauls_KiCAD_Libraries
+JST-XH-2P_SMD
+
+JST XH 2P connector 
+0
+4
+2
+Pauls_KiCAD_Libraries
+JST-XH-3P_SMD
+
+JST XH 2P connector 
+0
+5
+3
+Pauls_KiCAD_Libraries
+JUMPER-2Psml_Bridged_RoundedPad2x1mm
+SMD Solder Jumper, 1x1.5mm, rounded Pads, 0.3mm gap, bridged with 1 copper strip
+solder jumper open
+0
+2
+2
+Pauls_KiCAD_Libraries
+LED_5730
+
+
+0
+3
+2
+Pauls_KiCAD_Libraries
+LED_R-G_1.7x1.5mm
+
+
+0
+4
+4
+Pauls_KiCAD_Libraries
+LED_R-G_2x1.3mm
+
+
+0
+4
+4
+Pauls_KiCAD_Libraries
+LED_WS2812-2020
+
+
+0
+4
+4
+Pauls_KiCAD_Libraries
+LED_WS2812B-3535
+
+
+0
+4
+4
+Pauls_KiCAD_Libraries
+LED_Wire_Plug_Piercer_Pad
+
+
+0
+1
+1
+Pauls_KiCAD_Libraries
+L_12x12mm_H8mm
+Choke, SMD, 12x12mm 8mm height
+Choke SMD
+0
+2
+2
+Pauls_KiCAD_Libraries
+L_47uH_4A_11mmx10mm_H4.8mm
+Choke, SMD, 12x12mm 4.5mm height
+Choke SMD
+0
+2
+2
+Pauls_KiCAD_Libraries
+L_220uH_2A_15x15mm_H8mm
+Choke, SMD, 12x12mm 8mm height
+Choke SMD
+0
+2
+2
+Pauls_KiCAD_Libraries
+MCA1101-5-3
+
+
+0
+16
+16
+Pauls_KiCAD_Libraries
+MIC2097-1YMT-TR
+
+
+0
+7
+7
+Pauls_KiCAD_Libraries
+MIC_SPH0641LU4H-1
+
+
+0
+5
+5
+Pauls_KiCAD_Libraries
+MP23DB01HPTR
+
+
+0
+6
+6
+Pauls_KiCAD_Libraries
+MagneticBuzzer_5.2x5.2_4KHz
+MagneticBuzzer Kobitone 254-EMB84Q-RO https://www.mouser.es/datasheet/2/209/KT-400385-1171904.pdf
+MagneticBuzzer Kobitone 254-EMB84Q-RO
+0
+3
+3
+Pauls_KiCAD_Libraries
+Microhone_Graphic
+
+
+0
+0
+0
+Pauls_KiCAD_Libraries
+Microhone_Graphic_sml
+
+
+0
+0
+0
+Pauls_KiCAD_Libraries
+MotorVib-8x4mm
+
+
+0
+2
+2
+Pauls_KiCAD_Libraries
+MountingHole_0.8mm
+Mounting Hole 2.1mm, no annular
+mounting hole 2.1mm no annular
+0
+0
+0
+Pauls_KiCAD_Libraries
+MountingHole_1.2mm
+Mounting Hole 2.1mm, no annular
+mounting hole 2.1mm no annular
+0
+0
+0
+Pauls_KiCAD_Libraries
+MountingHole_1.5mm
+Mounting Hole 2.1mm, no annular
+mounting hole 2.1mm no annular
+0
+0
+0
+Pauls_KiCAD_Libraries
+MountingHole_1mm
+Mounting Hole 2.1mm, no annular
+mounting hole 2.1mm no annular
+0
+0
+0
+Pauls_KiCAD_Libraries
+MountingHole_1mm_1M_Pad_TopBottom
+Mounting Hole 2.2mm, M2, DIN965
+mounting hole 2.2mm m2 din965
+0
+3
+1
+Pauls_KiCAD_Libraries
+Nozzle_0.3
+Mounting Hole 2.1mm, no annular
+mounting hole 2.1mm no annular
+0
+0
+0
+Pauls_KiCAD_Libraries
+Nozzle_0.4
+Mounting Hole 2.1mm, no annular
+mounting hole 2.1mm no annular
+0
+0
+0
+Pauls_KiCAD_Libraries
+Nozzle_0.5
+Mounting Hole 2.1mm, no annular
+mounting hole 2.1mm no annular
+0
+0
+0
+Pauls_KiCAD_Libraries
+Nozzle_0.6
+Mounting Hole 2.1mm, no annular
+mounting hole 2.1mm no annular
+0
+0
+0
+Pauls_KiCAD_Libraries
+Nozzle_0.25
+Mounting Hole 2.1mm, no annular
+mounting hole 2.1mm no annular
+0
+0
+0
+Pauls_KiCAD_Libraries
+Nozzle_0.635-Plated
+Mounting Hole 2.1mm, no annular
+mounting hole 2.1mm no annular
+0
+1
+0
+Pauls_KiCAD_Libraries
+OPJ_1.27
+OpenPyroJet 1.27mm Nozzle connector pads
+OpenPyroJet
+0
+2
+2
+Pauls_KiCAD_Libraries
+OPJ_1.27_non-plated
+OpenPyroJet 1.27mm Nozzle connector pads
+OpenPyroJet
+0
+2
+2
+Pauls_KiCAD_Libraries
+OPJ_1.27_non-plated_0.3mm_hole
+OpenPyroJet 1.27mm Nozzle connector pads
+OpenPyroJet
+0
+2
+2
+Pauls_KiCAD_Libraries
+OPJ_1.27_non-plated_0.4mm_hole
+OpenPyroJet 1.27mm Nozzle connector pads
+OpenPyroJet
+0
+2
+2
+Pauls_KiCAD_Libraries
+OPJ_1.27_non-plated_0.5mm_hole
+OpenPyroJet 1.27mm Nozzle connector pads
+OpenPyroJet
+0
+2
+2
+Pauls_KiCAD_Libraries
+OPJ_1.27_non-plated_0.25mm_hole
+OpenPyroJet 1.27mm Nozzle connector pads
+OpenPyroJet
+0
+2
+2
+Pauls_KiCAD_Libraries
+PCF85063ATL
+
+
+0
+13
+11
+Pauls_KiCAD_Libraries
+PDFN3333
+
+
+0
+11
+3
+Pauls_KiCAD_Libraries
+PQFN50P200X200X80-10N
+
+
+0
+10
+10
+Pauls_KiCAD_Libraries
+Parkview_3_Button_Switch
+
+
+0
+4
+4
+Pauls_KiCAD_Libraries
+Potentiometer_Trimmer_AliExpress3.1x3.8mm
+Spindle Trimmer Potentiometer, Bourns 3224G, https://www.bourns.com/pdfs/3224.pdf
+Spindle Trimmer Potentiometer   Bourns 3224G
+0
+3
+3
+Pauls_KiCAD_Libraries
+QFN50P300X300X80-17N
+
+
+0
+17
+17
+Pauls_KiCAD_Libraries
+REG_NCP167BMX330TBG
+
+
+0
+5
+5
+Pauls_KiCAD_Libraries
+RGB_Solder_Pads
+
+
+0
+3
+3
+Pauls_KiCAD_Libraries
+SC70-6
+
+
+0
+6
+6
+Pauls_KiCAD_Libraries
+SD_Card_Micro_SZ
+<B>WR-CRD</B><BR>WR-CRD Micro SD Card Connector Push & Push,8 pins
+
+0
+10
+10
+Pauls_KiCAD_Libraries
+SENSOR_VL53L1CXV0FY_1
+
+
+0
+12
+12
+Pauls_KiCAD_Libraries
+SGP30-2.5K
+
+
+0
+7
+7
+Pauls_KiCAD_Libraries
+SMD_Switch_4x3.3
+http://industrial.panasonic.com/cdbs/www-data/pdf/ATV0000/ATV0000CE5.pdf
+SMD SMT SPST EVQPUL EVQPUC
+0
+4
+2
+Pauls_KiCAD_Libraries
+SMD_Switch_5x3
+
+SW Mini SPST Switch
+0
+2
+2
+Pauls_KiCAD_Libraries
+SMD_Switch_8x3.6
+
+SW Mini SPST Switch
+0
+2
+2
+Pauls_KiCAD_Libraries
+SMD_Switch_Panasonic_EVQPUL_EVQPUC_6.3x6.7
+http://industrial.panasonic.com/cdbs/www-data/pdf/ATV0000/ATV0000CE5.pdf
+SMD SMT SPST EVQPUL EVQPUC
+0
+4
+2
+Pauls_KiCAD_Libraries
+SMD_Switch_SPDT_3-Pole_TH_8.6x5.6
+Sub-miniature slide switch, right-angle, http://www.ckswitches.com/media/1422/js.pdf
+switch spdt
+0
+3
+3
+Pauls_KiCAD_Libraries
+SMD_Switch_SPDT_PCM12_7.8x3.8
+Ultraminiature Surface Mount Slide Switch, right-angle, https://www.ckswitches.com/media/1424/pcm.pdf
+
+0
+7
+3
+Pauls_KiCAD_Libraries
+SMD_Switch_SPST_SKQG_WithStem_6.5x5
+ALPS 5.2mm Square Low-profile Type (Surface Mount) SKQG Series, With stem, http://www.alps.com/prod/info/E/HTML/Tact/SurfaceMount/SKQG/SKQGAFE010.html
+SPST Button Switch
+0
+4
+2
+Pauls_KiCAD_Libraries
+SMD_Switch_SZ_3-Pole
+
+
+0
+3
+3
+Pauls_KiCAD_Libraries
+SMD_Switch_SZ_3-Pole-hole
+
+
+0
+5
+5
+Pauls_KiCAD_Libraries
+SOIC127P600X170-9N
+
+
+0
+9
+9
+Pauls_KiCAD_Libraries
+SOIC127P605X150-16N
+
+
+0
+16
+16
+Pauls_KiCAD_Libraries
+SON-4
+
+
+0
+4
+4
+Pauls_KiCAD_Libraries
+SON-6
+
+
+0
+6
+6
+Pauls_KiCAD_Libraries
+SON50P300X300X100-11N
+
+
+0
+11
+11
+Pauls_KiCAD_Libraries
+SON100P200X200X80-5N
+
+
+0
+5
+5
+Pauls_KiCAD_Libraries
+SON100P300X300X80-7N
+
+
+0
+7
+7
+Pauls_KiCAD_Libraries
+SOP65P400X130-8N
+
+
+0
+8
+8
+Pauls_KiCAD_Libraries
+SOP65P640X120-8N
+
+
+0
+8
+8
+Pauls_KiCAD_Libraries
+SOT23-6
+
+
+0
+6
+6
+Pauls_KiCAD_Libraries
+SOT1197-1
+<li><b>SOT1197-1</b><hr><ul><li>DFN2626-10: plastic thermal enhanced extremely thin small outline package; no leads;10 terminals; body 2.6 x 2.6 x 0.5 mm<li><u>JEDEC</u>: --<li><u>IEC</u>: --<li><u>JEITA</u>: --</ul>date: 2014-07-15
+
+0
+11
+11
+Pauls_KiCAD_Libraries
+SPH0645LM4H-B-SMD-GND
+
+
+0
+8
+6
+Pauls_KiCAD_Libraries
+SSOP-8_2.95x2.8mm_P0.65mm
+SSOP-8 2.9 x2.8mm Pitch 0.65mm
+SSOP-8 2.95x2.8mm Pitch 0.65mm
+0
+8
+8
+Pauls_KiCAD_Libraries
+SW-SMD-SPST-3.5x2.7
+
+
+0
+6
+6
+Pauls_KiCAD_Libraries
+SW_JS1400BFQ
+
+
+0
+8
+8
+Pauls_KiCAD_Libraries
+SW_SMD_Panasonic_EVQPUL_EVQPUC_6.3x6.7
+http://industrial.panasonic.com/cdbs/www-data/pdf/ATV0000/ATV0000CE5.pdf
+SMD SMT SPST EVQPUL EVQPUC
+0
+4
+2
+Pauls_KiCAD_Libraries
+SW_SMD_SPDT_3-Pole_TH_8.6x5.6
+Sub-miniature slide switch, right-angle, http://www.ckswitches.com/media/1422/js.pdf
+switch spdt
+0
+3
+3
+Pauls_KiCAD_Libraries
+SW_SMD_SPDT_PCM12_7.8x3.8
+Ultraminiature Surface Mount Slide Switch, right-angle, https://www.ckswitches.com/media/1424/pcm.pdf
+
+0
+7
+3
+Pauls_KiCAD_Libraries
+SW_SMD_SPDT_Slide9x6.9mm
+
+
+0
+3
+3
+Pauls_KiCAD_Libraries
+SW_SMD_SPDT_Slide_9x6.9-hole
+
+
+0
+5
+5
+Pauls_KiCAD_Libraries
+SW_SMD_SPDT_Slide_9x6.9no-hole
+
+
+0
+3
+3
+Pauls_KiCAD_Libraries
+SW_SMD_SPDT_Top_Slide_7.8x3.8
+Ultraminiature Surface Mount Slide Switch, right-angle, https://www.ckswitches.com/media/1424/pcm.pdf
+
+0
+7
+3
+Pauls_KiCAD_Libraries
+SW_SMD_SPST_4x3.3
+http://industrial.panasonic.com/cdbs/www-data/pdf/ATV0000/ATV0000CE5.pdf
+SMD SMT SPST EVQPUL EVQPUC
+0
+4
+2
+Pauls_KiCAD_Libraries
+SW_SMD_SPST_5x3
+
+SW Mini SPST Switch
+0
+2
+2
+Pauls_KiCAD_Libraries
+SW_SMD_SPST_8x3.6
+
+SW Mini SPST Switch
+0
+2
+2
+Pauls_KiCAD_Libraries
+SW_SMD_SPST_JS1400BFQ
+
+
+0
+8
+8
+Pauls_KiCAD_Libraries
+SW_SMD_SPST_SKQG_WithStem_6x6.5
+ALPS 5.2mm Square Low-profile Type (Surface Mount) SKQG Series, With stem, http://www.alps.com/prod/info/E/HTML/Tact/SurfaceMount/SKQG/SKQGAFE010.html
+SPST Button Switch
+0
+4
+2
+Pauls_KiCAD_Libraries
+SW_SMD_SPST_mini_SMD-1
+
+SW Mini SPST Switch
+0
+2
+2
+Pauls_KiCAD_Libraries
+SW_TH_PUSH_6mm_H4.3mm
+tactile push button, 6x6mm e.g. PHAP33xx series, height=4.3mm
+tact sw push 6mm
+0
+4
+2
+Pauls_KiCAD_Libraries
+SW_mini_SMD-1
+
+SW Mini SPST Switch
+0
+2
+2
+Pauls_KiCAD_Libraries
+Steamhead-Logo
+
+
+0
+0
+0
+Pauls_KiCAD_Libraries
+TMB-6
+
+
+0
+6
+6
+Pauls_KiCAD_Libraries
+TP4056-PCB
+
+
+0
+6
+6
+Pauls_KiCAD_Libraries
+TestPoint_Bead-0.5mm
+Keystone Miniature THM Test Point 5000-5004, http://www.keyelco.com/product-pdf.cfm?p=1309
+Through Hole Mount Test Points
+0
+1
+1
+Pauls_KiCAD_Libraries
+TestPoint_Pad_4.0x4.0mm
+SMD rectangular pad as test Point, square 4.0mm side length
+test point SMD pad rectangle square
+0
+1
+1
+Pauls_KiCAD_Libraries
+Touch_Pad_Round_D10mm
+SMD pad as test Point, diameter 4.0mm
+test point SMD pad
+0
+1
+1
+Pauls_KiCAD_Libraries
+Touch_Pad_Square_10mm
+SMD rectangular pad as test Point, square 4.0mm side length
+test point SMD pad rectangle square
+0
+1
+1
+Pauls_KiCAD_Libraries
+USB_C_Receptacle_C136423
+USB Type C, right-angle, SMT, https://datasheet.lcsc.com/szlcsc/1811141824_XKB-Enterprise-U262-161N-4BVC11_C319148.pdf
+USB C Type-C Receptacle SMD
+0
+20
+17
+Pauls_KiCAD_Libraries
+USB_Micro-B_C10418
+Micro USB Type B 10103594-0001LF, http://cdn.amphenol-icc.com/media/wysiwyg/files/drawing/10103594.pdf
+USB USB_B USB_micro USB_OTG
+0
+17
+6
+Pauls_KiCAD_Libraries
+USB_Micro-B_C319160
+Micro USB Type B 10103594-0001LF, http://cdn.amphenol-icc.com/media/wysiwyg/files/drawing/10103594.pdf
+USB USB_B USB_micro USB_OTG
+0
+9
+6
+Pauls_KiCAD_Libraries
+USB_Micro_2_pin
+
+
+0
+4
+3
+Pauls_KiCAD_Libraries
+VIA-0.6mm
+
+
+0
+1
+1
+Pauls_KiCAD_Libraries
+X27.168
+
+
+0
+4
+4
+Pauls_KiCAD_Libraries
+XUNPU-SP-RF-001
+
+
+0
+4
+4
