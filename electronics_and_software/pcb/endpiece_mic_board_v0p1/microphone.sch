@@ -83,13 +83,13 @@ $EndComp
 $Comp
 L Connector:Conn_01x04_Male J1
 U 1 1 62C9203C
-P 7470 2800
-F 0 "J1" H 7630 2980 50  0000 R CNN
-F 1 "PDM Mic" H 7605 2475 50  0000 R CNN
-F 2 "Connector_JST:JST_SH_BM04B-SRSS-TB_1x04-1MP_P1.00mm_Vertical" H 7470 2800 50  0001 C CNN
-F 3 "~" H 7470 2800 50  0001 C CNN
-	1    7470 2800
-	-1   0    0    1   
+P 7470 2700
+F 0 "J1" H 7630 2880 50  0000 R CNN
+F 1 "PDM Mic" H 7605 2375 50  0000 R CNN
+F 2 "Pauls_KiCAD_Libraries:JST-SH-4P-Horz" H 7470 2700 50  0001 C CNN
+F 3 "~" H 7470 2700 50  0001 C CNN
+	1    7470 2700
+	-1   0    0    -1  
 $EndComp
 Wire Wire Line
 	7045 2800 7045 2900
@@ -213,9 +213,11 @@ U 1 1 62C9E8E4
 P 7255 3455
 F 0 "G1" H 7283 3501 50  0000 L CNN
 F 1 "Microphone_Graphic" H 7283 3410 50  0000 L CNN
-F 2 "Pauls_KiCAD_Libraries:Microhone_Graphic" H 7255 3455 50  0001 C CNN
+F 2 "Pauls_KiCAD_Libraries:Microhone_Graphic_sml" H 7255 3455 50  0001 C CNN
 F 3 "" H 7255 3455 50  0001 C CNN
 	1    7255 3455
 	1    0    0    -1  
 $EndComp
+Text Notes 8065 2910 0    50   ~ 0
+Compatable 1mm pitch Connectors - middle key:\n* 665104131822  DigiKey: 732-6096-1-ND  A$1.33/50\n* 1734709-4 DigiKey: A99957CT-ND  A$1.38/10\n* 1.0-4PWB LCSC: C2905006  A$0.06/10\n* X1002WRS-04E-LPSWHF LCSC: C437064  A$0.10/50
 $EndSCHEMATC
