@@ -44,12 +44,12 @@ $EndComp
 $Comp
 L Mechanical:MountingHole H1
 U 1 1 62C8D54D
-P 7270 3250
-F 0 "H1" H 7370 3296 50  0000 L CNN
-F 1 "M1.2" H 7370 3205 50  0000 L CNN
-F 2 "Pauls_KiCAD_Libraries:MountingHole_1.2mm" H 7270 3250 50  0001 C CNN
-F 3 "~" H 7270 3250 50  0001 C CNN
-	1    7270 3250
+P 7245 3245
+F 0 "H1" H 7345 3291 50  0000 L CNN
+F 1 "M1.2" H 7345 3200 50  0000 L CNN
+F 2 "Pauls_KiCAD_Libraries:MountingHole_1.2mm" H 7245 3245 50  0001 C CNN
+F 3 "~" H 7245 3245 50  0001 C CNN
+	1    7245 3245
 	1    0    0    -1  
 $EndComp
 Text Notes 7520 2935 0    50   ~ 0
@@ -219,5 +219,5 @@ F 3 "" H 7255 3455 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Text Notes 8065 2910 0    50   ~ 0
-Compatable 1mm pitch Connectors - middle key:\n* 665104131822  DigiKey: 732-6096-1-ND  A$1.33/50\n* 1734709-4 DigiKey: A99957CT-ND  A$1.38/10\n* 1.0-4PWB LCSC: C2905006  A$0.06/10\n* X1002WRS-04E-LPSWHF LCSC: C437064  A$0.10/50
+Compatable 1mm pitch Connectors - middle key:\n* 665104131822  DigiKey: 732-6096-1-ND  A$1.33/50\n* 1734709-4 DigiKey: A99957CT-ND  A$1.38/10\n* C145956 LCSC: C145956  A$0.10/47\n* 1.0-4PWB LCSC: C2905006  A$0.06/10
 $EndSCHEMATC
