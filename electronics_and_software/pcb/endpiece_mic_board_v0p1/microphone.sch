@@ -41,17 +41,6 @@ F 3 "~" H 6915 2250 50  0001 C CNN
 	1    6915 2250
 	1    0    0    -1  
 $EndComp
-$Comp
-L Mechanical:MountingHole H1
-U 1 1 62C8D54D
-P 7245 3245
-F 0 "H1" H 7345 3291 50  0000 L CNN
-F 1 "M1.2" H 7345 3200 50  0000 L CNN
-F 2 "Pauls_KiCAD_Libraries:MountingHole_1.2mm" H 7245 3245 50  0001 C CNN
-F 3 "~" H 7245 3245 50  0001 C CNN
-	1    7245 3245
-	1    0    0    -1  
-$EndComp
 Text Notes 7520 2935 0    50   ~ 0
 DO
 $Comp
@@ -86,7 +75,7 @@ U 1 1 62C9203C
 P 7470 2700
 F 0 "J1" H 7630 2880 50  0000 R CNN
 F 1 "PDM Mic" H 7605 2375 50  0000 R CNN
-F 2 "Pauls_KiCAD_Libraries:JST-SH-4P-Horz" H 7470 2700 50  0001 C CNN
+F 2 "Pauls_KiCAD_Libraries:Solder-4P-Connector" H 7470 2700 50  0001 C CNN
 F 3 "~" H 7470 2700 50  0001 C CNN
 	1    7470 2700
 	-1   0    0    -1  
@@ -206,16 +195,16 @@ Connection ~ 7070 2115
 Wire Wire Line
 	7070 2115 6915 2115
 Text Notes 5750 4070 0    50   ~ 0
-Compatible Microphones:\n* MP23DB01HPTR Mouser: 511-MP23DB01HPTR  A$2.62/10\n* GMA3526H10-B26 LCSC: C498192 A$1.33/10\n\n \n
+Compatible Microphones:\n* MP23DB01HPCT Digikey: 497-MP23DB01HPCT-ND  A$2.75/10\n* MP23DB01HPTR Mouser: 511-MP23DB01HPTR  A$2.62/10\n* GMA3526H10-B26 LCSC: C498192 A$1.33/10\n\n \n
 $Comp
 L Pauls_Symbol_Library:Microphone_Graphic G1
 U 1 1 62C9E8E4
-P 7255 3455
-F 0 "G1" H 7283 3501 50  0000 L CNN
-F 1 "Microphone_Graphic" H 7283 3410 50  0000 L CNN
-F 2 "Pauls_KiCAD_Libraries:Microhone_Graphic_sml" H 7255 3455 50  0001 C CNN
-F 3 "" H 7255 3455 50  0001 C CNN
-	1    7255 3455
+P 7275 3285
+F 0 "G1" H 7303 3331 50  0000 L CNN
+F 1 "Microphone_Graphic" H 7425 3290 50  0000 L CNN
+F 2 "Pauls_KiCAD_Libraries:Microhone_Graphic_sml" H 7275 3285 50  0001 C CNN
+F 3 "" H 7275 3285 50  0001 C CNN
+	1    7275 3285
 	1    0    0    -1  
 $EndComp
 Text Notes 8065 2910 0    50   ~ 0
