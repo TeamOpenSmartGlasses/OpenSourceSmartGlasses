@@ -1,4 +1,4 @@
-20163050371476526
+20168017242563085
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -60221,6 +60221,13 @@ ANT_PRO-OB-440
 4
 4
 OSSG_v0p3-backups
+H2U34W1H1Z0400_chip_antenna
+
+
+0
+2
+2
+OSSG_v0p3-backups
 REG_NCP167BMX330TBG
 
 
@@ -85672,3 +85679,17 @@ varistor SIOV
 0
 2
 2
+footprints
+MP23DB01HPTR
+
+
+0
+6
+6
+footprints
+Solder-4P-Connector
+
+
+0
+4
+4
