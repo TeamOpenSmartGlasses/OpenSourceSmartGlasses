@@ -34,18 +34,18 @@
         "other_text_upright": false,
         "pads": {
           "drill": 0.0,
-          "height": 2.3,
-          "width": 2.3
+          "height": 1.5,
+          "width": 1.5
         },
-        "silk_line_width": 0.09,
+        "silk_line_width": 0.15,
         "silk_text_italic": false,
         "silk_text_size_h": 0.5,
         "silk_text_size_v": 0.5,
-        "silk_text_thickness": 0.09,
+        "silk_text_thickness": 0.15,
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.049999999999999996
+          "min_clearance": 0.508
         }
       },
       "diff_pair_dimensions": [
@@ -53,11 +53,6 @@
           "gap": 0.0,
           "via_gap": 0.0,
           "width": 0.0
-        },
-        {
-          "gap": 0.2,
-          "via_gap": 0.0,
-          "width": 0.2
         }
       ],
       "drc_exclusions": [],
@@ -108,16 +103,16 @@
         "allow_blind_buried_vias": false,
         "allow_microvias": false,
         "max_error": 0.005,
-        "min_clearance": 0.0,
-        "min_copper_edge_clearance": 0.19999999999999998,
-        "min_hole_clearance": 0.005,
+        "min_clearance": 0.127,
+        "min_copper_edge_clearance": 0.09999999999999999,
+        "min_hole_clearance": 0.254,
         "min_hole_to_hole": 0.5,
         "min_microvia_diameter": 0.19999999999999998,
         "min_microvia_drill": 0.09999999999999999,
         "min_silk_clearance": 0.0,
         "min_through_hole_diameter": 0.19999999999999998,
         "min_track_width": 0.127,
-        "min_via_annular_width": 0.125,
+        "min_via_annular_width": 0.13,
         "min_via_diameter": 0.39999999999999997,
         "solder_mask_clearance": 0.0,
         "solder_mask_min_width": 0.0,
@@ -125,10 +120,7 @@
       },
       "track_widths": [
         0.0,
-        0.15,
         0.2,
-        0.25,
-        0.3,
         0.4,
         0.5,
         0.6,
@@ -138,10 +130,6 @@
         {
           "diameter": 0.0,
           "drill": 0.0
-        },
-        {
-          "diameter": 0.45,
-          "drill": 0.2
         },
         {
           "diameter": 0.5,
@@ -156,7 +144,7 @@
           "drill": 0.4
         }
       ],
-      "zones_allow_external_fillets": true,
+      "zones_allow_external_fillets": false,
       "zones_use_no_outline": true
     },
     "layer_presets": []
