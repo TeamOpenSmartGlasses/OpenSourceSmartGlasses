@@ -1,4 +1,4 @@
-20174644850539348
+20176301802674108
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -60222,6 +60222,13 @@ ANT3216LL00R2400A
 2
 OSSG_footprints
 Breakout_pads
+
+
+0
+1
+1
+OSSG_footprints
+Breakout_pads_small
 
 
 0
