@@ -1,0 +1,27 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#(c) SnapEDA 2016 (snapeda.com)
+#This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA) with Design Exception 1.0
+#
+# NCP170AMX300TCG
+#
+DEF NCP170AMX300TCG U 0 40 Y Y 1 L N
+F0 "U" -400 350 50 H V L BNN
+F1 "NCP170AMX300TCG" -400 -400 50 H V L BNN
+F2 "VREG_NCP170AMX300TCG" 0 0 50 H I L BNN
+F3 "" 0 0 50 H I L BNN
+F4 "ON Semiconductor" 0 0 50 H I L BNN "MANUFACTURER"
+F5 "0.43 mm" 0 0 50 H I L BNN "MAXIMUM_PACKAGE_HEIGHT"
+F6 "Manufacturer Recommendations" 0 0 50 H I L BNN "STANDARD"
+F7 "A" 0 0 50 H I L BNN "PARTREV"
+DRAW
+S -400 -300 400 300 0 0 10 f
+X IN 4 -600 200 200 R 40 40 0 0 I 
+X OUT 1 600 200 200 L 40 40 0 0 O 
+X GND 2 600 -200 200 L 40 40 0 0 W 
+X EN 3 -600 0 200 R 40 40 0 0 I 
+X EXP 5 600 -100 200 L 40 40 0 0 W 
+ENDDRAW
+ENDDEF
+#
+# End Library
