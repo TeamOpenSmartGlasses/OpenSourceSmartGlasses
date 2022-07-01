@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name "microphone-rescue")(type "Legacy")(uri "${KIPRJMOD}/microphone-rescue.lib")(options "")(descr ""))
+)
