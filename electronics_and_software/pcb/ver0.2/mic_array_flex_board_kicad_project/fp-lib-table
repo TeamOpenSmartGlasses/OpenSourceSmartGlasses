@@ -1,4 +1,0 @@
-(fp_lib_table
-  (lib (name mico)(type KiCad)(uri ${KIPRJMOD}/mico.pretty)(options "")(descr ""))
-  (lib (name mico_3d)(type KiCad)(uri ${KIPRJMOD}/step)(options "")(descr ""))
-)

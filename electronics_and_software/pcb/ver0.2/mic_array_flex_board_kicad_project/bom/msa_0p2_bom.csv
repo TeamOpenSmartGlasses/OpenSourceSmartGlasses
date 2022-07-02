@@ -1,7 +1,0 @@
-"Id";"Designator";"Package";"Quantity";"Designation";"Supplier and ref";
-1;"C25,C3,C23,C21";"C_0402_1005Metric";4;"1uF";;;
-2;"R10,R12,R8,R13,R11,R9,R14,R1";"R_0402_1005Metric";8;"10K";;;
-3;"TP8,TP2,TP10,TP11,TP1,TP7";"SMD_1x01_P1.27mm";6;"TestPoint";;;
-4;"C24,C2,C20,C22";"C_0402_1005Metric";4;"0.1uF";;;
-5;"CONN1";"slim_stack_molex_PLUG_5035521222";1;"slim_stack_12pos_5035521222_schematic";;;
-6;"U6,U5,U2,U7";"MIC_SPH0641LU4H-1";4;"MP23DB01HPTR";;;

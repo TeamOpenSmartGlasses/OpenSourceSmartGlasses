@@ -1,4 +1,0 @@
-(sym_lib_table
-  (lib (name mico)(type Legacy)(uri ${KIPRJMOD}/mico.lib)(options "")(descr ""))
-  (lib (name mico-rescue)(type Legacy)(uri ${KIPRJMOD}/mico-rescue.lib)(options "")(descr ""))
-)
