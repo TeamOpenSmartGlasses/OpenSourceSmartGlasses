@@ -10,6 +10,7 @@
     (rev "0.3")
     (company "Team Open Smart Glasses")
     (comment 1 "Design: Cayden Pierce, Nicholas Gray, Paul Hamilton")
+    (comment 2 "License: MIT")
   )
 
   (lib_symbols

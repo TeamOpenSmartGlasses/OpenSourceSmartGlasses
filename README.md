@@ -12,6 +12,7 @@ This repo holds mechanical, electrical, and software files for the open source s
 ## Images
 
 ![OSSG CAD Render](res/MSArender3_crop.png)
+![OSSG v0.3 Schematic](res/OSSGv0p3_schematic_20220701.jpg)
 ![OSSG v0p3 Board Design Render](res/OSSG_v0p3_left_arm_board_TOSG.png)
 ![OSSG Prescription Lenses](res/OpenSourceSmartGlasses_prescription_lenses_CaydenPierce.jpg)
 ![OSSG 3D Printing DIY](res/3d_printing_OpenSourceSmartGlasses_TeamOpenSmartGlasses_MattTheMaker_CaydenPierce.jpg)
@@ -47,7 +48,7 @@ Team Open Smartglasses is a group of engineers, researchers, makers, and designe
 
 ## Community
 
-If you're interested in developing Open Source Smart Glasses, feel free to reach out to ([Cayden's contact info](https://caydenpierce.com) or join the Discord group: [https://discord.gg/5ukNvkEAqT](https://discord.gg/5ukNvkEAqT)
+If you're interested in developing Open Source Smart Glasses, feel free to to join the [Discord server](https://discord.gg/5ukNvkEAqT) or reach out to [Cayden directly](https://caydenpierce.com).
 
 ## Contributors / Collaborators
 
@@ -55,9 +56,9 @@ The system is fully Open Source and built by this growing list of contributors:
 
 - [Cayden Pierce](https://caydenpierce.com) - [Emex Labs](https://emexwearables.com)
 - [Adrian Papineau](https://www.parallelinnov.com/about-us/)
-- Nicholas Gray
+- [Nicholas Gray](https://github.com/Thecactusman0)
 - Paul Hamilton
-- MattTheMaker
+- [MattTheMaker](https://www.mrdcreations.org/)
 - Alyx
 - Your Name Here, [join us](https://discord.gg/5ukNvkEAqT)!
 
