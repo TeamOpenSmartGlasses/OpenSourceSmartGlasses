@@ -421,7 +421,7 @@
       "idf": "",
       "netlist": "OSSG_v0p3.net",
       "specctra_dsn": "",
-      "step": "OSSG_v0p3_esp32board_CAD.step",
+      "step": "3dmodels/OSSG_v0p3_esp32board_CAD.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""
