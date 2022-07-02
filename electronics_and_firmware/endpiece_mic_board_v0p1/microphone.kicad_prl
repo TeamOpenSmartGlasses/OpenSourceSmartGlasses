@@ -63,7 +63,7 @@
       36
     ],
     "visible_layers": "0001132_80000001",
-    "zone_display_mode": 1
+    "zone_display_mode": 0
   },
   "meta": {
     "filename": "microphone.kicad_prl",
