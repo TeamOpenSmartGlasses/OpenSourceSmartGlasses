@@ -402,6 +402,11 @@
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
+    (model "${KIPRJMOD}/3dmodels/B3U-3100P-B--3DModel-STEP-56544.STEP"
+      (offset (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 0))
+    )
   )
 
   (footprint "Package_TO_SOT_SMD:SOT-523" (layer "F.Cu")
@@ -449,6 +454,11 @@
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
+    )
+    (model "${KIPRJMOD}/3dmodels/SOT-723_0P85X1P25_ONS.step"
+      (offset (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 90))
     )
   )
 
@@ -590,6 +600,11 @@
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
+    )
+    (model "${KIPRJMOD}/3dmodels/SOT-723_0P85X1P25_ONS.step"
+      (offset (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 90))
     )
   )
 
@@ -860,6 +875,11 @@
         )
       )
     )
+    (model "${KIPRJMOD}/3dmodels/ANT3216LL-Antenna-Chip.step"
+      (offset (xyz 1.5 -1 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 180))
+    )
   )
 
   (footprint "OSSG_footprints:MP23DB01HPTR" (layer "F.Cu")
@@ -1098,6 +1118,11 @@
       (members
         951d7849-fc97-4a83-aa00-aa05b3c0a762
       )
+    )
+    (model "${KIPRJMOD}/3dmodels/SPH0641LU4H-1.step"
+      (offset (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 90))
     )
   )
 
@@ -1410,6 +1435,11 @@
       (net 65 "unconnected-(U1-Pad48)") (pinfunction "CAP1_NC") (pintype "no_connect") (tstamp 2c2ff8c6-8259-4492-a5da-c3a5b8b7e8d3))
     (pad "49" smd rect (at 0 0) (size 5.4 5.4) (layers "F.Cu" "F.Mask")
       (net 2 "GND") (pinfunction "GND") (pintype "power_in") (tstamp 13ea303d-9dd6-4da4-b00e-9179a5ce5348))
+    (model "${KIPRJMOD}/3dmodels/ESP32-PICO-D4--3DModel-STEP-56544.STEP"
+      (offset (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 180))
+    )
   )
 
   (footprint "Resistor_SMD:R_0402_1005Metric" (layer "F.Cu")
@@ -1722,7 +1752,7 @@
       (net 2 "GND") (pinfunction "Shield") (pintype "passive") (tstamp 80fce279-8791-458d-868f-fffcd2b27fee))
     (pad "6" thru_hole oval (at 2.5 -1.4) (size 1.25 0.95) (drill oval 0.85 0.55) (layers *.Cu *.Mask)
       (net 2 "GND") (pinfunction "Shield") (pintype "passive") (tstamp ac2e69d8-64d5-4dd2-aa07-416ded5a73d5))
-    (model "${KICAD6_3DMODEL_DIR}/Connector_USB.3dshapes/USB_Micro-B_Amphenol_10118194_Horizontal.wrl"
+    (model "${KICAD6_3DMODEL_DIR}/Connector_USB.3dshapes/USB_Micro-B_Molex_47346-0001.step"
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
@@ -1973,7 +2003,7 @@
       (net 11 "Net-(D2-Pad1)") (pinfunction "~{CHRG}") (pintype "output") (tstamp da419de1-ba55-418d-b5fd-b6ed57a04e06))
     (pad "8" smd roundrect (at 3.6 -1.905 180) (size 1.6 0.6) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.25)
       (net 83 "V_USB") (pinfunction "CE") (pintype "input") (tstamp c3ba6f60-1a0f-4534-931c-8e2edb2942d2))
-    (model "${KICAD6_3DMODEL_DIR}/Package_SO.3dshapes/SOP-8_5.28x5.23mm_P1.27mm.wrl"
+    (model "${KICAD6_3DMODEL_DIR}/Package_SO.3dshapes/SOIC-8_5.275x5.275mm_P1.27mm.step"
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
@@ -2880,6 +2910,11 @@
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
+    )
+    (model "${KIPRJMOD}/3dmodels/SOT-883.STEP"
+      (offset (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 -180))
     )
   )
 
