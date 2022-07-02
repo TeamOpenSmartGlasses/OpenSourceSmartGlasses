@@ -3391,7 +3391,7 @@
       (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 8e1db2f0-5780-4fe9-9273-0ff2b77f86fc)
     )
-    (fp_text user "${VALUE}" (at 0 1.3 unlocked) (layer "B.SilkS")
+    (fp_text user "${VALUE}" (at 0.804148 0.96763 unlocked) (layer "B.SilkS")
       (effects (font (size 0.5 0.5) (thickness 0.07)) (justify mirror))
       (tstamp 1c0de2df-c6e4-4881-9aa1-a57241aed28f)
     )
@@ -3684,6 +3684,7 @@
 
   (gr_line (start 156.09 80.36) (end 157.7 80) (layer "B.SilkS") (width 0.15) (tstamp 87be63b0-23f7-48dd-9fc2-78c34729920a))
   (gr_line (start 157.85 79.93) (end 157.69 80.16) (layer "B.SilkS") (width 0.15) (tstamp 8813b7e1-1f9f-4935-8048-e83d576a0366))
+  (gr_line (start 122.716908 77.760959) (end 123.163088 77.877088) (layer "B.SilkS") (width 0.1) (tstamp b19798bb-9d4a-40ff-9b9a-9247dfb8812e))
   (gr_line (start 157.84 79.92) (end 157.56 79.86) (layer "B.SilkS") (width 0.15) (tstamp c8ff9ffa-bff8-4a91-8224-a229d4a702b4))
   (gr_line (start 156.23 79.81) (end 156.53 79.81) (layer "B.SilkS") (width 0.15) (tstamp f9e0940a-c454-4bcd-803c-7dc0be1edf35))
   (gr_circle (center 76.981967 82.05) (end 77.481967 81.05) (layer "Edge.Cuts") (width 0.1) (fill none) (tstamp 2a538de2-412e-4189-aca3-9bf0e591358d))
