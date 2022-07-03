@@ -13,7 +13,7 @@ This repo holds mechanical, electrical, and software files for the open source s
 
 ![OSSG CAD Render](res/MSArender3_crop.png)
 ![OSSG v0.3 Schematic](res/OSSGv0p3_schematic_20220701.jpg)
-![OSSG v0p3 Board Design Render](res/OSSG_v0p3_left_arm_board_TOSG.png)
+![OSSG v0p3 Board Design Render](res/V0.3_SmartglassesPCB-3DModels.png)
 ![OSSG Prescription Lenses](res/OpenSourceSmartGlasses_prescription_lenses_CaydenPierce.jpg)
 ![OSSG 3D Printing DIY](res/3d_printing_OpenSourceSmartGlasses_TeamOpenSmartGlasses_MattTheMaker_CaydenPierce.jpg)
 ![OSSG Side View](res/Wearable_microphone_arrays_flex_pcb_v0p2_CaydenPierce.jpg)
