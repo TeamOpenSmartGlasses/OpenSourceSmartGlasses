@@ -7,7 +7,6 @@
 *
 ****************************************************************************/
 
-#define ProgramLogTag "OSSG_esp32"
 
 #include "../lib/strings.h"
 
@@ -30,8 +29,6 @@
 
 #include "sdkconfig.h"
 
-
-
 //AUDIO**********************************************************************************************************************
 
 // Save audio from PDM microphone to SD Card in wav format
@@ -43,26 +40,16 @@
     CLK  - connected to WS I2S pin on ESP32
     LR   - not connected to ESP32. Microphone has internal pull-down to GND for this pin. */
 
-// uncomment to demonstrate that valid wav files are being generated
-//#define GENERATE_DEMO_WAV
-
-// Raw PCM data is inside the header
-#ifdef GENERATE_DEMO_WAV
-#include "pcm_sample.h"
-#endif
-
 #include <driver/i2s.h>
-// #include "FS.h"
-// #include "SD_MMC.h"
 
 // I2S perhiperhal number
 #define I2S_CHANNEL                 I2S_NUM_0 // I2S_NUM_1 doesn't support PDM
 
 // I2S pins
 #define I2S_PIN_BIT_CLOCK           I2S_PIN_NO_CHANGE  // not used
-#define I2S_PIN_WORD_SELECT         33
+#define I2S_PIN_WORD_SELECT         33 //OSSG_v0.3 built-in mic CLK
 #define I2S_PIN_DATA_OUT            I2S_PIN_NO_CHANGE  // not used
-#define I2S_PIN_DATA_IN             32
+#define I2S_PIN_DATA_IN             32 //OSSG_v0.3 built-in mic DATA_OUT
 
 // I2S CONFIG PARAMS
 #define I2S_MODE                    (I2S_MODE_MASTER | I2S_MODE_RX | I2S_MODE_PDM)
@@ -74,6 +61,8 @@
 #define I2S_DMA_BUF_COUNT           4
 #define I2S_DMA_BUF_SIZE            1000
 #define I2S_ENABLE_ACCURATE_CLK     true
+
+volatile uint8_t curr_audio_val = 0;
 
 bool I2S_Init() {
   i2s_config_t i2s_config;
@@ -115,95 +104,10 @@ void I2S_Quit() {
   }
 }
 
-// // Create a file and add wav header to it so we can play it from PC later
-// bool create_wav_file(const char* song_name, uint32_t duration, uint16_t num_channels, const uint32_t sampling_rate, uint16_t bits_per_sample) {
-//   // data size in bytes - > this amount of data should be recorded from microphone later
-//   uint32_t data_size = sampling_rate * num_channels * bits_per_sample * duration / 8;
-
-//   if (!SD_MMC.begin()) {
-//     Serial.println("Card Mount Failed");
-//     return false;
-//   }
-
-//   File new_audio_file = SD_MMC.open(song_name, FILE_WRITE);
-//   if (new_audio_file == NULL) {
-//     Serial.println("Failed to create file");
-//     return false;
-//   }
-
-//   /* *************** ADD ".WAV" HEADER *************** */
-//   uint8_t CHUNK_ID[4] = {'R', 'I', 'F', 'F'};
-//   new_audio_file.write(CHUNK_ID, 4);
-
-//   uint32_t chunk_size = data_size + 36;
-//   uint8_t CHUNK_SIZE[4] = {chunk_size, chunk_size >> 8, chunk_size >> 16, chunk_size >> 24};
-//   new_audio_file.write(CHUNK_SIZE, 4);
-
-//   uint8_t FORMAT[4] = {'W', 'A', 'V', 'E'};
-//   new_audio_file.write(FORMAT, 4);
-
-//   uint8_t SUBCHUNK_1_ID[4] = {'f', 'm', 't', ' '};
-//   new_audio_file.write(SUBCHUNK_1_ID, 4);
-
-//   uint8_t SUBCHUNK_1_SIZE[4] = {0x10, 0x00, 0x00, 0x00};
-//   new_audio_file.write(SUBCHUNK_1_SIZE, 4);
-
-//   uint8_t AUDIO_FORMAT[2] = {0x01, 0x00};
-//   new_audio_file.write(AUDIO_FORMAT, 2);
-
-//   uint8_t NUM_CHANNELS[2] = {num_channels, num_channels >> 8};
-//   new_audio_file.write(NUM_CHANNELS, 2);
-
-//   uint8_t SAMPLING_RATE[4] = {sampling_rate, sampling_rate >> 8, sampling_rate >> 16, sampling_rate >> 24};
-//   new_audio_file.write(SAMPLING_RATE, 4);
-
-//   uint32_t byte_rate = num_channels * sampling_rate * bits_per_sample / 8;
-//   uint8_t BYTE_RATE[4] = {byte_rate, byte_rate >> 8, byte_rate >> 16, byte_rate >> 24};
-//   new_audio_file.write(BYTE_RATE, 4);
-
-//   uint16_t block_align = num_channels * bits_per_sample / 8;
-//   uint8_t BLOCK_ALIGN[2] = {block_align, block_align >> 8};
-//   new_audio_file.write(BLOCK_ALIGN, 2);
-
-//   uint8_t BITS_PER_SAMPLE[2] = {bits_per_sample, bits_per_sample >> 8};
-//   new_audio_file.write(BITS_PER_SAMPLE, 2);
-
-//   uint8_t SUBCHUNK_2_ID[4] = {'d', 'a', 't', 'a'};
-//   new_audio_file.write(SUBCHUNK_2_ID, 4);
-
-//   uint8_t SUBCHUNK_2_SIZE[4] = {data_size, data_size >> 8, data_size >> 16, data_size >> 24};
-//   new_audio_file.write(SUBCHUNK_2_SIZE, 4);
-
-//   // Actual data should be appended after this point later
-
-//   new_audio_file.close();
-//   SD_MMC.end();
-//   return true;
-// }
-
 void microphone_record(const char* song_name, uint32_t duration) {
-  // Add wav header to the file so we can play it from PC later
-//   if (!create_wav_file(song_name, duration, 1, I2S_SAMPLE_RATE, I2S_BITS_PER_SAMPLE)) {
-//     Serial.println("Error during wav header creation");
-//     return;
-//   }
-
-  // Initiate SD card to save data from microphone
-//   if (!SD_MMC.begin()) {
-//     Serial.println("Card Mount Failed");
-//     return;
-//   }
-
   // Buffer to receive data from microphone
   const size_t BUFFER_SIZE = 500;
   uint8_t* buf = (uint8_t*)malloc(BUFFER_SIZE);
-
-//   // Open created .wav file in append+binary mode to add PCM data
-//   File audio_file = SD_MMC.open(song_name, FILE_APPEND);
-//   if (audio_file == NULL) {
-//     Serial.println("Failed to create file");
-//     return;
-//   }
 
   // Initialize I2S
   I2S_Init();
@@ -214,79 +118,50 @@ void microphone_record(const char* song_name, uint32_t duration) {
   // Record until "file_size" bytes have been read from mic.
   uint32_t counter = 0;
   uint32_t bytes_written;
-//   Serial.println("Recording started");
+
+  ESP_LOGI(PROGRAM_LOG_TAG, "Recording Started");
+
   while (counter != data_size) {
     // Check for file size overflow
     if (counter > data_size) {
-    //   Serial.println("File is corrupted. data_size must be multiple of BUFFER_SIZE. Please modify BUFFER_SIZE");
+       ESP_LOGE(PROGRAM_LOG_TAG, "File is corrupted. data_size must be multiple of BUFFER_SIZE. Please modify BUFFER_SIZE");
       break;
     }
 
     // Read data from microphone
     if (i2s_read(I2S_CHANNEL, buf, BUFFER_SIZE, &bytes_written, portMAX_DELAY) != ESP_OK) {
-    //   Serial.println("i2s_read() error");
+       ESP_LOGE(PROGRAM_LOG_TAG, "i2s_read() error");
     }
 
     if(bytes_written != BUFFER_SIZE) {
-    //   Serial.println("Bytes written error");
+       ESP_LOGE(PROGRAM_LOG_TAG, "Bytes written error");
     }
 
     //Print raw data
-    // ESP_LOGE(ProgramLogTag, "Raw audio data from PDM microphone: ");
-    // printf("Valueman\n");
     printf("Val1: %u \n", (uint8_t)(buf[0]));
     printf("Val2: %u \n", (uint8_t)(buf[1]));
-    // printf("Val3: %u \n", (uint8_t)(buf[2]));
-    // printf("Val4: %u \n", (uint8_t)(buf[3]));
-    //printf("Val2: %u \n", (uint8_t)(buf[1]));
-    //printf("Val3: %u \n", (uint8_t)(buf[2]));
-    //printf("And me too %d", numero);
-    //ESP_LOGE(ProgramLogTag, "Value: %d", 5);
-    // Save data to SD card
-    //audio_file.write( buf, BUFFER_SIZE);
+    curr_audio_val = (uint8_t)buf[0];
 
     // Increment the counter
     counter += BUFFER_SIZE;
   }
-//   Serial.println("Recording finished");
+  ESP_LOGI(PROGRAM_LOG_TAG, "Recording finished");
 
   I2S_Quit();
-  //audio_file.close();
   free(buf);
-  //SD_MMC.end();
 }
 
-// void setup() {
-//   Serial.begin(115200);
-//   delay(1000);
-
-// #ifdef GENERATE_DEMO_WAV
-//   generate_demo_wav();
-// #endif
-
-//   microphone_record("/rec1.wav", 8);
-// }
-
-// void loop() {
-
-// }
 //BLUETOOTH*******************************************************************************************************************
 
 #define GATTS_TAG DEVICE_GATTS_TAG
 
 ///Declare the static function
 static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param);
-static void gatts_profile_b_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param);
 
 #define GATTS_SERVICE_UUID_TEST_A   0x00FF
 #define GATTS_CHAR_UUID_TEST_A      0xFF01
 #define GATTS_DESCR_UUID_TEST_A     0x3333
 #define GATTS_NUM_HANDLE_TEST_A     4
-
-#define GATTS_SERVICE_UUID_TEST_B   0x00EE
-#define GATTS_CHAR_UUID_TEST_B      0xEE01
-#define GATTS_DESCR_UUID_TEST_B     0x2222
-#define GATTS_NUM_HANDLE_TEST_B     4
 
 #define TEST_DEVICE_NAME            DEVICE_BT_NAME
 #define TEST_MANUFACTURER_DATA_LEN  17
@@ -297,7 +172,6 @@ static void gatts_profile_b_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
 
 static uint8_t char1_str[] = {0x11,0x22,0x33};
 static esp_gatt_char_prop_t a_property = 0;
-static esp_gatt_char_prop_t b_property = 0;
 
 static esp_attr_value_t gatts_demo_char1_val =
 {
@@ -309,17 +183,6 @@ static esp_attr_value_t gatts_demo_char1_val =
 static uint8_t adv_config_done = 0;
 #define adv_config_flag      (1 << 0)
 #define scan_rsp_config_flag (1 << 1)
-
-#ifdef CONFIG_SET_RAW_ADV_DATA
-static uint8_t raw_adv_data[] = {
-        0x02, 0x01, 0x06,
-        0x02, 0x0a, 0xeb, 0x03, 0x03, 0xab, 0xcd
-};
-static uint8_t raw_scan_rsp_data[] = {
-        0x0f, 0x09, 0x45, 0x53, 0x50, 0x5f, 0x47, 0x41, 0x54, 0x54, 0x53, 0x5f, 0x44,
-        0x45, 0x4d, 0x4f
-};
-#else
 
 static uint8_t adv_service_uuid128[32] = {
     /* LSB <--------------------------------------------------------------------------------> MSB */
@@ -364,8 +227,6 @@ static esp_ble_adv_data_t scan_rsp_data = {
     .flag = (ESP_BLE_ADV_FLAG_GEN_DISC | ESP_BLE_ADV_FLAG_BREDR_NOT_SPT),
 };
 
-#endif /* CONFIG_SET_RAW_ADV_DATA */
-
 static esp_ble_adv_params_t adv_params = {
     .adv_int_min        = 0x20,
     .adv_int_max        = 0x40,
@@ -377,9 +238,8 @@ static esp_ble_adv_params_t adv_params = {
     .adv_filter_policy = ADV_FILTER_ALLOW_SCAN_ANY_CON_ANY,
 };
 
-#define PROFILE_NUM 2
+#define PROFILE_NUM 1
 #define PROFILE_A_APP_ID 0
-#define PROFILE_B_APP_ID 1
 
 struct gatts_profile_inst {
     esp_gatts_cb_t gatts_cb;
@@ -401,11 +261,7 @@ static struct gatts_profile_inst gl_profile_tab[PROFILE_NUM] = {
     [PROFILE_A_APP_ID] = {
         .gatts_cb = gatts_profile_a_event_handler,
         .gatts_if = ESP_GATT_IF_NONE,       /* Not get the gatt_if, so initial is ESP_GATT_IF_NONE */
-    },
-    [PROFILE_B_APP_ID] = {
-        .gatts_cb = gatts_profile_b_event_handler,                   /* This demo does not implement, similar as profile A */
-        .gatts_if = ESP_GATT_IF_NONE,       /* Not get the gatt_if, so initial is ESP_GATT_IF_NONE */
-    },
+    }
 };
 
 typedef struct {
@@ -422,20 +278,6 @@ void example_exec_write_event_env(prepare_type_env_t *prepare_write_env, esp_ble
 static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param)
 {
     switch (event) {
-#ifdef CONFIG_SET_RAW_ADV_DATA
-    case ESP_GAP_BLE_ADV_DATA_RAW_SET_COMPLETE_EVT:
-        adv_config_done &= (~adv_config_flag);
-        if (adv_config_done==0){
-            esp_ble_gap_start_advertising(&adv_params);
-        }
-        break;
-    case ESP_GAP_BLE_SCAN_RSP_DATA_RAW_SET_COMPLETE_EVT:
-        adv_config_done &= (~scan_rsp_config_flag);
-        if (adv_config_done==0){
-            esp_ble_gap_start_advertising(&adv_params);
-        }
-        break;
-#else
     case ESP_GAP_BLE_ADV_DATA_SET_COMPLETE_EVT:
         adv_config_done &= (~adv_config_flag);
         if (adv_config_done == 0){
@@ -448,7 +290,6 @@ static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param
             esp_ble_gap_start_advertising(&adv_params);
         }
         break;
-#endif
     case ESP_GAP_BLE_ADV_START_COMPLETE_EVT:
         //advertising start complete event to indicate advertising start successfully or failed
         if (param->adv_start_cmpl.status != ESP_BT_STATUS_SUCCESS) {
@@ -546,18 +387,6 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
         if (set_dev_name_ret){
             ESP_LOGE(GATTS_TAG, "set device name failed, error code = %x", set_dev_name_ret);
         }
-#ifdef CONFIG_SET_RAW_ADV_DATA
-        esp_err_t raw_adv_ret = esp_ble_gap_config_adv_data_raw(raw_adv_data, sizeof(raw_adv_data));
-        if (raw_adv_ret){
-            ESP_LOGE(GATTS_TAG, "config raw adv data failed, error code = %x ", raw_adv_ret);
-        }
-        adv_config_done |= adv_config_flag;
-        esp_err_t raw_scan_ret = esp_ble_gap_config_scan_rsp_data_raw(raw_scan_rsp_data, sizeof(raw_scan_rsp_data));
-        if (raw_scan_ret){
-            ESP_LOGE(GATTS_TAG, "config raw scan rsp data failed, error code = %x", raw_scan_ret);
-        }
-        adv_config_done |= scan_rsp_config_flag;
-#else
         //config adv data
         esp_err_t ret = esp_ble_gap_config_adv_data(&adv_data);
         if (ret){
@@ -570,8 +399,7 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
             ESP_LOGE(GATTS_TAG, "config scan response data failed, error code = %x", ret);
         }
         adv_config_done |= scan_rsp_config_flag;
-
-#endif
+        
         esp_ble_gatts_create_service(gatts_if, &gl_profile_tab[PROFILE_A_APP_ID].service_id, GATTS_NUM_HANDLE_TEST_A);
         break;
     case ESP_GATTS_READ_EVT: {
@@ -580,7 +408,7 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
         memset(&rsp, 0, sizeof(esp_gatt_rsp_t));
         rsp.attr_value.handle = param->read.handle;
         rsp.attr_value.len = 4;
-        rsp.attr_value.value[0] = 0xde;
+        rsp.attr_value.value[0] = (int)curr_audio_val;
         rsp.attr_value.value[1] = 0xed;
         rsp.attr_value.value[2] = 0xbe;
         rsp.attr_value.value[3] = 0xef;
@@ -735,150 +563,6 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
     }
 }
 
-static void gatts_profile_b_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param) {
-    switch (event) {
-    case ESP_GATTS_REG_EVT:
-        ESP_LOGI(GATTS_TAG, "REGISTER_APP_EVT, status %d, app_id %d\n", param->reg.status, param->reg.app_id);
-        gl_profile_tab[PROFILE_B_APP_ID].service_id.is_primary = true;
-        gl_profile_tab[PROFILE_B_APP_ID].service_id.id.inst_id = 0x00;
-        gl_profile_tab[PROFILE_B_APP_ID].service_id.id.uuid.len = ESP_UUID_LEN_16;
-        gl_profile_tab[PROFILE_B_APP_ID].service_id.id.uuid.uuid.uuid16 = GATTS_SERVICE_UUID_TEST_B;
-
-        esp_ble_gatts_create_service(gatts_if, &gl_profile_tab[PROFILE_B_APP_ID].service_id, GATTS_NUM_HANDLE_TEST_B);
-        break;
-    case ESP_GATTS_READ_EVT: {
-        ESP_LOGI(GATTS_TAG, "GATT_READ_EVT, conn_id %d, trans_id %d, handle %d\n", param->read.conn_id, param->read.trans_id, param->read.handle);
-        esp_gatt_rsp_t rsp;
-        memset(&rsp, 0, sizeof(esp_gatt_rsp_t));
-        rsp.attr_value.handle = param->read.handle;
-        rsp.attr_value.len = 4;
-        rsp.attr_value.value[0] = 0xde;
-        rsp.attr_value.value[1] = 0xed;
-        rsp.attr_value.value[2] = 0xbe;
-        rsp.attr_value.value[3] = 0xef;
-        esp_ble_gatts_send_response(gatts_if, param->read.conn_id, param->read.trans_id,
-                                    ESP_GATT_OK, &rsp);
-        break;
-    }
-    case ESP_GATTS_WRITE_EVT: {
-        ESP_LOGI(GATTS_TAG, "GATT_WRITE_EVT, conn_id %d, trans_id %d, handle %d\n", param->write.conn_id, param->write.trans_id, param->write.handle);
-        if (!param->write.is_prep){
-            ESP_LOGI(GATTS_TAG, "GATT_WRITE_EVT, value len %d, value :", param->write.len);
-            esp_log_buffer_hex(GATTS_TAG, param->write.value, param->write.len);
-            if (gl_profile_tab[PROFILE_B_APP_ID].descr_handle == param->write.handle && param->write.len == 2){
-                uint16_t descr_value= param->write.value[1]<<8 | param->write.value[0];
-                if (descr_value == 0x0001){
-                    if (b_property & ESP_GATT_CHAR_PROP_BIT_NOTIFY){
-                        ESP_LOGI(GATTS_TAG, "notify enable");
-                        uint8_t notify_data[15];
-                        for (int i = 0; i < sizeof(notify_data); ++i)
-                        {
-                            notify_data[i] = i%0xff;
-                        }
-                        //the size of notify_data[] need less than MTU size
-                        esp_ble_gatts_send_indicate(gatts_if, param->write.conn_id, gl_profile_tab[PROFILE_B_APP_ID].char_handle,
-                                                sizeof(notify_data), notify_data, false);
-                    }
-                }else if (descr_value == 0x0002){
-                    if (b_property & ESP_GATT_CHAR_PROP_BIT_INDICATE){
-                        ESP_LOGI(GATTS_TAG, "indicate enable");
-                        uint8_t indicate_data[15];
-                        for (int i = 0; i < sizeof(indicate_data); ++i)
-                        {
-                            indicate_data[i] = i%0xff;
-                        }
-                        //the size of indicate_data[] need less than MTU size
-                        esp_ble_gatts_send_indicate(gatts_if, param->write.conn_id, gl_profile_tab[PROFILE_B_APP_ID].char_handle,
-                                                sizeof(indicate_data), indicate_data, true);
-                    }
-                }
-                else if (descr_value == 0x0000){
-                    ESP_LOGI(GATTS_TAG, "notify/indicate disable ");
-                }else{
-                    ESP_LOGE(GATTS_TAG, "unknown value");
-                }
-
-            }
-        }
-        example_write_event_env(gatts_if, &b_prepare_write_env, param);
-        break;
-    }
-    case ESP_GATTS_EXEC_WRITE_EVT:
-        ESP_LOGI(GATTS_TAG,"ESP_GATTS_EXEC_WRITE_EVT");
-        esp_ble_gatts_send_response(gatts_if, param->write.conn_id, param->write.trans_id, ESP_GATT_OK, NULL);
-        example_exec_write_event_env(&b_prepare_write_env, param);
-        break;
-    case ESP_GATTS_MTU_EVT:
-        ESP_LOGI(GATTS_TAG, "ESP_GATTS_MTU_EVT, MTU %d", param->mtu.mtu);
-        break;
-    case ESP_GATTS_UNREG_EVT:
-        break;
-    case ESP_GATTS_CREATE_EVT:
-        ESP_LOGI(GATTS_TAG, "CREATE_SERVICE_EVT, status %d,  service_handle %d\n", param->create.status, param->create.service_handle);
-        gl_profile_tab[PROFILE_B_APP_ID].service_handle = param->create.service_handle;
-        gl_profile_tab[PROFILE_B_APP_ID].char_uuid.len = ESP_UUID_LEN_16;
-        gl_profile_tab[PROFILE_B_APP_ID].char_uuid.uuid.uuid16 = GATTS_CHAR_UUID_TEST_B;
-
-        esp_ble_gatts_start_service(gl_profile_tab[PROFILE_B_APP_ID].service_handle);
-        b_property = ESP_GATT_CHAR_PROP_BIT_READ | ESP_GATT_CHAR_PROP_BIT_WRITE | ESP_GATT_CHAR_PROP_BIT_NOTIFY;
-        esp_err_t add_char_ret =esp_ble_gatts_add_char( gl_profile_tab[PROFILE_B_APP_ID].service_handle, &gl_profile_tab[PROFILE_B_APP_ID].char_uuid,
-                                                        ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
-                                                        b_property,
-                                                        NULL, NULL);
-        if (add_char_ret){
-            ESP_LOGE(GATTS_TAG, "add char failed, error code =%x",add_char_ret);
-        }
-        break;
-    case ESP_GATTS_ADD_INCL_SRVC_EVT:
-        break;
-    case ESP_GATTS_ADD_CHAR_EVT:
-        ESP_LOGI(GATTS_TAG, "ADD_CHAR_EVT, status %d,  attr_handle %d, service_handle %d\n",
-                 param->add_char.status, param->add_char.attr_handle, param->add_char.service_handle);
-
-        gl_profile_tab[PROFILE_B_APP_ID].char_handle = param->add_char.attr_handle;
-        gl_profile_tab[PROFILE_B_APP_ID].descr_uuid.len = ESP_UUID_LEN_16;
-        gl_profile_tab[PROFILE_B_APP_ID].descr_uuid.uuid.uuid16 = ESP_GATT_UUID_CHAR_CLIENT_CONFIG;
-        esp_ble_gatts_add_char_descr(gl_profile_tab[PROFILE_B_APP_ID].service_handle, &gl_profile_tab[PROFILE_B_APP_ID].descr_uuid,
-                                     ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE,
-                                     NULL, NULL);
-        break;
-    case ESP_GATTS_ADD_CHAR_DESCR_EVT:
-        gl_profile_tab[PROFILE_B_APP_ID].descr_handle = param->add_char_descr.attr_handle;
-        ESP_LOGI(GATTS_TAG, "ADD_DESCR_EVT, status %d, attr_handle %d, service_handle %d\n",
-                 param->add_char_descr.status, param->add_char_descr.attr_handle, param->add_char_descr.service_handle);
-        break;
-    case ESP_GATTS_DELETE_EVT:
-        break;
-    case ESP_GATTS_START_EVT:
-        ESP_LOGI(GATTS_TAG, "SERVICE_START_EVT, status %d, service_handle %d\n",
-                 param->start.status, param->start.service_handle);
-        break;
-    case ESP_GATTS_STOP_EVT:
-        break;
-    case ESP_GATTS_CONNECT_EVT:
-        ESP_LOGI(GATTS_TAG, "CONNECT_EVT, conn_id %d, remote %02x:%02x:%02x:%02x:%02x:%02x:",
-                 param->connect.conn_id,
-                 param->connect.remote_bda[0], param->connect.remote_bda[1], param->connect.remote_bda[2],
-                 param->connect.remote_bda[3], param->connect.remote_bda[4], param->connect.remote_bda[5]);
-        gl_profile_tab[PROFILE_B_APP_ID].conn_id = param->connect.conn_id;
-        break;
-    case ESP_GATTS_CONF_EVT:
-        ESP_LOGI(GATTS_TAG, "ESP_GATTS_CONF_EVT status %d attr_handle %d", param->conf.status, param->conf.handle);
-        if (param->conf.status != ESP_GATT_OK){
-            esp_log_buffer_hex(GATTS_TAG, param->conf.value, param->conf.len);
-        }
-    break;
-    case ESP_GATTS_DISCONNECT_EVT:
-    case ESP_GATTS_OPEN_EVT:
-    case ESP_GATTS_CANCEL_OPEN_EVT:
-    case ESP_GATTS_CLOSE_EVT:
-    case ESP_GATTS_LISTEN_EVT:
-    case ESP_GATTS_CONGEST_EVT:
-    default:
-        break;
-    }
-}
-
 static void gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param)
 {
     /* If event is register event, store the gatts_if for each profile */
@@ -956,11 +640,6 @@ void app_main(void)
         return;
     }
     ret = esp_ble_gatts_app_register(PROFILE_A_APP_ID);
-    if (ret){
-        ESP_LOGE(GATTS_TAG, "gatts app register error, error code = %x", ret);
-        return;
-    }
-    ret = esp_ble_gatts_app_register(PROFILE_B_APP_ID);
     if (ret){
         ESP_LOGE(GATTS_TAG, "gatts app register error, error code = %x", ret);
         return;
