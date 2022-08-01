@@ -63,6 +63,7 @@
 #define I2S_ENABLE_ACCURATE_CLK     true
 
 volatile uint8_t curr_audio_val = 0;
+volatile bool audioSubscribed = false;
 
 bool I2S_Init() {
   i2s_config_t i2s_config;
@@ -104,6 +105,7 @@ void I2S_Quit() {
   }
 }
 
+
 void microphone_record(const char* song_name, uint32_t duration) {
   // Buffer to receive data from microphone
   const size_t BUFFER_SIZE = 500;
@@ -138,8 +140,8 @@ void microphone_record(const char* song_name, uint32_t duration) {
     }
 
     //Print raw data
-    printf("Val1: %u \n", (uint8_t)(buf[0]));
-    printf("Val2: %u \n", (uint8_t)(buf[1]));
+    // printf("Val1: %u \n", (uint8_t)(buf[0]));
+    // printf("Val2: %u \n", (uint8_t)(buf[1]));
     curr_audio_val = (uint8_t)buf[0];
 
     // Increment the counter
@@ -154,6 +156,7 @@ void microphone_record(const char* song_name, uint32_t duration) {
 //BLUETOOTH*******************************************************************************************************************
 
 #define GATTS_TAG DEVICE_GATTS_TAG
+#define MTU_SIZE 517
 
 ///Declare the static function
 static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param);
@@ -172,6 +175,10 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
 
 static uint8_t char1_str[] = {0x11,0x22,0x33};
 static esp_gatt_char_prop_t a_property = 0;
+
+//save the values of the bluetooth interface so we can access them elsewhere
+esp_gatt_if_t globalIf;
+uint16_t globalConn;
 
 static esp_attr_value_t gatts_demo_char1_val =
 {
@@ -423,9 +430,12 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
             esp_log_buffer_hex(GATTS_TAG, param->write.value, param->write.len);
             if (gl_profile_tab[PROFILE_A_APP_ID].descr_handle == param->write.handle && param->write.len == 2){
                 uint16_t descr_value = param->write.value[1]<<8 | param->write.value[0];
-                if (descr_value == 0x0001){
+                if (descr_value == 0x0001){ //enable notifications on this char
                     if (a_property & ESP_GATT_CHAR_PROP_BIT_NOTIFY){
                         ESP_LOGI(GATTS_TAG, "notify enable");
+                        audioSubscribed = true;
+                        globalIf = gatts_if;
+                        globalConn = param->write.conn_id;
                         uint8_t notify_data[15];
                         for (int i = 0; i < sizeof(notify_data); ++i)
                         {
@@ -450,6 +460,7 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
                 }
                 else if (descr_value == 0x0000){
                     ESP_LOGI(GATTS_TAG, "notify/indicate disable ");
+                    audioSubscribed = false;
                 }else{
                     ESP_LOGE(GATTS_TAG, "unknown descr value");
                     esp_log_buffer_hex(GATTS_TAG, param->write.value, param->write.len);
@@ -541,6 +552,13 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
         gl_profile_tab[PROFILE_A_APP_ID].conn_id = param->connect.conn_id;
         //start sent the update connection parameters to the peer device.
         esp_ble_gap_update_conn_params(&conn_params);
+
+        //request the central to use our MTU size
+        // esp_err_t mtu_ret = esp_ble_gatts_send_mtu_req(gatts_if, param->connect.conn_id);
+        // if (mtu_ret){
+        //     ESP_LOGE(PROGRAM_LOG_TAG, "config MTU error, error code = %x", mtu_ret);
+        // }
+
         break;
     }
     case ESP_GATTS_DISCONNECT_EVT:
@@ -590,6 +608,25 @@ static void gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_
             }
         }
     } while (0);
+}
+
+void sendAudioChunk(){
+    while(true){
+        if (audioSubscribed){
+            printf("send CHUNK: %u \n", curr_audio_val);
+            uint8_t notify_data[MTU_SIZE-3];
+            for (int i = 0; i < sizeof(notify_data); ++i)
+            {
+                notify_data[i] = (curr_audio_val << 3 | curr_audio_val << 2 | curr_audio_val << 1 | curr_audio_val);
+            }
+            //the size of notify_data[] need less than MTU size
+            esp_ble_gatts_send_indicate(globalIf, globalConn, gl_profile_tab[PROFILE_A_APP_ID].char_handle,
+                                    sizeof(notify_data), notify_data, false);
+
+        }
+        //wait in between taking images 10 seconds for H3
+        vTaskDelay(20 / portTICK_PERIOD_MS);
+    }
 }
 
 void app_main(void)
@@ -644,10 +681,14 @@ void app_main(void)
         ESP_LOGE(GATTS_TAG, "gatts app register error, error code = %x", ret);
         return;
     }
-    esp_err_t local_mtu_ret = esp_ble_gatt_set_local_mtu(500);
+    esp_err_t local_mtu_ret = esp_ble_gatt_set_local_mtu(MTU_SIZE);
     if (local_mtu_ret){
         ESP_LOGE(GATTS_TAG, "set local  MTU failed, error code = %x", local_mtu_ret);
     }
+
+    //send audio task
+    TaskHandle_t sendAudioTaskHandle = NULL;
+    xTaskCreate(sendAudioChunk, "send_audio_chunk_task", 8192, NULL, 2, &sendAudioTaskHandle);
 
     microphone_record("/rec1.wav", 60);
 
