@@ -1,3 +1,6 @@
 #define PROGRAM_LOG_TAG "OSSG_esp32"
-#define DEVICE_BT_NAME "SmartGlasses_OSSG"
-#define DEVICE_GATTS_TAG "OSSG"
+#define DEVICE_NAME "SmartGlasses_OSSG"
+
+//WIFI
+#define EXAMPLE_ESP_WIFI_SSID      "WearNet2"
+#define EXAMPLE_ESP_WIFI_PASS      "7777777crc"
