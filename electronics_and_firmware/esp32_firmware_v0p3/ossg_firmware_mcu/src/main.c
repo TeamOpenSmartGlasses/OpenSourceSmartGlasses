@@ -20,6 +20,9 @@
 #include "esp_event.h"
 #include "esp_log.h"
 #include "nvs_flash.h"
+#include <math.h>
+
+#include "mbedtls/base64.h" //for encoding audio data to string
 
 
 //AUDIO**********************************************************************************************************************
@@ -55,9 +58,39 @@
 #define I2S_DMA_BUF_SIZE            1000
 #define I2S_ENABLE_ACCURATE_CLK     true
 
+/**************** Audio QUEUE HANDLER ***********************/
+xQueueHandle audioQueue;
+
 volatile uint8_t curr_audio_val = 0;
 volatile bool audioSubscribed = false;
 char WIS_IP[16];
+
+void addAudioChunkToQueueTask()
+{
+	int i=222;
+    if (xQueueSend(audioQueue, &i, portMAX_DELAY) == pdPASS)
+    {
+        ESP_LOGE(PROGRAM_LOG_TAG, "TX AUDIO: Successfully sent the audio chunk to the audio queue.\n");
+    } else {
+        ESP_LOGE(PROGRAM_LOG_TAG, "TX AUDIO: Error sending the audio chunk to the audio queue.\n");
+    }
+}
+
+// void receiveAudioChunkFromQueueTask()
+// {
+// 	int audioChunk = 0;
+// 	while (1) {
+// 		if (xQueueReceive(audioQueue, &audioChunk, portMAX_DELAY) != pdTRUE)
+// 		{
+// 			ESP_LOGE(PROGRAM_LOG_TAG, "RX AUDIO: Error receiving the audio chunk to the audio queue.\n");
+// 		}
+// 		else
+// 		{
+// 			ESP_LOGE(PROGRAM_LOG_TAG, "RX AUDIO: Successfully processed an audio chunk from the audio queue.\n");
+// 		}
+// 		vTaskDelay(pdMS_TO_TICKS(1500));
+// 	}
+// }
 
 bool I2S_Init() {
   i2s_config_t i2s_config;
@@ -100,9 +133,9 @@ void I2S_Quit() {
 }
 
 
-void microphone_record(const char* song_name, uint32_t duration) {
+void microphone_stream(uint32_t duration) {
   // Buffer to receive data from microphone
-  const size_t BUFFER_SIZE = 500;
+  const size_t BUFFER_SIZE = 1024;
   uint8_t* buf = (uint8_t*)malloc(BUFFER_SIZE);
 
   // Initialize I2S
@@ -136,7 +169,16 @@ void microphone_record(const char* song_name, uint32_t duration) {
     //Print raw data
     // printf("Val1: %u \n", (uint8_t)(buf[0]));
     // printf("Val2: %u \n", (uint8_t)(buf[1]));
-    curr_audio_val = (uint8_t)buf[0];
+    //curr_audio_val = (uint8_t)buf[0];
+    int b64EncodedAudioBufferLen = (ceil(BUFFER_SIZE / 3 ) * 4); //size increase due to inefficieny of base64
+    unsigned char b64EncodedAudio[b64EncodedAudioBufferLen];
+    size_t encodedAudioActualLen;
+
+    mbedtls_base64_encode(b64EncodedAudio, b64EncodedAudioBufferLen, &encodedAudioActualLen, buf, BUFFER_SIZE);
+    addAudioChunkToQueueTask();
+    // printf("Valn b64 audio: %s\n", b64EncodedAudio);
+    // printf("Input length: %d\n", b64EncodedAudioBufferLen);
+    // printf("Valn b64 audio length: %d\n", encodedAudioActualLen);
 
     // Increment the counter
     counter += BUFFER_SIZE;
@@ -148,17 +190,25 @@ void microphone_record(const char* song_name, uint32_t duration) {
 }
 
 void sendAudioChunk(){
+    audioSubscribed = true;
     while(true){
         if (audioSubscribed){
-            printf("send CHUNK: %u \n", curr_audio_val);
-            uint8_t notify_data[20];
-            for (int i = 0; i < sizeof(notify_data); ++i)
-            {
-                notify_data[i] = (curr_audio_val << 3 | curr_audio_val << 2 | curr_audio_val << 1 | curr_audio_val);
+            int audioChunk = 0;
+            if (xQueueReceive(audioQueue, &audioChunk, portMAX_DELAY) != pdTRUE){
+                ESP_LOGE(PROGRAM_LOG_TAG, "RX AUDIO: Error receiving the audio chunk to the audio queue.\n");
+            } else {
+                ESP_LOGE(PROGRAM_LOG_TAG, "RX AUDIO: Successfully processed an audio chunk from the audio queue.\n");
             }
+            //     printf("send CHUNK: %u \n", curr_audio_val);
+            //     uint8_t notify_data[20];
+            //     for (int i = 0; i < sizeof(notify_data); ++i)
+            //     {
+            //         notify_data[i] = (curr_audio_val << 3 | curr_audio_val << 2 | curr_audio_val << 1 | curr_audio_val);
+            //     }
+            // }
+        } else{
+            vTaskDelay(pdMS_TO_TICKS(250));
         }
-        //wait in between taking images 10 seconds for H3
-        vTaskDelay(20 / portTICK_PERIOD_MS);
     }
 }
 
@@ -442,6 +492,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,
 
 void wifi_init_sta(void)
 {
+    ESP_LOGI(PROGRAM_LOG_TAG, "ESP_WIFI_MODE_STA");
     s_wifi_event_group = xEventGroupCreate();
 
     ESP_ERROR_CHECK(esp_netif_init());
@@ -522,25 +573,6 @@ static void shutdown_signaler(TimerHandle_t xTimer)
     xSemaphoreGive(shutdown_sema);
 }
 
-#if CONFIG_WEBSOCKET_URI_FROM_STDIN
-static void get_string(char *line, size_t size)
-{
-    int count = 0;
-    while (count < size) {
-        int c = fgetc(stdin);
-        if (c == '\n') {
-            line[count] = '\0';
-            break;
-        } else if (c > 0 && c < 127) {
-            line[count] = c;
-            ++count;
-        }
-        vTaskDelay(10 / portTICK_PERIOD_MS);
-    }
-}
-
-#endif /* CONFIG_WEBSOCKET_URI_FROM_STDIN */
-
 static void websocket_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
 {
     esp_websocket_event_data_t *data = (esp_websocket_event_data_t *)event_data;
@@ -565,6 +597,8 @@ static void websocket_event_handler(void *handler_args, esp_event_base_t base, i
     }
 }
 
+static const char *payload = "{\"MESSAGE_TYPE_LOCAL\" : \"AUDIO_CHUNK_DECRYPTED\", \"AUDIO_DATA\" : \"/+MYxAAEaAIEeUAQAgBgNgP/////KQQ/////Lvrg+lcWYHgtjadzsbTq+yREu495tq9c6v/7vt/of7mna9v6/btUnU17Jun9/+MYxCkT26KW+YGBAj9v6vUh+zab//v/96C3/pu6H+pv//r/ycIIP4pcWWTRBBBAMXgNdbRaABQAAABRWKwgjQVX0ECmrb///+MYxBQSM0sWWYI4A++Z/////////////0rOZ3MP//7H44QEgxgdvRVMXHZseL//540B4JAvMPEgaA4/0nHjxLhRgAoAYAgA/+MYxAYIAAJfGYEQAMAJAIAQMAwX936/q/tWtv/2f/+v//6v/+7qTEFNRTMuOTkuNVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV\"}";
+//static const char *payload = "/+MYxAAEaAIEeUAQAgBgNgP/////KQQ/////Lvrg+lcWYHgtjadzsbTq+yREu495tq9c6v/7vt/of7mna9v6/btUnU17Jun9/+MYxCkT26KW+YGBAj9v6vUh+zab//v/96C3/pu6H+pv//r/ycIIP4pcWWTRBBBAMXgNdbRaABQAAABRWKwgjQVX0ECmrb///+MYxBQSM0sWWYI4A++Z/////////////0rOZ3MP//7H44QEgxgdvRVMXHZseL//540B4JAvMPEgaA4/0nHjxLhRgAoAYAgA/+MYxAYIAAJfGYEQAMAJAIAQMAwX936/q/tWtv/2f/+v//6v/+7qTEFNRTMuOTkuNVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
 static void websocket_app_start(void)
 {
     esp_websocket_client_config_t websocket_cfg = {};
@@ -573,20 +607,9 @@ static void websocket_app_start(void)
                                          pdFALSE, NULL, shutdown_signaler);
     shutdown_sema = xSemaphoreCreateBinary();
 
-#if CONFIG_WEBSOCKET_URI_FROM_STDIN
-    char line[128];
-
-    ESP_LOGI(TAG, "Please enter uri of websocket endpoint");
-    get_string(line, sizeof(line));
-
-    websocket_cfg.uri = line;
-    ESP_LOGI(TAG, "Endpoint uri: %s\n", line);
-
-#else
-    websocket_cfg.uri = "ws://192.168.66.144";
+    //websocket url/IP and port
+    websocket_cfg.uri = "ws://192.168.2.102";
     websocket_cfg.port = 8887;
-
-#endif /* CONFIG_WEBSOCKET_URI_FROM_STDIN */
 
     ESP_LOGI(TAG, "Connecting to %s...", websocket_cfg.uri);
 
@@ -594,22 +617,111 @@ static void websocket_app_start(void)
     esp_websocket_register_events(client, WEBSOCKET_EVENT_ANY, websocket_event_handler, (void *)client);
 
     esp_websocket_client_start(client);
+    audioSubscribed = true;
     xTimerStart(shutdown_signal_timer, portMAX_DELAY);
     char data[32];
     int i = 0;
     while (i < 10) {
         if (esp_websocket_client_is_connected(client)) {
             int len = sprintf(data, "hello %04d", i++);
-            ESP_LOGI(TAG, "Sending %s", data);
-            esp_websocket_client_send_text(client, data, len, portMAX_DELAY);
+            ESP_LOGI(TAG, "Sending %s of size %d", payload, strlen(payload));
+            esp_websocket_client_send_text(client, payload, strlen(payload), portMAX_DELAY);
         }
         vTaskDelay(1000 / portTICK_RATE_MS);
     }
 
     xSemaphoreTake(shutdown_sema, portMAX_DELAY);
+    audioSubscribed = false;
     esp_websocket_client_stop(client);
     ESP_LOGI(TAG, "Websocket Stopped");
     esp_websocket_client_destroy(client);
+}
+
+
+//AUDIO WIFI SENDING COMMS TCP SOCKET
+
+#include <string.h>
+#include <sys/param.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "freertos/event_groups.h"
+#include "esp_system.h"
+#include "esp_wifi.h"
+#include "esp_event.h"
+#include "esp_log.h"
+#include "nvs_flash.h"
+#include "esp_netif.h"
+#include "lwip/err.h"
+#include "lwip/sockets.h"
+
+
+//TCP connection params
+#define HOST_IP_ADDR "192.168.66.144"
+#define PORT 4567
+
+
+static void tcp_client_task(void *pvParameters)
+{
+    char rx_buffer[128];
+    char host_ip[] = HOST_IP_ADDR;
+    int addr_family = 0;
+    int ip_protocol = 0;
+
+    struct sockaddr_in dest_addr;
+    dest_addr.sin_addr.s_addr = inet_addr(host_ip);
+    dest_addr.sin_family = AF_INET;
+    dest_addr.sin_port = htons(PORT);
+    addr_family = AF_INET;
+    ip_protocol = IPPROTO_IP;
+    int sock =  socket(addr_family, SOCK_STREAM, ip_protocol);
+    if (sock < 0) {
+        ESP_LOGE(TAG, "Unable to create socket: errno %d", errno);
+        return;
+    }
+    ESP_LOGI(TAG, "Socket created, connecting to %s:%d", host_ip, PORT);
+
+    int err = connect(sock, (struct sockaddr *)&dest_addr, sizeof(struct sockaddr_in6));
+    if (err != 0) {
+        ESP_LOGE(TAG, "Socket unable to connect: errno %d", errno);
+        return;
+    }
+    ESP_LOGI(TAG, "Successfully connected");
+
+    while (1) {
+        // ESP_LOGI(TAG, "Sending message over audio socket");
+        // int err = send(sock, payload, strlen(payload), 0);
+        // if (err < 0) {
+        //     ESP_LOGE(TAG, "Error occurred during sending: errno %d", errno);
+        //     break;
+        // }
+
+        // int len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
+        // // Error occurred during receiving
+        // if (len < 0) {
+        //     ESP_LOGE(TAG, "recv failed: errno %d", errno);
+        //     break;
+        // }
+        // // Data received
+        // else {
+        //     rx_buffer[len] = 0; // Null-terminate whatever we received and treat like a string
+        //     ESP_LOGI(TAG, "Received %d bytes from %s:", len, host_ip);
+        //     ESP_LOGI(TAG, "%s", rx_buffer);
+        // }
+
+        vTaskDelay(100 / portTICK_PERIOD_MS);
+    }
+
+    // if (sock != -1) {
+    //     ESP_LOGE(TAG, "Shutting down socket and restarting...");
+    //     shutdown(sock, 0);
+    //     close(sock);
+    // }
+
+    while(1){
+        vTaskDelay(3000 / portTICK_PERIOD_MS);
+    }
+
+    vTaskDelete(NULL);
 }
 
 
@@ -629,24 +741,38 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_event_loop_create_default());
 
     //start WIFI
-    ESP_LOGI(PROGRAM_LOG_TAG, "ESP_WIFI_MODE_STA");
-    wifi_init_sta();
+    // wifi_init_sta();
+
+
+    // esp_log_level_set("*", ESP_LOG_INFO);
+    // esp_log_level_set("WEBSOCKET_CLIENT", ESP_LOG_DEBUG);
+    // esp_log_level_set("TRANS_TCP", ESP_LOG_DEBUG);
+
+    // //connect to WIS web socket
+    // websocket_app_start();
+
+    //connect to audio TCP socket stream
+    //xTaskCreate(tcp_client_task, "tcp_client", 4096, NULL, 5, NULL);
+
+     /************************* Create Integer Queue ****************************/
+    audioQueue = xQueueCreate(50, sizeof (int));
+    if (audioQueue == 0)  // Queue not created
+    {
+        ESP_LOGE(PROGRAM_LOG_TAG, "Unable to create audio queue.\n");
+    } else {
+        ESP_LOGE(PROGRAM_LOG_TAG, "Audio queue created successfully.\n");
+    }
+
+    //start audio send and receive
+    //xTaskCreate(addAudioChunkToQueueTask, "audioSender", 4096, NULL, 5, NULL);
+    //xTaskCreate(receiveAudioChunkFromQueueTask, "audioReceiver", 4096, NULL, 5, NULL);
 
     //send audio task
-    //TaskHandle_t sendAudioTaskHandle = NULL;
-    //xTaskCreate(sendAudioChunk, "send_audio_chunk_task", 8192, NULL, 2, &sendAudioTaskHandle);
+    TaskHandle_t sendAudioTaskHandle = NULL;
+    xTaskCreate(sendAudioChunk, "send_audio_chunk_task", 8192, NULL, 2, &sendAudioTaskHandle);
 
-    //start microphone input
-    //microphone_record("/rec1.wav", 60);
-
-    esp_log_level_set("*", ESP_LOG_INFO);
-    esp_log_level_set("WEBSOCKET_CLIENT", ESP_LOG_DEBUG);
-    esp_log_level_set("TRANS_TCP", ESP_LOG_DEBUG);
-
-    ESP_ERROR_CHECK(nvs_flash_init());
-    ESP_ERROR_CHECK(esp_netif_init());
-
-    websocket_app_start();
+    //start microphone input AFTER STARTING AUDIO QUEUE
+    microphone_stream(60);
 
     return;
 }
