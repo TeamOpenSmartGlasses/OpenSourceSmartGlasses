@@ -44,7 +44,7 @@ If you want to jump ahead to something more specific to what we're currently wor
 
 ## Team Open Smartglasses
 
-Team Open Smartglasses is a group of engineers, researchers, makers, and designers from around the world joining forces to build Open Source Smartglasses. We aren't a business - we're a highly technical team of people who have all built custom wearables on our own in the past, coming together to build the world's best smart glasses, Open Source.
+Team Open Smartglasses is a group of engineers, researchers, makers, and designers from around the world joining forces to build Open Source Smartglasses. We're a highly technical team of people who have all built custom wearables on our own in the past, coming together to build the world's best smart glasses, Open Source.
 
 ## Community
 
