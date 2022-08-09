@@ -31,8 +31,8 @@
 #include "esp_event.h"
 
 esp_websocket_client_handle_t webSocketClient;
-static const char *audioJsonTemplate = "{\"MESSAGE_TYPE_LOCAL\" : \"AUDIO_CHUNK_DECRYPTED\", \"AUDIO_DATA\" : \"%s\"}";
-// static const char *audioJsonTemplate = "\"%s\"";
+// static const char *audioJsonTemplate = "{\"MESSAGE_TYPE_LOCAL\" : \"AUDIO_CHUNK_DECRYPTED\", \"AUDIO_DATA\" : \"%s\"}";
+static const char *audioJsonTemplate = "\"%s\"";
 
 //AUDIO**********************************************************************************************************************
 
@@ -130,7 +130,9 @@ bool I2S_Init() {
          .sample_rate = SAMPLE_RATE,
          .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT,
          .channel_format = I2S_CHANNEL_FMT_ONLY_RIGHT, // although the SEL config should be left, it seems to transmit on right
-         .communication_format = (i2s_comm_format_t)(I2S_COMM_FORMAT_I2S | I2S_COMM_FORMAT_I2S_LSB),
+        //  .communication_format = (i2s_comm_format_t)(I2S_COMM_FORMAT_I2S | I2S_COMM_FORMAT_I2S_LSB),
+        // .communication_format = I2S_COMM_FORMAT_STAND_MSB,
+        .communication_format = I2S_COMM_FORMAT_I2S_MSB, //pcm data format
          .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1, // high interrupt priority
          .dma_buf_count = 4,
          .dma_buf_len = DMA_BUF_SIZE  
@@ -207,10 +209,10 @@ void microphone_stream() {
     size_t encodedAudioActualLen;
     // printf("Attempting to base64 encode...\n");
     //int b64res = mbedtls_base64_encode(b64EncodedAudio, b64EncodedAudioBufferLen, &encodedAudioActualLen, (unsigned char *)buf, bytes_written);
-    printf("bytesWritten is: %d\n", (size_t)bytes_written);
-    printf("computed len is: %d\n", b64EncodedAudioBufferLen);
+    // printf("bytesWritten is: %d\n", (size_t)bytes_written);
+    // printf("computed len is: %d\n", b64EncodedAudioBufferLen);
     int b64res = mbedtls_base64_encode(b64EncodedAudio, b64EncodedAudioBufferLen, &encodedAudioActualLen, (unsigned char *)buf, (size_t)bytes_written);
-    printf("encodedAudioActualLen is: %d\n", (int)encodedAudioActualLen);
+    // printf("encodedAudioActualLen is: %d\n", (int)encodedAudioActualLen);
     if(b64res != 0){
         ESP_LOGE(PROGRAM_LOG_TAG, "Base 64 encoding failed.");
     }
@@ -548,8 +550,9 @@ static void event_handler(void* arg, esp_event_base_t event_base,
     } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
         ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
         ESP_LOGI(TAG, "got ip:" IPSTR, IP2STR(&event->ip_info.ip));
-        snprintf(WIS_IP, sizeof(WIS_IP), IPSTR, IP2STR(&event->ip_info.ip));
+        // snprintf(WIS_IP, sizeof(WIS_IP), IPSTR, IP2STR(&event->ip_info.ip));
         // snprintf(WIS_IP, sizeof(WIS_IP), "192.168.95.188"); //DEBUG, comment this line to connect to hotspot host
+        snprintf(WIS_IP, sizeof(WIS_IP), "192.168.134.188"); //DEBUG, comment this line to connect to hotspot host
         s_retry_num = 0;
         xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
         //start listening for UDP packets - WIS server advertising itself
@@ -672,7 +675,8 @@ static void websocket_app_start()
     //websocket_cfg.uri = WIS_IP;
     // websocket_cfg.uri = "ws://192.168.2.102";
     // websocket_cfg.uri = "ws://192.168.95.188";
-    websocket_cfg.uri = "ws://192.168.95.99";
+    // websocket_cfg.uri = "ws://192.168.95.99";
+    websocket_cfg.uri = "ws://192.168.134.188";
     websocket_cfg.port = 8887;
 
     ESP_LOGI(TAG, "Connecting to %s...", websocket_cfg.uri);
