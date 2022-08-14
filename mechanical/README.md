@@ -1,9 +1,12 @@
 ## How to Print
 To print full pair of glasses; 
 
-- Print left arm cover STL
-- Print right arm cover STL
-- Print MAIN_FRAME STL
+- Print left arm
+- Print right arm
+- Print front frame
+- Print left arm cover
+- Print right arm cover
+
 
 ## How to Build
 Hardware:
