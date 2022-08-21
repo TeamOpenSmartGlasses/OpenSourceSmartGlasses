@@ -16,6 +16,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
+#include "freertos/message_buffer.h"
 #include "esp_system.h"
 #include "esp_event.h"
 #include "esp_log.h"
@@ -30,9 +31,12 @@
 #include "esp_websocket_client.h"
 #include "esp_event.h"
 
+TickType_t lastTickTimeSend;
+TickType_t lastTickTimeProc;
+
 esp_websocket_client_handle_t webSocketClient;
 // static const char *audioJsonTemplate = "{\"MESSAGE_TYPE_LOCAL\" : \"AUDIO_CHUNK_DECRYPTED\", \"AUDIO_DATA\" : \"%s\"}";
-static const char *audioJsonTemplate = "\"%s\"";
+static const char *audioJsonTemplate = "%s";
 
 //AUDIO**********************************************************************************************************************
 
@@ -62,23 +66,27 @@ const i2s_port_t I2S_PORT = I2S_NUM_0;
 long total_read = 0;
 
 /**************** Audio QUEUE HANDLER ***********************/
-xQueueHandle audioQueue;
-
 volatile uint8_t curr_audio_val = 0;
 volatile bool audioSubscribed = false;
 char WIS_IP[16];
-const size_t AUDIO_BUFFER_SIZE = 2048;
-const size_t DMA_BUF_SIZE = 1024;
+const size_t AUDIO_BUFFER_SIZE = 4096;
+const size_t DMA_BUF_SIZE = 1024; //number of samples, not number of bytes
+const size_t DMA_BUF_CNT = 8;
+
+xQueueHandle audioQueue;
+MessageBufferHandle_t audioMessageBuffer;
+const size_t audioMessageBufferLen = AUDIO_BUFFER_SIZE + sizeof(size_t); // room for audio buffer, room for one size_t for MessageBuffer overhead
 
 int packet_count = 0;
 
+static const char *payload = "{\"MESSAGE_TYPE_LOCAL\" : \"AUDIO_CHUNK_DECRYPTED\", \"AUDIO_DATA\" : \"/+MYxAAEaAIEeUAQAgBgNgP/////KQQ/////Lvrg+lcWYHgtjadzsbTq+yREu495tq9c6v/7vt/of7mna9v6/btUnU17Jun9/+MYxCkT26KW+YGBAj9v6vUh+zab//v/96C3/pu6H+pv//r/ycIIP4pcWWTRBBBAMXgNdbRaABQAAABRWKwgjQVX0ECmrb///+MYxBQSM0sWWYI4A++Z/////////////0rOZ3MP//7H44QEgxgdvRVMXHZseL//540B4JAvMPEgaA4/0nHjxLhRgAoAYAgA/+MYxAYIAAJfGYEQAMAJAIAQMAwX936/q/tWtv/2f/+v//6v/+7qTEFNRTMuOTkuNVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV\"}";
+//static const char *payload = "/+MYxAAEaAIEeUAQAgBgNgP/////KQQ/////Lvrg+lcWYHgtjadzsbTq+yREu495tq9c6v/7vt/of7mna9v6/btUnU17Jun9/+MYxCkT26KW+YGBAj9v6vUh+zab//v/96C3/pu6H+pv//r/ycIIP4pcWWTRBBBAMXgNdbRaABQAAABRWKwgjQVX0ECmrb///+MYxBQSM0sWWYI4A++Z/////////////0rOZ3MP//7H44QEgxgdvRVMXHZseL//540B4JAvMPEgaA4/0nHjxLhRgAoAYAgA/+MYxAYIAAJfGYEQAMAJAIAQMAwX936/q/tWtv/2f/+v//6v/+7qTEFNRTMuOTkuNVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
+
 void addAudioChunkToQueue(uint8_t* buf)
 {
-    if (xQueueSend(audioQueue, buf, portMAX_DELAY) == pdPASS)
+    if (xQueueSend(audioQueue, buf, portMAX_DELAY) != pdPASS)
     {
-        // ESP_LOGE(PROGRAM_LOG_TAG, "TX AUDIO: Successfully sent the audio chunk to the audio queue.\n");
-    } else {
-        // ESP_LOGE(PROGRAM_LOG_TAG, "TX AUDIO: Error sending the audio chunk to the audio queue.\n");
+        ESP_LOGE(PROGRAM_LOG_TAG, "TX AUDIO: Error sending the audio chunk to the audio queue.\n");
     }
 }
 
@@ -129,13 +137,14 @@ bool I2S_Init() {
          .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX | I2S_MODE_PDM),
          .sample_rate = SAMPLE_RATE,
          .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT,
-         .channel_format = I2S_CHANNEL_FMT_ONLY_RIGHT, // although the SEL config should be left, it seems to transmit on right
+         .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT, // although the SEL config should be left, it seems to transmit on right
         //  .communication_format = (i2s_comm_format_t)(I2S_COMM_FORMAT_I2S | I2S_COMM_FORMAT_I2S_LSB),
-        // .communication_format = I2S_COMM_FORMAT_STAND_MSB,
-        .communication_format = I2S_COMM_FORMAT_I2S_MSB, //pcm data format
+        .communication_format = I2S_COMM_FORMAT_STAND_MSB,
+        // .communication_format = I2S_COMM_FORMAT_I2S_MSB, //pcm data format
          .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1, // high interrupt priority
-         .dma_buf_count = 4,
-         .dma_buf_len = DMA_BUF_SIZE  
+         .dma_buf_count = DMA_BUF_CNT,
+         .dma_buf_len = DMA_BUF_SIZE,  
+        // .use_apll = 0,
         };
 
   i2s_pin_config_t pins = {
@@ -166,29 +175,26 @@ void I2S_Quit() {
 
 
 void microphone_stream() {
-  // Buffer to receive data from microphone
-  uint32_t duration = 60;
-
   // Initialize I2S
   I2S_Init();
 
-  // data size in bytes - > this amount of data should be recorded from microphone
-//   uint32_t data_size = I2S_SAMPLE_RATE * I2S_BITS_PER_SAMPLE * duration / 8;
-
-  // Record until "file_size" bytes have been read from mic.
-  uint32_t counter = 0;
-  uint32_t bytes_written;
+  //count how many bytes we read from I2S
+  uint32_t bytes_read;
 
   ESP_LOGI(PROGRAM_LOG_TAG, "Recording Started");
 
+  uint8_t* buf = (uint8_t*)malloc(AUDIO_BUFFER_SIZE);
   while (true) {
-    uint8_t* buf = (uint8_t*)malloc(AUDIO_BUFFER_SIZE);
     // Read data from microphone
-    if (i2s_read(I2S_CHANNEL, buf, AUDIO_BUFFER_SIZE, &bytes_written, portMAX_DELAY) != ESP_OK) {
+    if (i2s_read(I2S_CHANNEL, buf, AUDIO_BUFFER_SIZE, &bytes_read, portMAX_DELAY) != ESP_OK) {
        ESP_LOGE(PROGRAM_LOG_TAG, "i2s_read() error");
     }
 
-    if(bytes_written != AUDIO_BUFFER_SIZE) {
+    // printf("Bytes read: %d\n", bytes_read);
+    printf("Proc period: %d\n", (xTaskGetTickCount() - lastTickTimeProc) * portTICK_PERIOD_MS);
+    lastTickTimeProc = xTaskGetTickCount();
+    
+    if(bytes_read != AUDIO_BUFFER_SIZE) {
        ESP_LOGE(PROGRAM_LOG_TAG, "Bytes written error");
     }
 
@@ -197,6 +203,7 @@ void microphone_stream() {
     // printf("Val2: %u \n", (uint16_t)((buf[2] << 8) | buf[3]));
     // printf("Val3: %u \n", (uint16_t)((buf[4] << 8) | buf[5]));
     // printf("Val3+1: %u \n", (uint16_t)((buf[6] << 8) | buf[7]));
+    // printf("Val1: %u \n", (uint16_t)(buf[0]));
     // printf("Val2: %u \n", (uint16_t)(buf[2]));
     // printf("Val3: %u \n", (uint16_t)(buf[4]));
     // printf("Val4: %u \n", (uint16_t)(buf[6]));
@@ -204,83 +211,59 @@ void microphone_stream() {
     // printf("value of buf: %.*s\n", AUDIO_BUFFER_SIZE, buf);
     // printf("pointer of buf         : %p\n", buf);
     // addAudioChunkToQueue(buf);
-    int b64EncodedAudioBufferLen = ((ceil(bytes_written / 3.0 ) * 4) + 1); //size increase due to inefficieny of base64 //+1 for padding, or something
-    unsigned char * b64EncodedAudio = (unsigned char*)malloc(b64EncodedAudioBufferLen);
-    size_t encodedAudioActualLen;
-    // printf("Attempting to base64 encode...\n");
-    //int b64res = mbedtls_base64_encode(b64EncodedAudio, b64EncodedAudioBufferLen, &encodedAudioActualLen, (unsigned char *)buf, bytes_written);
-    // printf("bytesWritten is: %d\n", (size_t)bytes_written);
-    // printf("computed len is: %d\n", b64EncodedAudioBufferLen);
-    int b64res = mbedtls_base64_encode(b64EncodedAudio, b64EncodedAudioBufferLen, &encodedAudioActualLen, (unsigned char *)buf, (size_t)bytes_written);
-    // printf("encodedAudioActualLen is: %d\n", (int)encodedAudioActualLen);
-    if(b64res != 0){
-        ESP_LOGE(PROGRAM_LOG_TAG, "Base 64 encoding failed.");
-    }
-    //b64EncodedAudio = base64_encode((unsigned char *)audioChunk, AUDIO_BUFFER_SIZE, &encodedAudioActualLen);
-    // // printf("Valn b64 audio: %s\n", b64EncodedAudio);
-    // // printf("Valn b64 audio length: %d\n", encodedAudioActualLen);
-    int jsonLength = b64EncodedAudioBufferLen + 256; //plus a bit for JSON extra info
-    char jsonAudioPacket[jsonLength];
-    snprintf(jsonAudioPacket, jsonLength, audioJsonTemplate, b64EncodedAudio);
-    // printf("Val json b64 audio: %s\n", jsonAudioPacket);
-    if (esp_websocket_client_is_connected(webSocketClient)) {
-        printf("Sending audio to WIS...\n");
-        esp_websocket_client_send_text(webSocketClient, jsonAudioPacket, strlen(jsonAudioPacket), portMAX_DELAY);
-        printf("Packet count is: %d", packet_count++);
-    }
 
-    // Increment the counter
-    counter += AUDIO_BUFFER_SIZE;
-    free(buf);
-    free(b64EncodedAudio);
+    // send the bytes to the audio processor task
+    size_t tx_bytes = xMessageBufferSend(audioMessageBuffer, buf, bytes_read, portMAX_DELAY);
+    // printf("Number of transmitted bytes in message buffer: %d\n", tx_bytes);
+    // printf("Sent to MB");
   }
+
+    //free the buffer memory
+    free(buf);
+
   ESP_LOGI(PROGRAM_LOG_TAG, "Recording finished");
 
   I2S_Quit();
 }
 
-// void sendAudioChunk(){
-//     audioSubscribed = true;
-//     // ESP_LOGE(PROGRAM_LOG_TAG, "making stuff\n");
-//     // unsigned char * stuff = (unsigned char*)malloc(2048);
-//     // ESP_LOGE(PROGRAM_LOG_TAG, "made stuff\n");
-//     while(true){
-//         uint8_t* audioChunk;
-//         if (xQueueReceive(audioQueue, &audioChunk, portMAX_DELAY) == pdTRUE){
-//             if (audioSubscribed){
-//                 // ESP_LOGE(PROGRAM_LOG_TAG, "RX AUDIO: Successfully processed an audio chunk from the audio queue.\n");
-//                 // printf("Size of AUDIO_BUFFER_SIZE: %d\n", (size_t)AUDIO_BUFFER_SIZE);
-//                 // printf("Input length: %d\n", b64EncodedAudioBufferLen);
-//                 // printf("Audiochunk: %s\n", audioChunk);
-//                 //printf("value of audio chunk: %.*s\n", AUDIO_BUFFER_SIZE, audioChunk);
-//                 printf("pointer of audio chunk 1: %p\n", audioChunk);
-//                 printf("pointer of audio chunk 3: %d\n", *audioChunk);
-//                 //unsigned char b64EncodedAudio[b64EncodedAudioBufferLen];
-//                 char * b64EncodedAudio = (char*)malloc(b64EncodedAudioBufferLen);
-//                 size_t encodedAudioActualLen;
-//                 // printf("Attempting to base64 encode...\n");
-//                 mbedtls_base64_encode((unsigned char *)b64EncodedAudio, b64EncodedAudioBufferLen, &encodedAudioActualLen, (unsigned char *)audioChunk, AUDIO_BUFFER_SIZE);
-//                 //b64EncodedAudio = base64_encode((unsigned char *)audioChunk, AUDIO_BUFFER_SIZE, &encodedAudioActualLen);
-//                 // printf("Valn b64 audio: %s\n", b64EncodedAudio);
-//                 // printf("Valn b64 audio length: %d\n", encodedAudioActualLen);
-//                 int jsonLength = b64EncodedAudioBufferLen + 256; //plus a bit for JSON extra info
-//                 char jsonAudioPacket[jsonLength];
-//                 snprintf(jsonAudioPacket, jsonLength, audioJsonTemplate, b64EncodedAudio);
-//                 // printf("Val json b64 audio: %s\n", jsonAudioPacket);
+//loop on receiving the latest audio chunk from the microphone and sending it to the WIS smart phone or cloud server
+void sendAudioChunk(){
+    audioSubscribed = true;
+    while(true){
+        uint8_t* audioChunk = (uint8_t*)malloc(audioMessageBufferLen);
+        int bytes_written = xMessageBufferReceive(audioMessageBuffer, audioChunk, audioMessageBufferLen, portMAX_DELAY);
+        lastTickTimeSend = xTaskGetTickCount();
+        // printf("Received from MB");
+        if (bytes_written != 0){
+            if (audioSubscribed){
+                // base 64 encode data and send it to the server
+                int b64EncodedAudioBufferLen = ((ceil(bytes_written / 3.0 ) * 4) + 1); //size increase due to inefficieny of base64 //+1 for padding, or something
+                unsigned char * b64EncodedAudio = (unsigned char*)malloc(b64EncodedAudioBufferLen);
+                size_t encodedAudioActualLen;
+                int b64res = mbedtls_base64_encode(b64EncodedAudio, b64EncodedAudioBufferLen, &encodedAudioActualLen, (unsigned char *)audioChunk, (size_t)bytes_written);
+                if(b64res == 0){
+                    int jsonLength = b64EncodedAudioBufferLen + 256; //plus a bit for JSON extra info
+                    char jsonAudioPacket[jsonLength];
+                    snprintf(jsonAudioPacket, jsonLength, audioJsonTemplate, b64EncodedAudio);
 
-//                 // if (esp_websocket_client_is_connected(webSocketClient)) {
-//                 //     printf("Sending audio to WIS.../n");
-//                 //     esp_websocket_client_send_text(webSocketClient, jsonAudioPacket, strlen(jsonAudioPacket), portMAX_DELAY);
-//                 // }
-
-//                 free(b64EncodedAudio);
-//             } else {
-//                 vTaskDelay(pdMS_TO_TICKS(250));
-//             }
-//         } else {
-//             ESP_LOGE(PROGRAM_LOG_TAG, "RX AUDIO: Error receiving the audio chunk to the audio queue.\n");
-//         }
-//     }
+                    //send JSON to WIS server
+                    if (esp_websocket_client_is_connected(webSocketClient)) {
+                        // printf("Sending audio to WIS...\n");
+                        esp_websocket_client_send_text(webSocketClient, jsonAudioPacket, strlen(jsonAudioPacket), portMAX_DELAY);
+                    }
+                } else{
+                    ESP_LOGE(PROGRAM_LOG_TAG, "Base 64 encoding failed.");
+                    continue;
+                }
+                free(b64EncodedAudio);
+            } else {
+                vTaskDelay(pdMS_TO_TICKS(250));
+            }
+            printf("Send time: %d\n", (xTaskGetTickCount() - lastTickTimeSend) * portTICK_PERIOD_MS);
+        }
+        free(audioChunk);
+    }
+}
 // }
 
 //WIFI***************************************************************************************************************************
@@ -374,7 +357,7 @@ int create_ipv4_socket()
     return -1;
   }
 
-  printf("... connected\n");
+//   printf("... connected\n");
   freeaddrinfo(res);
 
   // All set, socket is configured for sending and receiving
@@ -551,8 +534,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
         ESP_LOGI(TAG, "got ip:" IPSTR, IP2STR(&event->ip_info.ip));
         // snprintf(WIS_IP, sizeof(WIS_IP), IPSTR, IP2STR(&event->ip_info.ip));
-        // snprintf(WIS_IP, sizeof(WIS_IP), "192.168.95.188"); //DEBUG, comment this line to connect to hotspot host
-        snprintf(WIS_IP, sizeof(WIS_IP), "192.168.134.188"); //DEBUG, comment this line to connect to hotspot host
+        snprintf(WIS_IP, sizeof(WIS_IP), "192.168.18.188"); //DEBUG, comment this line to connect to hotspot host
         s_retry_num = 0;
         xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
         //start listening for UDP packets - WIS server advertising itself
@@ -661,8 +643,6 @@ static void websocket_event_handler(void *handler_args, esp_event_base_t base, i
     }
 }
 
-static const char *payload = "{\"MESSAGE_TYPE_LOCAL\" : \"AUDIO_CHUNK_DECRYPTED\", \"AUDIO_DATA\" : \"/+MYxAAEaAIEeUAQAgBgNgP/////KQQ/////Lvrg+lcWYHgtjadzsbTq+yREu495tq9c6v/7vt/of7mna9v6/btUnU17Jun9/+MYxCkT26KW+YGBAj9v6vUh+zab//v/96C3/pu6H+pv//r/ycIIP4pcWWTRBBBAMXgNdbRaABQAAABRWKwgjQVX0ECmrb///+MYxBQSM0sWWYI4A++Z/////////////0rOZ3MP//7H44QEgxgdvRVMXHZseL//540B4JAvMPEgaA4/0nHjxLhRgAoAYAgA/+MYxAYIAAJfGYEQAMAJAIAQMAwX936/q/tWtv/2f/+v//6v/+7qTEFNRTMuOTkuNVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV\"}";
-//static const char *payload = "/+MYxAAEaAIEeUAQAgBgNgP/////KQQ/////Lvrg+lcWYHgtjadzsbTq+yREu495tq9c6v/7vt/of7mna9v6/btUnU17Jun9/+MYxCkT26KW+YGBAj9v6vUh+zab//v/96C3/pu6H+pv//r/ycIIP4pcWWTRBBBAMXgNdbRaABQAAABRWKwgjQVX0ECmrb///+MYxBQSM0sWWYI4A++Z/////////////0rOZ3MP//7H44QEgxgdvRVMXHZseL//540B4JAvMPEgaA4/0nHjxLhRgAoAYAgA/+MYxAYIAAJfGYEQAMAJAIAQMAwX936/q/tWtv/2f/+v//6v/+7qTEFNRTMuOTkuNVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
 static void websocket_app_start()
 {
     esp_websocket_client_config_t websocket_cfg = {};
@@ -672,11 +652,14 @@ static void websocket_app_start()
     shutdown_sema = xSemaphoreCreateBinary();
 
     //websocket url/IP and port
-    //websocket_cfg.uri = WIS_IP;
-    // websocket_cfg.uri = "ws://192.168.2.102";
-    // websocket_cfg.uri = "ws://192.168.95.188";
-    // websocket_cfg.uri = "ws://192.168.95.99";
-    websocket_cfg.uri = "ws://192.168.134.188";
+    // websocket_cfg.uri = WIS_IP;
+    int wsUriLen = 1024;
+    char wsUri[wsUriLen];
+    snprintf(wsUri, wsUriLen, "ws://%s", WIS_IP);
+    // printf("WEBSOCKET address: %s", wsUri);
+    // websocket_cfg.uri = wsUri;
+    websocket_cfg.uri = "ws://192.168.18.188";
+    // websocket_cfg.uri = "ws://192.168.226.253";
     websocket_cfg.port = 8887;
 
     ESP_LOGI(TAG, "Connecting to %s...", websocket_cfg.uri);
@@ -728,56 +711,56 @@ static void websocket_app_start()
 #define PORT 4567
 
 
-static void tcp_client_task(void *pvParameters)
-{
-    char rx_buffer[128];
-    char host_ip[] = HOST_IP_ADDR;
-    int addr_family = 0;
-    int ip_protocol = 0;
+// static void tcp_client_task(void *pvParameters)
+// {
+//     char rx_buffer[128];
+//     char host_ip[] = HOST_IP_ADDR;
+//     int addr_family = 0;
+//     int ip_protocol = 0;
 
-    struct sockaddr_in dest_addr;
-    dest_addr.sin_addr.s_addr = inet_addr(host_ip);
-    dest_addr.sin_family = AF_INET;
-    dest_addr.sin_port = htons(PORT);
-    addr_family = AF_INET;
-    ip_protocol = IPPROTO_IP;
-    int sock =  socket(addr_family, SOCK_STREAM, ip_protocol);
-    if (sock < 0) {
-        ESP_LOGE(TAG, "Unable to create socket: errno %d", errno);
-        return;
-    }
-    ESP_LOGI(TAG, "Socket created, connecting to %s:%d", host_ip, PORT);
+//     struct sockaddr_in dest_addr;
+//     dest_addr.sin_addr.s_addr = inet_addr(host_ip);
+//     dest_addr.sin_family = AF_INET;
+//     dest_addr.sin_port = htons(PORT);
+//     addr_family = AF_INET;
+//     ip_protocol = IPPROTO_IP;
+//     int sock =  socket(addr_family, SOCK_STREAM, ip_protocol);
+//     if (sock < 0) {
+//         ESP_LOGE(TAG, "Unable to create socket: errno %d", errno);
+//         return;
+//     }
+//     ESP_LOGI(TAG, "Socket created, connecting to %s:%d", host_ip, PORT);
 
-    int err = connect(sock, (struct sockaddr *)&dest_addr, sizeof(struct sockaddr_in6));
-    if (err != 0) {
-        ESP_LOGE(TAG, "Socket unable to connect: errno %d", errno);
-        return;
-    }
-    ESP_LOGI(TAG, "Successfully connected");
+//     int err = connect(sock, (struct sockaddr *)&dest_addr, sizeof(struct sockaddr_in6));
+//     if (err != 0) {
+//         ESP_LOGE(TAG, "Socket unable to connect: errno %d", errno);
+//         return;
+//     }
+//     ESP_LOGI(TAG, "Successfully connected");
 
-    while (1) {
-        // ESP_LOGI(TAG, "Sending message over audio socket");
-        // int err = send(sock, payload, strlen(payload), 0);
-        // if (err < 0) {
-        //     ESP_LOGE(TAG, "Error occurred during sending: errno %d", errno);
-        //     break;
-        // }
+//     while (1) {
+//         // ESP_LOGI(TAG, "Sending message over audio socket");
+//         // int err = send(sock, payload, strlen(payload), 0);
+//         // if (err < 0) {
+//         //     ESP_LOGE(TAG, "Error occurred during sending: errno %d", errno);
+//         //     break;
+//         // }
 
-        // int len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
-        // // Error occurred during receiving
-        // if (len < 0) {
-        //     ESP_LOGE(TAG, "recv failed: errno %d", errno);
-        //     break;
-        // }
-        // // Data received
-        // else {
-        //     rx_buffer[len] = 0; // Null-terminate whatever we received and treat like a string
-        //     ESP_LOGI(TAG, "Received %d bytes from %s:", len, host_ip);
-        //     ESP_LOGI(TAG, "%s", rx_buffer);
-        // }
+//         // int len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
+//         // // Error occurred during receiving
+//         // if (len < 0) {
+//         //     ESP_LOGE(TAG, "recv failed: errno %d", errno);
+//         //     break;
+//         // }
+//         // // Data received
+//         // else {
+//         //     rx_buffer[len] = 0; // Null-terminate whatever we received and treat like a string
+//         //     ESP_LOGI(TAG, "Received %d bytes from %s:", len, host_ip);
+//         //     ESP_LOGI(TAG, "%s", rx_buffer);
+//         // }
 
-        vTaskDelay(100 / portTICK_PERIOD_MS);
-    }
+//         vTaskDelay(100 / portTICK_PERIOD_MS);
+//     }
 
     // if (sock != -1) {
     //     ESP_LOGE(TAG, "Shutting down socket and restarting...");
@@ -785,12 +768,12 @@ static void tcp_client_task(void *pvParameters)
     //     close(sock);
     // }
 
-    while(1){
-        vTaskDelay(3000 / portTICK_PERIOD_MS);
-    }
+//     while(1){
+//         vTaskDelay(3000 / portTICK_PERIOD_MS);
+//     }
 
-    vTaskDelete(NULL);
-}
+//     vTaskDelete(NULL);
+// }
 
 
 void app_main(void)
@@ -820,7 +803,9 @@ void app_main(void)
     // esp_log_level_set("TRANS_TCP", ESP_LOG_DEBUG);
     //xTaskCreate(tcp_client_task, "tcp_client", 4096, NULL, 5, NULL);
 
-     /************************* Create Integer Queue ****************************/
+     /************************* Create audio buffer****************************/
+    audioMessageBuffer = xMessageBufferCreate(audioMessageBufferLen*4);
+    assert(audioMessageBuffer);
     audioQueue = xQueueCreate(250, sizeof(uint8_t*));
     if (audioQueue == 0)  // Queue not created
     {
@@ -831,7 +816,7 @@ void app_main(void)
 
     //send audio task
     TaskHandle_t sendAudioTaskHandle = NULL;
-    //xTaskCreate(sendAudioChunk, "send_audio_chunk_task", 4*8192, NULL, 2, &sendAudioTaskHandle);
+    xTaskCreate(sendAudioChunk, "send_audio_chunk_task", 4*8192, NULL, 2, &sendAudioTaskHandle);
 
     //start microphone input AFTER STARTING AUDIO QUEUE
     TaskHandle_t microphoneTaskHandle = NULL;
