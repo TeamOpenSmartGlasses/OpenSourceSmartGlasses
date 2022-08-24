@@ -69,13 +69,13 @@ long total_read = 0;
 volatile uint8_t curr_audio_val = 0;
 volatile bool audioSubscribed = false;
 char WIS_IP[16];
-const size_t AUDIO_BUFFER_SIZE = 4096;
-const size_t DMA_BUF_SIZE = 1024; //number of samples, not number of bytes
-const size_t DMA_BUF_CNT = 8;
+const size_t AUDIO_BUFFER_SIZE = 1024;
+const size_t DMA_BUF_SIZE = 256; //number of samples, not number of bytes
+const size_t DMA_BUF_CNT = 2;
 
 xQueueHandle audioQueue;
 MessageBufferHandle_t audioMessageBuffer;
-const size_t audioMessageBufferLen = AUDIO_BUFFER_SIZE + sizeof(size_t); // room for audio buffer, room for one size_t for MessageBuffer overhead
+const size_t audioMessageBufferLen = (AUDIO_BUFFER_SIZE * sizeof(uint16_t)) + sizeof(size_t); // room for audio buffer, room for one size_t for MessageBuffer overhead
 
 int packet_count = 0;
 
@@ -133,19 +133,51 @@ bool I2S_Init() {
     // i2s_config.dma_buf_len = DMA_BUFF_LEN;  
 
 
+    // i2s_config_t i2s_config = {
+    //      .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX | I2S_MODE_PDM),
+    //      .sample_rate = SAMPLE_RATE,
+    //      .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT,
+    //      .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,
+    //     //  .communication_format = (i2s_comm_format_t)(I2S_COMM_FORMAT_I2S | I2S_COMM_FORMAT_I2S_LSB),
+    //     // .communication_format = I2S_COMM_FORMAT_STAND_MSB,
+    //     // .communication_format = I2S_COMM_FORMAT_I2S_MSB, //pcm data format
+    //      .communication_format = I2S_COMM_FORMAT_STAND_PCM_SHORT,
+    //      .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1, // high interrupt priority
+    //      .dma_buf_count = DMA_BUF_CNT,
+    //      .dma_buf_len = DMA_BUF_SIZE,  
+    //     .use_apll = 0,
+    //     };
+
+    // i2s_config_t i2s_config = {
+    //     .mode = I2S_MODE_MASTER | I2S_MODE_RX | I2S_MODE_PDM,
+    //     .sample_rate = 16000,
+    //     .bits_per_sample = 32,
+    //     .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT, //OG used right left
+    //     .communication_format = I2S_COMM_FORMAT_PCM,
+    //     // .dma_buf_count = 2,
+    //     // .dma_buf_len = 8,
+    //      .dma_buf_count = DMA_BUF_CNT,
+    //      .dma_buf_len = DMA_BUF_SIZE,  
+    //     .use_apll = 0,
+    //     .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1
+    // };
+
+    // pdm config for reading from left channel of PDM
     i2s_config_t i2s_config = {
-         .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX | I2S_MODE_PDM),
-         .sample_rate = SAMPLE_RATE,
-         .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT,
-         .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT, // although the SEL config should be left, it seems to transmit on right
-        //  .communication_format = (i2s_comm_format_t)(I2S_COMM_FORMAT_I2S | I2S_COMM_FORMAT_I2S_LSB),
-        .communication_format = I2S_COMM_FORMAT_STAND_MSB,
-        // .communication_format = I2S_COMM_FORMAT_I2S_MSB, //pcm data format
-         .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1, // high interrupt priority
-         .dma_buf_count = DMA_BUF_CNT,
-         .dma_buf_len = DMA_BUF_SIZE,  
-        // .use_apll = 0,
+        .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX | I2S_MODE_PDM),
+        .sample_rate = 16000,
+        .bits_per_sample = I2S_BITS_PER_SAMPLE_32BIT,
+        .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,
+        .communication_format = I2S_COMM_FORMAT_STAND_PCM_SHORT,
+        .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1,
+        .dma_buf_count = 4,
+        .dma_buf_len = 1024,
+        .use_apll = false,
+        .tx_desc_auto_clear = false,
+        .fixed_mclk = 0
         };
+
+
 
   i2s_pin_config_t pins = {
     .bck_io_num = I2S_PIN_BIT_CLOCK,
@@ -158,6 +190,8 @@ bool I2S_Init() {
     // Serial.println("i2s_driver_install() error");
     return false;
   }
+
+//   i2s_set_pdm_rx_down_sample(I2S_CHANNEL, I2S_PDM_DSR_16S); //set to 16 so mic is in high performance mode
 
   if (i2s_set_pin(I2S_NUM_0, &pins) != ESP_OK) {
     // Serial.println("i2s_set_pin() error");
@@ -173,6 +207,26 @@ void I2S_Quit() {
   }
 }
 
+#define min(a,b) (((a)<(b))?(a):(b))
+
+int i2s_read_custom(int16_t *samples, int count)
+{
+    int32_t raw_samples[256];
+    int sample_index = 0;
+    while (count > 0)
+    {
+        size_t bytes_read = 0;
+        i2s_read(I2S_PORT, (void **)raw_samples, sizeof(int32_t) * min(count, 256), &bytes_read, portMAX_DELAY);
+        int samples_read = bytes_read / sizeof(int32_t);
+        for (int i = 0; i < samples_read; i++)
+        {
+            samples[sample_index] = (raw_samples[i] & 0xFFFFFFF0) >> 11;
+            sample_index++;
+            count--;
+        }
+    }
+    return sample_index;
+}
 
 void microphone_stream() {
   // Initialize I2S
@@ -183,18 +237,22 @@ void microphone_stream() {
 
   ESP_LOGI(PROGRAM_LOG_TAG, "Recording Started");
 
-  uint8_t* buf = (uint8_t*)malloc(AUDIO_BUFFER_SIZE);
+//   uint8_t* buf = (uint8_t*)malloc(AUDIO_BUFFER_SIZE);
+  int16_t *buf = (int16_t *)malloc(sizeof(uint16_t) * AUDIO_BUFFER_SIZE);
   while (true) {
     // Read data from microphone
-    if (i2s_read(I2S_CHANNEL, buf, AUDIO_BUFFER_SIZE, &bytes_read, portMAX_DELAY) != ESP_OK) {
-       ESP_LOGE(PROGRAM_LOG_TAG, "i2s_read() error");
-    }
+    // if (i2s_read(I2S_CHANNEL, buf, AUDIO_BUFFER_SIZE, &bytes_read, portMAX_DELAY) != ESP_OK) {
+    //    ESP_LOGE(PROGRAM_LOG_TAG, "i2s_read() error");
+    // }
+    int samples_read = i2s_read_custom(buf, AUDIO_BUFFER_SIZE);
+    int bytes_read = samples_read * sizeof(uint16_t);
+    printf("Bytes read: %d\n", bytes_read);
 
     // printf("Bytes read: %d\n", bytes_read);
     printf("Proc period: %d\n", (xTaskGetTickCount() - lastTickTimeProc) * portTICK_PERIOD_MS);
     lastTickTimeProc = xTaskGetTickCount();
     
-    if(bytes_read != AUDIO_BUFFER_SIZE) {
+    if(samples_read != AUDIO_BUFFER_SIZE) {
        ESP_LOGE(PROGRAM_LOG_TAG, "Bytes written error");
     }
 
@@ -233,11 +291,13 @@ void sendAudioChunk(){
         uint8_t* audioChunk = (uint8_t*)malloc(audioMessageBufferLen);
         int bytes_written = xMessageBufferReceive(audioMessageBuffer, audioChunk, audioMessageBufferLen, portMAX_DELAY);
         lastTickTimeSend = xTaskGetTickCount();
-        // printf("Received from MB");
+        printf("Received from MB this size buffer: %d\n", audioMessageBufferLen);
+        printf("Bytes written: %d\n", bytes_written);
         if (bytes_written != 0){
             if (audioSubscribed){
                 // base 64 encode data and send it to the server
                 int b64EncodedAudioBufferLen = ((ceil(bytes_written / 3.0 ) * 4) + 1); //size increase due to inefficieny of base64 //+1 for padding, or something
+                printf("Tryna b64: %d\n", b64EncodedAudioBufferLen);
                 unsigned char * b64EncodedAudio = (unsigned char*)malloc(b64EncodedAudioBufferLen);
                 size_t encodedAudioActualLen;
                 int b64res = mbedtls_base64_encode(b64EncodedAudio, b64EncodedAudioBufferLen, &encodedAudioActualLen, (unsigned char *)audioChunk, (size_t)bytes_written);
@@ -250,9 +310,11 @@ void sendAudioChunk(){
                     if (esp_websocket_client_is_connected(webSocketClient)) {
                         // printf("Sending audio to WIS...\n");
                         esp_websocket_client_send_text(webSocketClient, jsonAudioPacket, strlen(jsonAudioPacket), portMAX_DELAY);
+                        // esp_websocket_client_send_text(webSocketClient, (char *)audioChunk, strlen((char *)audioChunk), portMAX_DELAY);
                     }
                 } else{
                     ESP_LOGE(PROGRAM_LOG_TAG, "Base 64 encoding failed.");
+                    free(b64EncodedAudio);
                     continue;
                 }
                 free(b64EncodedAudio);
@@ -534,7 +596,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
         ESP_LOGI(TAG, "got ip:" IPSTR, IP2STR(&event->ip_info.ip));
         // snprintf(WIS_IP, sizeof(WIS_IP), IPSTR, IP2STR(&event->ip_info.ip));
-        snprintf(WIS_IP, sizeof(WIS_IP), "192.168.18.188"); //DEBUG, comment this line to connect to hotspot host
+        snprintf(WIS_IP, sizeof(WIS_IP), "192.168.185.188"); //DEBUG, comment this line to connect to hotspot host
         s_retry_num = 0;
         xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
         //start listening for UDP packets - WIS server advertising itself
@@ -658,8 +720,8 @@ static void websocket_app_start()
     snprintf(wsUri, wsUriLen, "ws://%s", WIS_IP);
     // printf("WEBSOCKET address: %s", wsUri);
     // websocket_cfg.uri = wsUri;
-    websocket_cfg.uri = "ws://192.168.18.188";
-    // websocket_cfg.uri = "ws://192.168.226.253";
+    websocket_cfg.uri = "ws://192.168.185.188";
+    // websocket_cfg.uri = "ws://192.168.18.157";
     websocket_cfg.port = 8887;
 
     ESP_LOGI(TAG, "Connecting to %s...", websocket_cfg.uri);
@@ -797,14 +859,14 @@ void app_main(void)
     //connect to WIS web socket
     esp_log_level_set("WEBSOCKET_CLIENT", ESP_LOG_DEBUG);
     TaskHandle_t webSocketTask = NULL;
-    xTaskCreate(websocket_app_start, "web_socket_task", 8192, NULL, 2, &webSocketTask);
+    xTaskCreate(websocket_app_start, "web_socket_task", 6*4096, NULL, 1, &webSocketTask);
 
     //connect to audio TCP socket stream
     // esp_log_level_set("TRANS_TCP", ESP_LOG_DEBUG);
     //xTaskCreate(tcp_client_task, "tcp_client", 4096, NULL, 5, NULL);
 
      /************************* Create audio buffer****************************/
-    audioMessageBuffer = xMessageBufferCreate(audioMessageBufferLen*4);
+    audioMessageBuffer = xMessageBufferCreate(audioMessageBufferLen * 4); //hold n message at once, where n is the constant multiplier
     assert(audioMessageBuffer);
     audioQueue = xQueueCreate(250, sizeof(uint8_t*));
     if (audioQueue == 0)  // Queue not created
@@ -816,11 +878,11 @@ void app_main(void)
 
     //send audio task
     TaskHandle_t sendAudioTaskHandle = NULL;
-    xTaskCreate(sendAudioChunk, "send_audio_chunk_task", 4*8192, NULL, 2, &sendAudioTaskHandle);
+    xTaskCreate(sendAudioChunk, "send_audio_chunk_task", 6*4096, NULL, 1, &sendAudioTaskHandle);
 
     //start microphone input AFTER STARTING AUDIO QUEUE
     TaskHandle_t microphoneTaskHandle = NULL;
-    xTaskCreate(microphone_stream, "microphone_stream_task", 4*8192, NULL, 2, &microphoneTaskHandle);
+    xTaskCreate(microphone_stream, "microphone_stream_task", 6*4096, NULL, 1, &microphoneTaskHandle);
 
     return;
 }
