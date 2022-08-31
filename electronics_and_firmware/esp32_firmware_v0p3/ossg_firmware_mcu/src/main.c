@@ -35,8 +35,8 @@ TickType_t lastTickTimeSend;
 TickType_t lastTickTimeProc;
 
 esp_websocket_client_handle_t webSocketClient;
-// static const char *audioJsonTemplate = "{\"MESSAGE_TYPE_LOCAL\" : \"AUDIO_CHUNK_DECRYPTED\", \"AUDIO_DATA\" : \"%s\"}";
-static const char *audioJsonTemplate = "%s";
+static const char *audioJsonTemplate = "{\"MESSAGE_TYPE_LOCAL\" : \"AUDIO_CHUNK_DECRYPTED\", \"AUDIO_DATA\" : \"%s\"}";
+// static const char *audioJsonTemplate = "%s";
 
 //AUDIO**********************************************************************************************************************
 
@@ -246,10 +246,10 @@ void microphone_stream() {
     // }
     int samples_read = i2s_read_custom(buf, AUDIO_BUFFER_SIZE);
     int bytes_read = samples_read * sizeof(uint16_t);
-    printf("Bytes read: %d\n", bytes_read);
+    // printf("Bytes read: %d\n", bytes_read);
 
     // printf("Bytes read: %d\n", bytes_read);
-    printf("Proc period: %d\n", (xTaskGetTickCount() - lastTickTimeProc) * portTICK_PERIOD_MS);
+    // printf("Proc period: %d\n", (xTaskGetTickCount() - lastTickTimeProc) * portTICK_PERIOD_MS);
     lastTickTimeProc = xTaskGetTickCount();
     
     if(samples_read != AUDIO_BUFFER_SIZE) {
@@ -291,13 +291,13 @@ void sendAudioChunk(){
         uint8_t* audioChunk = (uint8_t*)malloc(audioMessageBufferLen);
         int bytes_written = xMessageBufferReceive(audioMessageBuffer, audioChunk, audioMessageBufferLen, portMAX_DELAY);
         lastTickTimeSend = xTaskGetTickCount();
-        printf("Received from MB this size buffer: %d\n", audioMessageBufferLen);
-        printf("Bytes written: %d\n", bytes_written);
+        // printf("Received from MB this size buffer: %d\n", audioMessageBufferLen);
+        // printf("Bytes written: %d\n", bytes_written);
         if (bytes_written != 0){
             if (audioSubscribed){
                 // base 64 encode data and send it to the server
                 int b64EncodedAudioBufferLen = ((ceil(bytes_written / 3.0 ) * 4) + 1); //size increase due to inefficieny of base64 //+1 for padding, or something
-                printf("Tryna b64: %d\n", b64EncodedAudioBufferLen);
+                // printf("Tryna b64: %d\n", b64EncodedAudioBufferLen);
                 unsigned char * b64EncodedAudio = (unsigned char*)malloc(b64EncodedAudioBufferLen);
                 size_t encodedAudioActualLen;
                 int b64res = mbedtls_base64_encode(b64EncodedAudio, b64EncodedAudioBufferLen, &encodedAudioActualLen, (unsigned char *)audioChunk, (size_t)bytes_written);
@@ -321,7 +321,7 @@ void sendAudioChunk(){
             } else {
                 vTaskDelay(pdMS_TO_TICKS(250));
             }
-            printf("Send time: %d\n", (xTaskGetTickCount() - lastTickTimeSend) * portTICK_PERIOD_MS);
+            // printf("Send time: %d\n", (xTaskGetTickCount() - lastTickTimeSend) * portTICK_PERIOD_MS);
         }
         free(audioChunk);
     }
@@ -595,8 +595,8 @@ static void event_handler(void* arg, esp_event_base_t event_base,
     } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
         ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
         ESP_LOGI(TAG, "got ip:" IPSTR, IP2STR(&event->ip_info.ip));
-        // snprintf(WIS_IP, sizeof(WIS_IP), IPSTR, IP2STR(&event->ip_info.ip));
-        snprintf(WIS_IP, sizeof(WIS_IP), "192.168.185.188"); //DEBUG, comment this line to connect to hotspot host
+        snprintf(WIS_IP, sizeof(WIS_IP), IPSTR, IP2STR(&event->ip_info.ip));
+        // snprintf(WIS_IP, sizeof(WIS_IP), "192.168.35.188"); //DEBUG, comment this line to connect to hotspot host
         s_retry_num = 0;
         xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
         //start listening for UDP packets - WIS server advertising itself
@@ -720,8 +720,9 @@ static void websocket_app_start()
     snprintf(wsUri, wsUriLen, "ws://%s", WIS_IP);
     // printf("WEBSOCKET address: %s", wsUri);
     // websocket_cfg.uri = wsUri;
-    websocket_cfg.uri = "ws://192.168.185.188";
+    // websocket_cfg.uri = "ws://192.168.35.188";
     // websocket_cfg.uri = "ws://192.168.18.157";
+    websocket_cfg.uri = "ws://192.168.35.187";
     websocket_cfg.port = 8887;
 
     ESP_LOGI(TAG, "Connecting to %s...", websocket_cfg.uri);
