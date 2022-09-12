@@ -9,6 +9,11 @@ We're building open source smart glasses designed to be:
 
 This repo holds mechanical, electrical, and software files for the open source smartglasses developed by Team Open Smart Glasses.
 
+## Videos
+
+[![Open Source Smart Glasses Prototype Project/Progress Video](res/thumbnail_wis_demo_part3_beta_release_play.jpg)](https://www.youtube.com/watch?v=PwmGNWkpKW8 "Open Source Smart Glasses")
+
+
 ## Images
 
 ![OSSG CAD Render](res/MSArender3_crop.png)
