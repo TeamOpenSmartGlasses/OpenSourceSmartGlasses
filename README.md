@@ -11,7 +11,7 @@ This repo holds mechanical, electrical, and software files for the open source s
 
 ## Videos
 
-[![Open Source Smart Glasses Prototype Project/Progress Video](res/thumbnail_wis_demo_part3_beta_release_play.jpg)](https://www.youtube.com/watch?v=PwmGNWkpKW8 "Open Source Smart Glasses")
+[![Open Source Smart Glasses Prototype Project/Progress Video](res/thumbnail_ossg_play.jpg)](https://www.youtube.com/watch?v=PwmGNWkpKW8 "Open Source Smart Glasses")
 
 
 ## Images
