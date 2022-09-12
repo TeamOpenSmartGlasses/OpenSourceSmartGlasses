@@ -69,6 +69,7 @@ long total_read = 0;
 volatile uint8_t curr_audio_val = 0;
 volatile bool audioSubscribed = false;
 char WIS_IP[16];
+char WIS_WEBSOCKET_IP[16];
 const size_t AUDIO_BUFFER_SIZE = 1024;
 const size_t DMA_BUF_SIZE = 256; //number of samples, not number of bytes
 const size_t DMA_BUF_CNT = 2;
@@ -220,7 +221,7 @@ int i2s_read_custom(int16_t *samples, int count)
         int samples_read = bytes_read / sizeof(int32_t);
         for (int i = 0; i < samples_read; i++)
         {
-            samples[sample_index] = (raw_samples[i] & 0xFFFFFFF0) >> 11;
+            samples[sample_index] = (raw_samples[i] & 0xFFFFFFF0) >> 16;
             sample_index++;
             count--;
         }
@@ -345,7 +346,7 @@ void sendAudioChunk(){
 #define RECEIVER_PORT_NUM 8891
 #define WIS_WEBSOCKET_COMMS_PORT 8887
 
-#define EXAMPLE_ESP_MAXIMUM_RETRY  20
+#define EXAMPLE_ESP_MAXIMUM_RETRY  100000
 
 #if CONFIG_ESP_WIFI_AUTH_OPEN
 #define ESP_WIFI_SCAN_AUTH_MODE_THRESHOLD WIFI_AUTH_OPEN
@@ -578,12 +579,24 @@ void udp_listen_task()
 //     close(socket_fd); 
 // }
 
+
+//this should be done within websocket, but it works for now
+void update_ws_ip(){
+    if (!esp_websocket_client_is_connected(webSocketClient)) {
+        int wsUriLen = 1024;
+        char wsUri[wsUriLen];
+        snprintf(wsUri, wsUriLen, "ws://%s", WIS_WEBSOCKET_IP);
+        esp_websocket_client_set_uri(webSocketClient, wsUri);
+    }
+}
+
 static void event_handler(void* arg, esp_event_base_t event_base,
                                 int32_t event_id, void* event_data)
 {
     if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
         esp_wifi_connect();
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
+        //kill websocket
         if (s_retry_num < EXAMPLE_ESP_MAXIMUM_RETRY) {
             esp_wifi_connect();
             s_retry_num++;
@@ -596,7 +609,11 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
         ESP_LOGI(TAG, "got ip:" IPSTR, IP2STR(&event->ip_info.ip));
         snprintf(WIS_IP, sizeof(WIS_IP), IPSTR, IP2STR(&event->ip_info.ip));
-        // snprintf(WIS_IP, sizeof(WIS_IP), "192.168.35.188"); //DEBUG, comment this line to connect to hotspot host
+        snprintf(WIS_WEBSOCKET_IP, sizeof(WIS_WEBSOCKET_IP), IPSTR, IP2STR(&event->ip_info.gw));
+        printf("WIS_IP is %s", WIS_IP);
+        printf("WIS_WEBSOCKET_IP is %s", WIS_WEBSOCKET_IP);
+        update_ws_ip();
+        // snprintf(WIS_IP, sizeof(WIS_IP), "192.168.15.188"); //DEBUG, comment this line to connect to hotspot host
         s_retry_num = 0;
         xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
         //start listening for UDP packets - WIS server advertising itself
@@ -604,6 +621,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,
         //xTaskCreate(&tcp_connect_task, "tcp_connect_thread", 2048, NULL, 5, NULL);
     }
 }
+
 
 void wifi_init_sta(void)
 {
@@ -690,18 +708,38 @@ static void websocket_event_handler(void *handler_args, esp_event_base_t base, i
         break;
     case WEBSOCKET_EVENT_DISCONNECTED:
         ESP_LOGI(TAG, "WEBSOCKET_EVENT_DISCONNECTED");
+        //reconnect
         break;
     case WEBSOCKET_EVENT_DATA:
         ESP_LOGI(TAG, "WEBSOCKET_EVENT_DATA");
         ESP_LOGI(TAG, "Received opcode=%d", data->op_code);
         ESP_LOGW(TAG, "Received=%.*s", data->data_len, (char *)data->data_ptr);
         ESP_LOGW(TAG, "Total payload length=%d, data_len=%d, current payload offset=%d\r\n", data->payload_len, data->data_len, data->payload_offset);
-
         //xTimerReset(shutdown_signal_timer, portMAX_DELAY);
         break;
     case WEBSOCKET_EVENT_ERROR:
-        ESP_LOGI(TAG, "WEBSOCKET_EVENT_ERROR");
+        printf("WEBSOCKET_EVENT_ERROR");
         break;
+    default:
+        ESP_LOGI(TAG, "WEBSOCKET EVENT WAS: %d", event_id);
+    }
+}
+
+static void reconnect_websocket(){
+    //close down the socket
+    esp_websocket_client_close(webSocketClient, portMAX_DELAY);
+
+    //connect the socket again
+
+}
+
+static void ping_loop_task(){
+    while(true){
+        if (esp_websocket_client_is_connected(webSocketClient)) {
+            char ping[64] = "ping bitch";
+            esp_websocket_client_send_text(webSocketClient, ping, strlen(ping), portMAX_DELAY);
+        }
+        vTaskDelay(500 / portTICK_RATE_MS);
     }
 }
 
@@ -717,12 +755,13 @@ static void websocket_app_start()
     // websocket_cfg.uri = WIS_IP;
     int wsUriLen = 1024;
     char wsUri[wsUriLen];
-    snprintf(wsUri, wsUriLen, "ws://%s", WIS_IP);
+    snprintf(wsUri, wsUriLen, "ws://%s", WIS_WEBSOCKET_IP);
     // printf("WEBSOCKET address: %s", wsUri);
+    // printf("OTHER WEBSOCKET ADDY: ws://192.168.35.241");
     // websocket_cfg.uri = wsUri;
-    // websocket_cfg.uri = "ws://192.168.35.188";
-    // websocket_cfg.uri = "ws://192.168.18.157";
-    websocket_cfg.uri = "ws://192.168.35.187";
+    // websocket_cfg.uri = "ws://192.168.15.188";
+    // websocket_cfg.uri = "ws://192.168.35.241";
+    websocket_cfg.uri = wsUri;
     websocket_cfg.port = 8887;
 
     ESP_LOGI(TAG, "Connecting to %s...", websocket_cfg.uri);
@@ -768,6 +807,10 @@ static void websocket_app_start()
 #include "lwip/err.h"
 #include "lwip/sockets.h"
 
+#ifdef WEBSOCKET_RECONNECT_TIMEOUT_MS
+#undef WEBSOCKET_RECONNECT_TIMEOUT_MS
+#define WEBSOCKET_RECONNECT_TIMEOUT_MS  (500) //change timeout of websocket retry in milliseconds
+#endif 
 
 //TCP connection params
 #define HOST_IP_ADDR "192.168.66.144"
@@ -861,6 +904,10 @@ void app_main(void)
     esp_log_level_set("WEBSOCKET_CLIENT", ESP_LOG_DEBUG);
     TaskHandle_t webSocketTask = NULL;
     xTaskCreate(websocket_app_start, "web_socket_task", 6*4096, NULL, 1, &webSocketTask);
+
+    //start websocket pingwer
+    TaskHandle_t webSocketPingTask = NULL;
+    xTaskCreate(ping_loop_task, "ping_loop_task", 4096, NULL, 1, &webSocketPingTask);
 
     //connect to audio TCP socket stream
     // esp_log_level_set("TRANS_TCP", ESP_LOG_DEBUG);
