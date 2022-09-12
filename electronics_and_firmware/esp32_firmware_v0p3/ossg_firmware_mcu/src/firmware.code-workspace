@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "firmware",
+			"path": "../../../../../../../devdir/StimMusicIncorporated/firmware"
+		},
+		{
+			"name": "ossg_firmware_mcu",
+			"path": ".."
+		}
+	],
+	"settings": {}
+}
