@@ -369,7 +369,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "OSSG_v0p3.kicad_pro",
+    "filename": "OSSG_v0p4.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -468,6 +468,10 @@
     [
       "e63e39d7-6ac0-4ffd-8aa3-1841a4541b55",
       ""
+    ],
+    [
+      "34a40e42-7107-4de0-9230-08b651254313",
+      "Power"
     ]
   ],
   "text_variables": {}
