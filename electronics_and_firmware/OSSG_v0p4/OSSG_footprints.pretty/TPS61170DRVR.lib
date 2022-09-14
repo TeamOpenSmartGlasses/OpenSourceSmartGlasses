@@ -1,0 +1,25 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#(c) SnapEDA 2016 (snapeda.com)
+#This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA) with Design Exception 1.0
+#
+# TPS61170DRVR
+#
+DEF TPS61170DRVR U 0 40 Y Y 1 L N
+F0 "U" -500 539 50 H V L BNN
+F1 "TPS61170DRVR" -500 -657 50 H V L BNN
+F2 "SON65P200X200X80-7N" 0 0 50 H I L BNN
+F3 "" 0 0 50 H I L BNN
+DRAW
+S -500 -500 500 500 0 0 16 f
+X CTRL 5 -700 400 200 R 40 40 0 0 I 
+X FB 1 -700 300 200 R 40 40 0 0 I 
+X SW 4 -700 200 200 R 40 40 0 0 I 
+X VIN 6 -700 100 200 R 40 40 0 0 I 
+X THERMALPAD 7 -700 -100 200 R 40 40 0 0 B 
+X COMP 2 700 400 200 L 40 40 0 0 O 
+X GND 3 700 -300 200 L 40 40 0 0 W 
+ENDDRAW
+ENDDEF
+#
+# End Library

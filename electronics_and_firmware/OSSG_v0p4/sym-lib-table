@@ -1,0 +1,9 @@
+(sym_lib_table
+  (lib (name "OSSG_components_lib")(type "KiCad")(uri "${KIPRJMOD}/OSSG_components_lib.kicad_sym")(options "")(descr ""))
+  (lib (name "NCP167BMX330TBG")(type "Legacy")(uri "${KIPRJMOD}/NCP167BMX330TBG.lib")(options "")(descr ""))
+  (lib (name "microphone-rescue")(type "Legacy")(uri "${KIPRJMOD}/microphone/endpiece_mic_board_v0p1/microphone-rescue.lib")(options "")(descr ""))
+  (lib (name "microphone-cache")(type "Legacy")(uri "${KIPRJMOD}/microphone/endpiece_mic_board_v0p1/microphone-cache.lib")(options "")(descr ""))
+  (lib (name "wch-usb-uart")(type "KiCad")(uri "${KIPRJMOD}/CH91012F_lib/wch-usb-uart.kicad_sym")(options "")(descr ""))
+  (lib (name "TPS61170DRVR")(type "Legacy")(uri "${KIPRJMOD}/OSSG_footprints.pretty/TPS61170DRVR.lib")(options "")(descr ""))
+  (lib (name "NCP170AMX300TCG")(type "Legacy")(uri "${KIPRJMOD}/OSSG_footprints.pretty/NCP170AMX300TCG.lib")(options "")(descr ""))
+)
