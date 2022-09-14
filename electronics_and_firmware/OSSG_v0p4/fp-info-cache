@@ -1,4 +1,4 @@
-20657664753017811
+20662654197848446
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -60438,6 +60438,20 @@ ESP32_PICO_D4
 49
 49
 OSSG_footprints
+JUMPER-2Psml_Bridged_RoundedPad2x1mm
+SMD Solder Jumper, 1x1.5mm, rounded Pads, 0.3mm gap, bridged with 1 copper strip
+solder jumper open
+0
+2
+2
+OSSG_footprints
+JUMPER-2Psml_Open_RoundedPad2x1mm
+SMD Solder Jumper, 1x1.5mm, rounded Pads, 0.3mm gap, bridged with 1 copper strip
+solder jumper open
+0
+2
+2
+OSSG_footprints
 LED_WS2812C-2020
 
 
@@ -60451,6 +60465,13 @@ MP23DB01HPTR
 0
 6
 6
+OSSG_footprints
+MP2615GQ-P
+
+
+0
+16
+16
 OSSG_footprints
 PQFN50P700X700X104-49N
 

@@ -287,7 +287,7 @@
     (property "Value" "MP2615CGQ-Z" (id 1) (at 0 12.7 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (id 2) (at 0 -7.62 0)
+    (property "Footprint" "OSSG_footprints:MP2615GQ-P" (id 2) (at 1.27 -20.32 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "" (id 3) (at 0 -7.62 0)
