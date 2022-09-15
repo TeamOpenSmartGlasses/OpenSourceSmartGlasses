@@ -1,4 +1,4 @@
-20662654197848446
+20664317414694973
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -60430,6 +60430,13 @@ Breakout_pads_small
 0
 1
 1
+OSSG_footprints
+DFN100X60X40-3N
+
+
+0
+3
+3
 OSSG_footprints
 ESP32_PICO_D4
 
