@@ -235,7 +235,7 @@
     (property "Value" "EMF20B02V" (id 1) (at 19.05 -1.27 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Package_TO_SOT_SMD:SOT-23-6" (id 2) (at 1.27 0 0)
+    (property "Footprint" "OSSG_footprints:EMF20B02V" (id 2) (at 1.27 0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 1.27 0 0)
