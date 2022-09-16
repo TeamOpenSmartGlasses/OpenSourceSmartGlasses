@@ -1,4 +1,4 @@
-20664317414694973
+20667647377214289
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -60410,6 +60410,13 @@ net tie
 4
 4
 OSSG_footprints
+1.5uH_YXMAA0402-1R5M-ANP
+
+
+0
+2
+2
+OSSG_footprints
 ANT3216LL00R2400A
 
 
@@ -60507,6 +60514,13 @@ SPH0645LM4H-B-SMD-GND
 0
 8
 6
+OSSG_footprints
+SW_SMD_SPDT_Slide_9x6.9-hole
+
+
+0
+5
+5
 OSSG_footprints
 Solder-4P-Connector
 
