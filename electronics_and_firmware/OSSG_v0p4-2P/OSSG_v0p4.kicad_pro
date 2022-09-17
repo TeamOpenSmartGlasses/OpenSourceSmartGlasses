@@ -39,9 +39,9 @@
         },
         "silk_line_width": 0.15,
         "silk_text_italic": false,
-        "silk_text_size_h": 0.5,
-        "silk_text_size_v": 0.5,
-        "silk_text_thickness": 0.15,
+        "silk_text_size_h": 0.7,
+        "silk_text_size_v": 0.7,
+        "silk_text_thickness": 0.12,
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
@@ -142,8 +142,16 @@
           "drill": 0.2
         },
         {
+          "diameter": 0.65,
+          "drill": 0.3
+        },
+        {
           "diameter": 0.7,
           "drill": 0.3
+        },
+        {
+          "diameter": 0.8,
+          "drill": 0.4
         },
         {
           "diameter": 1.0,
