@@ -6,8 +6,8 @@
 
   (title_block
     (title "Team OpenSource Smartglasses")
-    (date "2022-09-17")
-    (rev "V0.4b3")
+    (date "2022-09-18")
+    (rev "V0.4b4")
     (comment 1 "2P Battery Version")
     (comment 2 "MIT License")
   )

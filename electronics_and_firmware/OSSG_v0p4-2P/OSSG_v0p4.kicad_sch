@@ -6,8 +6,8 @@
 
   (title_block
     (title "Team OpenSource Smartglasses")
-    (date "2022-09-17")
-    (rev "V0.4b3")
+    (date "2022-09-18")
+    (rev "V0.4b4")
     (company "Team Open Smart Glasses")
     (comment 1 "2P Battery Version")
     (comment 2 "MIT License")
@@ -2417,7 +2417,7 @@
     (property "Reference" "TP5" (id 0) (at 156.972 173.736 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "EN_TP" (id 1) (at 159.2834 170.434 0)
+    (property "Value" "EN" (id 1) (at 159.2834 170.434 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "OSSG_footprints:Breakout_pads_very_small" (id 2) (at 166.9034 175.514 0)
@@ -4216,7 +4216,7 @@
       (reference "TP2") (unit 1) (value "5V") (footprint "OSSG_footprints:Breakout_pads_small")
     )
     (path "/0b587f0b-1b6d-43da-879f-b80ff7602ce8"
-      (reference "TP5") (unit 1) (value "EN_TP") (footprint "OSSG_footprints:Breakout_pads_very_small")
+      (reference "TP5") (unit 1) (value "EN") (footprint "OSSG_footprints:Breakout_pads_very_small")
     )
     (path "/93319c92-267f-4e46-8d00-9e8e29c2c407"
       (reference "TP8") (unit 1) (value "3V3") (footprint "OSSG_footprints:Breakout_pads_small")
