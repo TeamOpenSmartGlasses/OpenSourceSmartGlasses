@@ -6,8 +6,8 @@
 
   (title_block
     (title "Team OpenSource Smartglasses")
-    (date "2022-09-18")
-    (rev "V0.4b4")
+    (date "2022-09-19")
+    (rev "V0.4b5")
     (company "Team Open Smart Glasses")
     (comment 1 "2P Battery Version")
     (comment 2 "MIT License")
@@ -4145,10 +4145,10 @@
       (reference "Q3") (unit 1) (value "PMZ290UNE2YL") (footprint "OSSG_footprints:DFN100X60X40-3N")
     )
     (path "/34a40e42-7107-4de0-9230-08b651254313/c458c8e3-04c0-4379-a57e-7c63b1f8bbca"
-      (reference "Q?") (unit 1) (value "YJQD30P02A") (footprint "OSSG_footprints:EMF20B02V")
+      (reference "Q4") (unit 1) (value "YJQD30P02A") (footprint "OSSG_footprints:YJQD30P02A_DFN3.3x3.3")
     )
     (path "/34a40e42-7107-4de0-9230-08b651254313/7410a3c7-5e1a-44d9-90e2-eb68c3c4ad2e"
-      (reference "Q?") (unit 2) (value "YJQD30P02A") (footprint "OSSG_footprints:EMF20B02V")
+      (reference "Q4") (unit 2) (value "YJQD30P02A") (footprint "OSSG_footprints:YJQD30P02A_DFN3.3x3.3")
     )
     (path "/e210b962-2f1f-4e30-a861-1cd0f57e94e3"
       (reference "R1") (unit 1) (value "10K") (footprint "Resistor_SMD:R_0402_1005Metric")
