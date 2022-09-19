@@ -1346,6 +1346,7 @@
     )
   )
 
+
   (junction (at 73.406 248.666) (diameter 0) (color 0 0 0 0)
     (uuid 1a9e98eb-4b16-498e-b402-8aba1d5838c3)
   )
@@ -2742,7 +2743,7 @@
     (in_bom yes) (on_board yes)
     (uuid 422a9dcd-2106-4991-ae7d-06f03398d06d)
     (property "Reference" "D1" (id 0) (at 321.818 111.506 0))
-    (property "Value" "WS2812C-2020" (id 1) (at 326.898 107.95 0))
+    (property "Value" "WS2812B-2020" (id 1) (at 326.898 107.95 0))
     (property "Footprint" "OSSG_footprints:LED_WS2812C-2020" (id 2) (at 318.77 127 0)
       (effects (font (size 1.27 1.27)) (justify left top) hide)
     )
@@ -3078,7 +3079,7 @@
     (property "Reference" "C6" (id 0) (at 90.424 46.228 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "0.1uF" (id 1) (at 90.424 50.292 0)
+    (property "Value" "100nF" (id 1) (at 90.424 50.292 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Capacitor_SMD:C_0402_1005Metric" (id 2) (at 89.8652 52.07 0)
@@ -3396,7 +3397,7 @@
     (property "Reference" "C10" (id 0) (at 228.346 106.172 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "0.1uF" (id 1) (at 229.87 110.236 0)
+    (property "Value" "100nF" (id 1) (at 230.378 110.236 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Capacitor_SMD:C_0402_1005Metric" (id 2) (at 224.028 108.204 0)
@@ -3757,7 +3758,7 @@
     (property "Reference" "C11" (id 0) (at 237.744 107.95 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "0.1uF" (id 1) (at 238.252 113.284 90)
+    (property "Value" "100nF" (id 1) (at 238.252 113.284 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Capacitor_SMD:C_0402_1005Metric" (id 2) (at 235.966 110.744 0)
@@ -4069,16 +4070,16 @@
       (reference "C5") (unit 1) (value "10uF") (footprint "Capacitor_SMD:C_0402_1005Metric")
     )
     (path "/76f6f174-197c-44aa-8005-9bd143a5f8d4"
-      (reference "C6") (unit 1) (value "0.1uF") (footprint "Capacitor_SMD:C_0402_1005Metric")
+      (reference "C6") (unit 1) (value "100nF") (footprint "Capacitor_SMD:C_0402_1005Metric")
     )
     (path "/9b4a6af4-eb31-4a35-950b-5395f55e007b"
       (reference "C9") (unit 1) (value "1uF") (footprint "Capacitor_SMD:C_0402_1005Metric")
     )
     (path "/a1dc9272-fc29-4dba-91bd-582737f06227"
-      (reference "C10") (unit 1) (value "0.1uF") (footprint "Capacitor_SMD:C_0402_1005Metric")
+      (reference "C10") (unit 1) (value "100nF") (footprint "Capacitor_SMD:C_0402_1005Metric")
     )
     (path "/f575c060-b888-4da8-82c5-0a40834ca894"
-      (reference "C11") (unit 1) (value "0.1uF") (footprint "Capacitor_SMD:C_0402_1005Metric")
+      (reference "C11") (unit 1) (value "100nF") (footprint "Capacitor_SMD:C_0402_1005Metric")
     )
     (path "/34a40e42-7107-4de0-9230-08b651254313/d530bc1b-b45d-4312-babc-543e1e96d4c7"
       (reference "C12") (unit 1) (value "100nF") (footprint "Capacitor_SMD:C_0402_1005Metric")
@@ -4087,7 +4088,7 @@
       (reference "C13") (unit 1) (value "100nF") (footprint "Capacitor_SMD:C_0402_1005Metric")
     )
     (path "/34a40e42-7107-4de0-9230-08b651254313/ce48df13-61c5-4aa0-b9aa-ff53a37cf9c5"
-      (reference "C14") (unit 1) (value "22uF/16V") (footprint "Capacitor_SMD:C_0402_1005Metric")
+      (reference "C14") (unit 1) (value "22uF") (footprint "Capacitor_SMD:C_0402_1005Metric")
     )
     (path "/34a40e42-7107-4de0-9230-08b651254313/fd755c7b-cfe3-4bb9-8919-0fb8e9866eb9"
       (reference "C15") (unit 1) (value "1uF") (footprint "Capacitor_SMD:C_0402_1005Metric")
@@ -4108,7 +4109,7 @@
       (reference "C20") (unit 1) (value "1uF") (footprint "Capacitor_SMD:C_0402_1005Metric")
     )
     (path "/422a9dcd-2106-4991-ae7d-06f03398d06d"
-      (reference "D1") (unit 1) (value "WS2812C-2020") (footprint "OSSG_footprints:LED_WS2812C-2020")
+      (reference "D1") (unit 1) (value "WS2812B-2020") (footprint "OSSG_footprints:LED_WS2812C-2020")
     )
     (path "/34a40e42-7107-4de0-9230-08b651254313/fde66a3f-8c21-48e5-a327-61734c3477b2"
       (reference "D2") (unit 1) (value "Red") (footprint "Diode_SMD:D_0402_1005Metric")
@@ -4143,11 +4144,11 @@
     (path "/34a40e42-7107-4de0-9230-08b651254313/a9a8b181-f2a4-4ad9-aa5f-e6bf65aaac38"
       (reference "Q3") (unit 1) (value "PMZ290UNE2YL") (footprint "OSSG_footprints:DFN100X60X40-3N")
     )
-    (path "/34a40e42-7107-4de0-9230-08b651254313/1fb7eba7-218f-46dd-963a-54e52ed91a0d"
-      (reference "Q4") (unit 1) (value "EMF20B02V") (footprint "OSSG_footprints:EMF20B02V")
+    (path "/34a40e42-7107-4de0-9230-08b651254313/c458c8e3-04c0-4379-a57e-7c63b1f8bbca"
+      (reference "Q?") (unit 1) (value "YJQD30P02A") (footprint "OSSG_footprints:EMF20B02V")
     )
-    (path "/34a40e42-7107-4de0-9230-08b651254313/753b2ad5-cfdc-4595-ac58-bd7e2edd8e9c"
-      (reference "Q4") (unit 2) (value "EMF20B02V") (footprint "OSSG_footprints:EMF20B02V")
+    (path "/34a40e42-7107-4de0-9230-08b651254313/7410a3c7-5e1a-44d9-90e2-eb68c3c4ad2e"
+      (reference "Q?") (unit 2) (value "YJQD30P02A") (footprint "OSSG_footprints:EMF20B02V")
     )
     (path "/e210b962-2f1f-4e30-a861-1cd0f57e94e3"
       (reference "R1") (unit 1) (value "10K") (footprint "Resistor_SMD:R_0402_1005Metric")
@@ -4168,7 +4169,7 @@
       (reference "R6") (unit 1) (value "10K") (footprint "Resistor_SMD:R_0402_1005Metric")
     )
     (path "/34a40e42-7107-4de0-9230-08b651254313/a005cab3-e36a-4da9-8596-7aec7f3e9a8e"
-      (reference "R7") (unit 1) (value "100k") (footprint "Resistor_SMD:R_0402_1005Metric")
+      (reference "R7") (unit 1) (value "100K") (footprint "Resistor_SMD:R_0402_1005Metric")
     )
     (path "/34a40e42-7107-4de0-9230-08b651254313/e1395c59-2f60-4b2d-bee6-e2e22b1f4ca7"
       (reference "R8") (unit 1) (value "2K") (footprint "Resistor_SMD:R_0402_1005Metric")
@@ -4195,7 +4196,7 @@
       (reference "R15") (unit 1) (value "10K") (footprint "Resistor_SMD:R_0402_1005Metric")
     )
     (path "/34a40e42-7107-4de0-9230-08b651254313/5a92f893-7bc5-4776-be9f-3401d06ad607"
-      (reference "R16") (unit 1) (value "10k") (footprint "Resistor_SMD:R_0402_1005Metric")
+      (reference "R16") (unit 1) (value "10K") (footprint "Resistor_SMD:R_0402_1005Metric")
     )
     (path "/34a40e42-7107-4de0-9230-08b651254313/f8ba1c91-c52c-4eab-8044-ba1c3472c0fc"
       (reference "R17") (unit 1) (value "10K") (footprint "Resistor_SMD:R_0402_1005Metric")
