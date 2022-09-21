@@ -13,11 +13,15 @@ This version was an attempt to use a 2P battery pack.
 - 2P battery charger
 - MAX17048 Li battery fuel gauge
 - power on/off switch
-- USB 1A fuse
+- USB 1A resetable fuse
 - auto switch off when battery pack goes below 2.7V
 - SY7088 3V to 5V at 1A DC-DC Boost converter
-- provision for RGB LED as visual feed back to wearer with connector for more external LEDs
+- provision for WS2812B-2020 RGB LED as visual feed back to wearer with connector for more external LEDs
 - side mounted user tactile switch
+- adjusted ESP32-Pico footprint
+- adjusted mounting holes to M1.6 for screws and a M1.5 non-screw hole for alignment
+- touch sensor connector pads
+- Heads Up Display connector (experimental)
 
 
 ### PCB:
