@@ -6,6 +6,7 @@ This version was an attempt to use a 2P battery pack.
 
 ### PCB 0.4 Features:
 
+First batch sent off for production: 2022-09-22 for Australian delivery, assembling and testing
 - fix missing missing ESP32_VDD3P3 connection
 - solder connector pads for i2S microphones (non PDM)
 - onboard PDM (over i2S)  microphone
@@ -28,5 +29,5 @@ This version was an attempt to use a 2P battery pack.
 
 - 4 layer
 - 9mm x 85mm long
-- 0.8mm thick
+- 0.8mm thick (Australian board is 1.0mm thick)
 
