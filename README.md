@@ -69,7 +69,7 @@ The system is fully Open Source and built by this growing list of contributors:
 
 ## How Do I Buy A Pair?
 
-We reccomend building your own. If you still want to buy a pair, reach out to cayden on the [Team Open Smart Glasses Discord Server](https://discord.gg/5ukNvkEAqT)
+We recommend building your own. If you still want to buy a pair, reach out to cayden on the [Team Open Smart Glasses Discord Server](https://discord.gg/5ukNvkEAqT)
 ## Website
 
-Website coming soon - https://smartglasses.community
+Website: https://smartglasses.community
