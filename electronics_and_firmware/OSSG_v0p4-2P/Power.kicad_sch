@@ -6,8 +6,8 @@
 
   (title_block
     (title "Team OpenSource Smartglasses")
-    (date "2022-09-19")
-    (rev "V0.4b5")
+    (date "2022-10-14")
+    (rev "V0.4a")
     (comment 1 "2P Battery Version")
     (comment 2 "MIT License")
   )
@@ -2453,7 +2453,7 @@
     (in_bom yes) (on_board yes)
     (uuid 0f3d9901-0e30-41b8-92af-565cce68c19d)
     (property "Reference" "R15" (id 0) (at 162.306 123.952 0))
-    (property "Value" "10K" (id 1) (at 162.306 126.238 0))
+    (property "Value" "4.7K" (id 1) (at 162.306 126.238 0))
     (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (id 2) (at 165.1 125.476 0)
       (effects (font (size 1.27 1.27)) hide)
     )
@@ -2775,7 +2775,7 @@
     (in_bom yes) (on_board yes)
     (uuid 5a92f893-7bc5-4776-be9f-3401d06ad607)
     (property "Reference" "R16" (id 0) (at 169.926 123.952 0))
-    (property "Value" "10K" (id 1) (at 170.688 126.238 0))
+    (property "Value" "4.7K" (id 1) (at 170.688 126.238 0))
     (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (id 2) (at 167.386 125.476 0)
       (effects (font (size 1.27 1.27)) hide)
     )
