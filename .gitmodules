@@ -1,0 +1,8 @@
+[submodule "electronics_and_firmware/esp32_firmware_v0p3/ossg_firmware_mcu/lib/LovyanGFX_SmartGlasses"]
+	path = electronics_and_firmware/esp32_firmware_v0p3/ossg_firmware_mcu/lib/LovyanGFX_SmartGlasses
+	url = https://github.com/alex1115alex/LovyanGFX_SmartGlasses.git
+	branch = develop
+[submodule "electronics_and_firmware/esp32_firmware_v0p3/ossg_firmware_mcu/components/lvgl"]
+	path = electronics_and_firmware/esp32_firmware_v0p3/ossg_firmware_mcu/components/lvgl
+	url = https://github.com/lvgl/lvgl.git
+	branch = release/v8.3

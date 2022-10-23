@@ -1,8 +1,0 @@
-[submodule "lib/LovyanGFX"]
-	path = lib/LovyanGFX
-	url = https://github.com/alex1115alex/LovyanGFX_SmartGlasses.git
-	branch = develop
-[submodule "components/lvgl"]
-	path = components/lvgl
-	url = https://github.com/lvgl/lvgl.git
-	branch = release/v8.3
