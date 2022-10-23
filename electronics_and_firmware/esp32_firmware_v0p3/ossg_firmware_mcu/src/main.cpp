@@ -996,7 +996,7 @@ void app_main(void)
         displayEnterVoiceCommandStep2();
     #endif
 
-    /*
+    /* 
     //connect to WIS web socket
     esp_log_level_set("WEBSOCKET_CLIENT", ESP_LOG_DEBUG);
     TaskHandle_t webSocketTask = NULL;
