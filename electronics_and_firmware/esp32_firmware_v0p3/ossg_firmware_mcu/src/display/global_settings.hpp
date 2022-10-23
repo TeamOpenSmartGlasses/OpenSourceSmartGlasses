@@ -1,5 +1,3 @@
-//#define LGFX_USE_V1
-
 /*
 The maximum resolution that can be output depends on the signal type.
 720x480 (NTSC,NTSC-J), 864x576 (PAL,PAL-M), 720x576 (PAL-N).
