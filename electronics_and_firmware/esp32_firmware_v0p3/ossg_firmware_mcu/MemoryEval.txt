@@ -1,0 +1,55 @@
+(ONLY NVS + DISPLAY CODE)
+
+With Custom : 13.4% RAM, 50.7% flash, 64352 FREE HEAP
+W/o Cus, 38U: 25.3% RAM, 50.9% flash, 53628 FREE HEAP
+
+AFTER CONFIG_SPIRAM_USE_MALLOC
+
+With Custom : ???% RAM, ???% flash, 4240000 FREE HEAP
+W/o Cus, ???
+
+AFTER ENABLING WIFI INIT FUNCTION...
+
+With Custom : 20% RAM, 85.3% flash, 4240000 FREE HEAP
+W/o Cus, ???
+
+AFTER SETTING...
+CONFIG_SPIRAM_TRY_ALLOCATE_WIFI_LWIP=y
+CONFIG_SPIRAM_ALLOW_BSS_SEG_EXTERNAL_MEMORY=y
+With Custom : 20% RAM, 85.3% flash, 4102000 FREE HEAP [DISPLAY CUTS IN AND OUT]
+W/o Cus, ???
+
+CONFIG_SPIRAM_TRY_ALLOCATE_WIFI_LWIP=n
+CONFIG_SPIRAM_ALLOW_BSS_SEG_EXTERNAL_MEMORY=y [DISPLAY CUTS IN AND OUT EVEN WORSE THAN BEFORE] 
+
+CONFIG_SPIRAM_TRY_ALLOCATE_WIFI_LWIP=y
+CONFIG_SPIRAM_ALLOW_BSS_SEG_EXTERNAL_MEMORY=n [DISPLAY CUTS IN AND OUT] 
+With Custom : 18% RAM, 84.3% flash, 4102000 free heap
+w/o custom  : 29.9% RAM, 84.5% flash 4102000 free heap
+
+===============================================================================
+
+LOVYAN ONLY TESTS (NO LVGL/WIFI/ETC):
+
+===================
+ESP-IDF highest res achieved 640x420
+ARDUINO highest res achieved (psram must be enabled) 720x480
+===================
+
+/=/=/=/=/ FUCKED DISPLAY /=/=/=/=/
+PIO + SPIRAM ENABLED + cfgPSRAM={1 or 2}
+6.0% RAM / 50.3% FLASH
+
+*****DISPLAYS FINE*****
+PIO + SPIRAM ENABLED + cfgPSRAM=0
+6.0% RAM / 50.3% FLASH
+
+*****DISPLAYS FINE*****
+PIO + SPIRAM disabled + cfgPSRAM=1
+5.5% RAM / 43.5% FLASH
+
+*****DISPLAYS FINE*****
+PIO + SPIRAM disabled + cfgPSRAM=0
+5.5% RAM / 43.5% FLASH
+
+========================================
