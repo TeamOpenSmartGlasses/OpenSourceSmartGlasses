@@ -24,6 +24,7 @@ using namespace std;
 #include "helper_display.hpp"
 #include <gui/ui.h>
 
+#define LOVYAN_USE_CORE_NUM 1
 static const char *TAG = "lvgl_gui";
 
 #define ENABLE_TEST_TIMER   // Enable/Disable TIMER used for auto-shutoff
