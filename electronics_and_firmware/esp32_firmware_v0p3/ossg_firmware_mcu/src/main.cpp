@@ -954,6 +954,15 @@ static void websocket_app_start(void *args)
 //     vTaskDelete(NULL);
 // }
 
+ // ESP32 PSRAM bug workaround (use when the library is NOT compiled with PSRAM hack enabled)
+  // Place between a write and a read PSRAM operation (write->ASM_MEMW->read), not viceversa
+  #define ASM_MEMW asm(" MEMW");
+
+  #define ASM_NOP asm(" NOP");
+
+  #define PSRAM_WORKAROUND1 asm(" nop;nop;nop;nop");
+  #define PSRAM_WORKAROUND2 asm(" memw");
+
 extern "C"
 {
     void app_main();
@@ -978,52 +987,49 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_event_loop_create_default());
 
 // start WIFI
-    //wifi_init_sta();
-
+    wifi_init_sta();
 
     // MAXHEAP: 223000
-#if ENABLEDISPLAY
-    displayStart();
-    displayCardSearchTextonlyDemo();
-    displayEnterVoiceCommandStep2();
-#endif
-
+    #if ENABLEDISPLAY
+        displayStart();
+        displayCardSearchTextonlyDemo();
+        displayEnterVoiceCommandStep2();
+    #endif
 
     /*
+    //connect to WIS web socket
+    esp_log_level_set("WEBSOCKET_CLIENT", ESP_LOG_DEBUG);
+    TaskHandle_t webSocketTask = NULL;
+    xTaskCreate(websocket_app_start, "web_socket_task", 6*4096, NULL, 1, &webSocketTask);
 
+    //start websocket pingwer
+    TaskHandle_t webSocketPingTask = NULL;
+    xTaskCreate(ping_loop_task, "ping_loop_task", 4096, NULL, 1, &webSocketPingTask);
 
-        //connect to WIS web socket
-        esp_log_level_set("WEBSOCKET_CLIENT", ESP_LOG_DEBUG);
-        TaskHandle_t webSocketTask = NULL;
-        xTaskCreate(websocket_app_start, "web_socket_task", 6*4096, NULL, 1, &webSocketTask);
+    //connect to audio TCP socket stream
+    // esp_log_level_set("TRANS_TCP", ESP_LOG_DEBUG);
+    //xTaskCreate(tcp_client_task, "tcp_client", 4096, NULL, 5, NULL);
 
-        //start websocket pingwer
-        TaskHandle_t webSocketPingTask = NULL;
-        xTaskCreate(ping_loop_task, "ping_loop_task", 4096, NULL, 1, &webSocketPingTask);
+        // *********************** Create audio buffer**************************** /
+    audioMessageBuffer = xMessageBufferCreate(audioMessageBufferLen * 4); //hold n message at once, where n is the constant multiplier
+    //assert(audioMessageBuffer);
+    audioQueue = xQueueCreate(250, sizeof(uint8_t*));
+    if (audioQueue == 0)  // Queue not created
+    {
+        ESP_LOGE(PROGRAM_LOG_TAG, "Unable to create audio queue.\n");
+    } else {
+        ESP_LOGE(PROGRAM_LOG_TAG, "Audio queue created successfully.\n");
+    }
 
-        //connect to audio TCP socket stream
-        // esp_log_level_set("TRANS_TCP", ESP_LOG_DEBUG);
-        //xTaskCreate(tcp_client_task, "tcp_client", 4096, NULL, 5, NULL);
+    //send audio task
+    TaskHandle_t sendAudioTaskHandle = NULL;
+    xTaskCreate(sendAudioChunk, "send_audio_chunk_task", 6*4096, NULL, 1, &sendAudioTaskHandle);
 
-         // *********************** Create audio buffer**************************** /
-        audioMessageBuffer = xMessageBufferCreate(audioMessageBufferLen * 4); //hold n message at once, where n is the constant multiplier
-        //assert(audioMessageBuffer);
-        audioQueue = xQueueCreate(250, sizeof(uint8_t*));
-        if (audioQueue == 0)  // Queue not created
-        {
-            ESP_LOGE(PROGRAM_LOG_TAG, "Unable to create audio queue.\n");
-        } else {
-            ESP_LOGE(PROGRAM_LOG_TAG, "Audio queue created successfully.\n");
-        }
+    //start microphone input AFTER STARTING AUDIO QUEUE
+    TaskHandle_t microphoneTaskHandle = NULL;
+    xTaskCreate(microphone_stream, "microphone_stream_task", 6*4096, NULL, 1, &microphoneTaskHandle);
+    */
 
-        //send audio task
-        TaskHandle_t sendAudioTaskHandle = NULL;
-        xTaskCreate(sendAudioChunk, "send_audio_chunk_task", 6*4096, NULL, 1, &sendAudioTaskHandle);
-
-        //start microphone input AFTER STARTING AUDIO QUEUE
-        TaskHandle_t microphoneTaskHandle = NULL;
-        xTaskCreate(microphone_stream, "microphone_stream_task", 6*4096, NULL, 1, &microphoneTaskHandle);
-        */
 #if MEM_MSG
     cout << "Free heap OGOGOG: ";
     cout << heap_caps_get_free_size(MALLOC_CAP_8BIT) << endl;
