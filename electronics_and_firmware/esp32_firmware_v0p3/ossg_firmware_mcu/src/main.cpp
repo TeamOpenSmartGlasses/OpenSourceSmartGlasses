@@ -44,6 +44,8 @@ TickType_t lastTickTimeProc;
 
 esp_websocket_client_handle_t webSocketClient;
 static const char *audioJsonTemplate = "{\"MESSAGE_TYPE_LOCAL\" : \"AUDIO_CHUNK_DECRYPTED\", \"AUDIO_DATA\" : \"%s\"}";
+void startTheDisplay();
+
 // static const char *audioJsonTemplate = "%s";
 
 // AUDIO**********************************************************************************************************************
@@ -810,14 +812,10 @@ static void ping_loop_task(void *args)
             esp_websocket_client_send_text(webSocketClient, ping, strlen(ping), portMAX_DELAY);
         }
         vTaskDelay(500 / portTICK_RATE_MS);
-#if MEM_MSG
-        cout << "Free heap: ";
-        cout << heap_caps_get_free_size(MALLOC_CAP_8BIT) << endl;
-#endif
     }
 }
 
-static void websocket_app_start(void *args)
+static void websocket_app_start()
 {
     esp_websocket_client_config_t websocket_cfg = {};
 
@@ -845,6 +843,9 @@ static void websocket_app_start(void *args)
 
     esp_websocket_client_start(webSocketClient);
     audioSubscribed = true;
+}
+
+void websocket_listen_loop(void *args){
     // xTimerStart(shutdown_signal_timer, portMAX_DELAY);
     char data[32];
     int i = 0;
@@ -963,6 +964,14 @@ static void websocket_app_start(void *args)
   #define PSRAM_WORKAROUND1 asm(" nop;nop;nop;nop");
   #define PSRAM_WORKAROUND2 asm(" memw");
 
+void startTheDisplay(){
+    #if ENABLEDISPLAY
+        displayStart();
+        displayCardSearchTextonlyDemo();
+        displayEnterVoiceCommandStep2();
+    #endif
+}
+
 extern "C"
 {
     void app_main();
@@ -989,28 +998,23 @@ void app_main(void)
 // start WIFI
     wifi_init_sta();
 
-    // MAXHEAP: 223000
-    #if ENABLEDISPLAY
-        displayStart();
-        displayCardSearchTextonlyDemo();
-        displayEnterVoiceCommandStep2();
-    #endif
-
-    /* 
     //connect to WIS web socket
+    websocket_app_start();
+    
     esp_log_level_set("WEBSOCKET_CLIENT", ESP_LOG_DEBUG);
-    TaskHandle_t webSocketTask = NULL;
-    xTaskCreate(websocket_app_start, "web_socket_task", 6*4096, NULL, 1, &webSocketTask);
+    TaskHandle_t webSocketTask = NULL;                  //6*4096
+    xTaskCreatePinnedToCore(websocket_listen_loop, "web_socket_task", 4*1024, NULL, 1, &webSocketTask, 0);
 
     //start websocket pingwer
     TaskHandle_t webSocketPingTask = NULL;
-    xTaskCreate(ping_loop_task, "ping_loop_task", 4096, NULL, 1, &webSocketPingTask);
+    xTaskCreatePinnedToCore(ping_loop_task, "ping_loop_task", 4*1024, NULL, 1, &webSocketPingTask, 0);
 
     //connect to audio TCP socket stream
     // esp_log_level_set("TRANS_TCP", ESP_LOG_DEBUG);
     //xTaskCreate(tcp_client_task, "tcp_client", 4096, NULL, 5, NULL);
 
         // *********************** Create audio buffer**************************** /
+    /*
     audioMessageBuffer = xMessageBufferCreate(audioMessageBufferLen * 4); //hold n message at once, where n is the constant multiplier
     //assert(audioMessageBuffer);
     audioQueue = xQueueCreate(250, sizeof(uint8_t*));
@@ -1029,6 +1033,8 @@ void app_main(void)
     TaskHandle_t microphoneTaskHandle = NULL;
     xTaskCreate(microphone_stream, "microphone_stream_task", 6*4096, NULL, 1, &microphoneTaskHandle);
     */
+   startTheDisplay();
+  
 
 #if MEM_MSG
     cout << "Free heap OGOGOG: ";
