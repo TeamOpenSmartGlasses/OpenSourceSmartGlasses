@@ -1,11 +1,5 @@
-/****************************************************************************
- *
- * This demo showcases BLE GATT server. It can send adv data, be connected by client.
- * Run the gatt_client demo, the client demo will automatically connect to the gatt_server demo.
- * Client demo will enable gatt_server's notify after connection. The two devices will then exchange
- * data.
- *
- ****************************************************************************/
+//Open Source Smart Glasses main firmware
+//Authors: Cayden Pierce, Alyx Israelov
 
 #include "../include/ossg_constants.hpp"
 #include <stdio.h>
@@ -28,9 +22,12 @@
 #include "esp_websocket_client.h"
 #include "esp_event.h"
 
+// JSON parsing
+#include "json_parse.hpp"
+
 #define MEM_MSG 1
 
-#define ENABLEDISPLAY 1
+#define ENABLEDISPLAY 0
 #if ENABLEDISPLAY
 #include "displaymanager.hpp"
 #endif
@@ -780,12 +777,20 @@ static void websocket_event_handler(void *handler_args, esp_event_base_t base, i
         // reconnect
         break;
     case WEBSOCKET_EVENT_DATA:
+        {
         ESP_LOGI(TAG, "WEBSOCKET_EVENT_DATA");
         ESP_LOGI(TAG, "Received opcode=%d", data->op_code);
         ESP_LOGW(TAG, "Received=%.*s", data->data_len, (char *)data->data_ptr);
         ESP_LOGW(TAG, "Total payload length=%d, data_len=%d, current payload offset=%d\r\n", data->payload_len, data->data_len, data->payload_offset);
-        // xTimerReset(shutdown_signal_timer, portMAX_DELAY);
+        if (data->data_len > 5){ //ignore empty strings and tiny pings
+            int jsonStringLen = (data->data_len)+1;
+            char jsonString[jsonStringLen];
+            snprintf(jsonString, jsonStringLen, "%s", (char *)data->data_ptr);
+            ESP_LOGW(TAG, "JSON STRING PREPARSE=%s", jsonString);
+            parseJson(jsonString);
+        }
         break;
+        }
     case WEBSOCKET_EVENT_ERROR:
         printf("WEBSOCKET_EVENT_ERROR");
         break;
