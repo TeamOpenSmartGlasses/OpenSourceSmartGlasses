@@ -1,5 +1,5 @@
 //Open Source Smart Glasses main firmware
-//Authors: Cayden Pierce, Alyx Israelov
+//Authors: Cayden Pierce, Alex Israelov
 
 #include "../include/ossg_constants.hpp"
 #include <stdio.h>
