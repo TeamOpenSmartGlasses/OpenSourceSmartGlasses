@@ -454,16 +454,16 @@ static void websocket_event_handler(void *handler_args, esp_event_base_t base, i
     case WEBSOCKET_EVENT_DATA:
         {
         ESP_LOGI(TAG, "WEBSOCKET_EVENT_DATA");
-        // ESP_LOGI(TAG, "Received opcode=%d", data->op_code);
-        // ESP_LOGW(TAG, "Received=%.*s", data->data_len, (char *)data->data_ptr);
-        // ESP_LOGW(TAG, "Total payload length=%d, data_len=%d, current payload offset=%d\r\n", data->payload_len, data->data_len, data->payload_offset);
-        // if (data->data_len > 5){ //ignore empty strings and tiny pings
-        //     int jsonStringLen = (data->data_len)+1;
-        //     char jsonString[jsonStringLen];
-        //     snprintf(jsonString, jsonStringLen, "%s", (char *)data->data_ptr);
-        //     ESP_LOGW(TAG, "JSON STRING PREPARSE=%s", jsonString);
-        //     //parseJson(jsonString);
-        // }
+         ESP_LOGI(TAG, "Received opcode=%d", data->op_code);
+         ESP_LOGW(TAG, "Received=%.*s", data->data_len, (char *)data->data_ptr);
+         ESP_LOGW(TAG, "Total payload length=%d, data_len=%d, current payload offset=%d\r\n", data->payload_len, data->data_len, data->payload_offset);
+         if (data->data_len > 5){ //ignore empty strings and tiny pings
+             int jsonStringLen = (data->data_len)+1;
+             char jsonString[jsonStringLen];
+             snprintf(jsonString, jsonStringLen, "%s", (char *)data->data_ptr);
+             ESP_LOGW(TAG, "JSON STRING PREPARSE=%s", jsonString);
+             parseJson(jsonString);
+         }
         break;
         }
     case WEBSOCKET_EVENT_ERROR:

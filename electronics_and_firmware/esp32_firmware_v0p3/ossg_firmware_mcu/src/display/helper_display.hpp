@@ -165,12 +165,16 @@ static void gui_task(void *args)
     while (1)
     {
         vTaskDelay(pdMS_TO_TICKS(1000));
+        
+        /*
         cout << endl;
         cout << endl;
         cout << endl;
         cout << endl;
         cout << "heap_caps_get_free_size(MALLOC_CAP_8BIT): ";
         cout << heap_caps_get_free_size(MALLOC_CAP_8BIT) << endl;
+        */
+
         /* Try to take the semaphore, call lvgl related function on success */
         if (pdTRUE == xSemaphoreTake(xGuiSemaphore, portMAX_DELAY))
         {

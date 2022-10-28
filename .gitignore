@@ -1,3 +1,6 @@
 *.zip
 
 *.bak
+electronics_and_firmware/esp32_firmware_v0p3/ossg_firmware_mcu/.vscode/settings.json
+electronics_and_firmware/esp32_firmware_v0p3/ossg_firmware_mcu/sdkconfig.pico32
+electronics_and_firmware/esp32_firmware_v0p3/ossg_firmware_mcu/.vscode/settings.json

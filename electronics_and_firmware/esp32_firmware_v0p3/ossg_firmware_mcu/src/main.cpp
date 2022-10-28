@@ -26,7 +26,7 @@ static const char *TAG = "MAIN_OSSG";
 
 #define MEM_MSG 0
 
-#define ENABLEDISPLAY 0
+#define ENABLEDISPLAY 1
 #if ENABLEDISPLAY
     #include "displaymanager.hpp"
 #endif
@@ -36,15 +36,6 @@ using std::cout;
 using std::endl;
 
 void startTheDisplay();
-
- // ESP32 PSRAM bug workaround (use when the library is NOT compiled with PSRAM hack enabled)
-  // Place between a write and a read PSRAM operation (write->ASM_MEMW->read), not viceversa
-  #define ASM_MEMW asm(" MEMW");
-
-  #define ASM_NOP asm(" NOP");
-
-  #define PSRAM_WORKAROUND1 asm(" nop;nop;nop;nop");
-  #define PSRAM_WORKAROUND2 asm(" memw");
 
 void startTheDisplay(){
     #if ENABLEDISPLAY
@@ -77,6 +68,8 @@ void app_main(void)
     // create event loop
     ESP_ERROR_CHECK(esp_event_loop_create_default());
 
+    startTheDisplay();
+
     // start WIFI
     wifi_init_sta();
 
@@ -85,8 +78,8 @@ void app_main(void)
     websocket_app_start(websocketSendBuffer, websocketSendBufferLen);
     
     //start websocket receive listening loop
-    esp_log_level_set("WEBSOCKET_CLIENT", ESP_LOG_DEBUG);
-    TaskHandle_t webSocketReceiveTask = NULL;                  //6*4096
+    //esp_log_level_set("WEBSOCKET_CLIENT", ESP_LOG_DEBUG);
+    //TaskHandle_t webSocketReceiveTask = NULL;                  //6*4096
     //xTaskCreatePinnedToCore(websocket_receive_loop, "web_socket_receive_task", 4*1024, NULL, 1, &webSocketReceiveTask, 0);
 
     //start websocket sending listening loop
@@ -96,10 +89,6 @@ void app_main(void)
     //start websocket pinger
     TaskHandle_t webSocketPingTask = NULL;
     xTaskCreatePinnedToCore(ping_loop_task, "ping_loop_task", 4*1024, NULL, 1, &webSocketPingTask, 0);
-
-    //connect to audio TCP socket stream
-    // esp_log_level_set("TRANS_TCP", ESP_LOG_DEBUG);
-    //xTaskCreate(tcp_client_task, "tcp_client", 4096, NULL, 5, NULL);
 
     //audio 
     setup_audio_buffer();
@@ -111,7 +100,6 @@ void app_main(void)
     //start microphone input AFTER STARTING AUDIO QUEUE
     TaskHandle_t microphoneTaskHandle = NULL;
     xTaskCreate(microphone_stream, "microphone_stream_task", 6*4096, NULL, 1, &microphoneTaskHandle);
-    startTheDisplay();
 
 #if MEM_MSG
     cout << "Free heap OGOGOG: ";
