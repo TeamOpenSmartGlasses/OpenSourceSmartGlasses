@@ -26,7 +26,7 @@ static const char *TAG = "MAIN_OSSG";
 
 #define MEM_MSG 0
 
-#define ENABLEDISPLAY 1
+#define ENABLEDISPLAY 0
 #if ENABLEDISPLAY
     #include "displaymanager.hpp"
 #endif
@@ -77,29 +77,24 @@ void app_main(void)
     websocketSendBuffer = xMessageBufferCreate(websocketSendBufferLen);
     websocket_app_start(websocketSendBuffer, websocketSendBufferLen);
     
-    //start websocket receive listening loop
-    //esp_log_level_set("WEBSOCKET_CLIENT", ESP_LOG_DEBUG);
-    //TaskHandle_t webSocketReceiveTask = NULL;                  //6*4096
-    //xTaskCreatePinnedToCore(websocket_receive_loop, "web_socket_receive_task", 4*1024, NULL, 1, &webSocketReceiveTask, 0);
-
     //start websocket sending listening loop
     TaskHandle_t webSocketSendTask = NULL;                  //6*4096
-    xTaskCreatePinnedToCore(websocket_send_loop, "web_socket_send_task", 12*1024, NULL, 1, &webSocketSendTask, 0);
+    xTaskCreate(websocket_send_loop, "web_socket_send_task", 28*1024, NULL, 1, &webSocketSendTask);
 
     //start websocket pinger
     TaskHandle_t webSocketPingTask = NULL;
-    xTaskCreatePinnedToCore(ping_loop_task, "ping_loop_task", 4*1024, NULL, 1, &webSocketPingTask, 0);
+    xTaskCreate(ping_loop_task, "ping_loop_task", 4*1024, NULL, 1, &webSocketPingTask);
 
     //audio 
     setup_audio_buffer();
    
     //send audio task
     TaskHandle_t sendAudioTaskHandle = NULL;
-    xTaskCreate(sendAudioChunk, "send_audio_chunk_task", 6*4096, websocketSendBuffer, 1, &sendAudioTaskHandle);
+    xTaskCreate(sendAudioChunk, "send_audio_chunk_task", 28*1024, websocketSendBuffer, 1, &sendAudioTaskHandle);
 
     //start microphone input AFTER STARTING AUDIO QUEUE
     TaskHandle_t microphoneTaskHandle = NULL;
-    xTaskCreate(microphone_stream, "microphone_stream_task", 6*4096, NULL, 1, &microphoneTaskHandle);
+    xTaskCreate(microphone_stream, "microphone_stream_task", 24*1024, NULL, 1, &microphoneTaskHandle);
 
 #if MEM_MSG
     cout << "Free heap OGOGOG: ";

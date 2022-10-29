@@ -18,19 +18,14 @@ void makeJson(){
 }
 
 void parseJson(char * jsonString){
-	ESP_LOGI(TAG, "Deserialize.....");
     MessageTypes myMessageTypes = MessageTypes();
-	ESP_LOGI(TAG, "Go message types.....");
 	cJSON *jsonObj = cJSON_Parse(jsonString);
-	ESP_LOGI(TAG, "Parsed.....");
 
 	char *parsedJsonString = cJSON_Print(jsonObj);
-	ESP_LOGI(TAG, "my_parsed json_string\n%s",parsedJsonString);
+	ESP_LOGI(TAG, "Parsed JSON string: %s", parsedJsonString);
 
 	if (cJSON_GetObjectItem(jsonObj, myMessageTypes.MESSAGE_TYPE_LOCAL)) {
-        ESP_LOGI(TAG, "FOund object.....");
 		char *message_type = cJSON_GetObjectItem(jsonObj, myMessageTypes.MESSAGE_TYPE_LOCAL)->valuestring;
-		ESP_LOGI(TAG, "version=%s",message_type);
 	}
 
     //clean up

@@ -449,6 +449,7 @@ static void websocket_event_handler(void *handler_args, esp_event_base_t base, i
         break;
     case WEBSOCKET_EVENT_DISCONNECTED:
         ESP_LOGI(TAG, "WEBSOCKET_EVENT_DISCONNECTED");
+        esp_restart();
         // reconnect
         break;
     case WEBSOCKET_EVENT_DATA:
@@ -482,16 +483,18 @@ static void reconnect_websocket()
     // connect the socket again
 }
 
+#include "../include/message_types.h"
 void ping_loop_task(void *args)
 {
     while (true)
     {
-        if (esp_websocket_client_is_connected(webSocketClient))
+        if (check_websocket_connect())
         {
-            char ping[64] = "ping bitch";
+            MessageTypes mt = MessageTypes();
+            char ping[64] = "{\"MESSAGE_TYPE_LOCAL\" : \"ping\"}";
             esp_websocket_client_send_text(webSocketClient, ping, strlen(ping), portMAX_DELAY);
         }
-        vTaskDelay(500 / portTICK_RATE_MS);
+        vTaskDelay(1500 / portTICK_RATE_MS);
     }
 }
 
@@ -542,10 +545,15 @@ void websocket_receive_loop(void *args){
 }
 
 void websocket_send_loop(void *args){
+    char * stringToSend = (char *)malloc(localWebsocketSendBufferLen);
     while (true)
     {
-        char * stringToSend = (char *)malloc(localWebsocketSendBufferLen);
         int bytes_written = xMessageBufferReceive(localWebsocketSendBuffer, stringToSend, localWebsocketSendBufferLen, portMAX_DELAY);
+
+        // ESP_LOGI(TAG, "wsl received bytes_written: %d", bytes_written);
+        // ESP_LOGI(TAG, "wsl received message: %s", stringToSend);
+        // ESP_LOGI(TAG, "wsl local len: %d", localWebsocketSendBufferLen);
+        // ESP_LOGI(TAG, "wsl message: %d", localWebsocketSendBufferLen);
         
         if (bytes_written != 0){
             if (check_websocket_connect()) {
@@ -553,8 +561,8 @@ void websocket_send_loop(void *args){
                 esp_websocket_client_send_text(webSocketClient, stringToSend, strlen(stringToSend), portMAX_DELAY);
             }
         }
-        free(stringToSend);
     }
+    free(stringToSend);
 }
 
 // AUDIO WIFI SENDING COMMS TCP SOCKET
@@ -648,5 +656,5 @@ void websocket_send_loop(void *args){
 // }
 
 void websocket_send_text(char * text){
-    esp_websocket_client_send_text(webSocketClient, text, strlen(text), portMAX_DELAY);
+    esp_websocket_client_send_text(webSocketClient, text, strlen(text)+1, portMAX_DELAY);
 }

@@ -25,7 +25,7 @@ static const char *TAG = "MICROPHONES_OSSG";
 
 // place to pass audio around and save it
 MessageBufferHandle_t audioMessageBuffer;
-const size_t AUDIO_BUFFER_SIZE = 1024;
+const size_t AUDIO_BUFFER_SIZE = 1024;// number of samples, each sample uint16_t
 const size_t audioMessageBufferLen = (AUDIO_BUFFER_SIZE * sizeof(uint16_t)) + sizeof(size_t); // room for websocket buffer, room for one size_t for MessageBuffer overhead
 
 static const char *audioJsonTemplate = "{\"MESSAGE_TYPE_LOCAL\" : \"AUDIO_CHUNK_DECRYPTED\", \"AUDIO_DATA\" : \"%s\"}";
@@ -51,17 +51,6 @@ const size_t DMA_BUF_SIZE = 256; // number of samples, not number of bytes
 const size_t DMA_BUF_CNT = 2;
 
 int packet_count = 0;
-
-static const char *payload = "{\"MESSAGE_TYPE_LOCAL\" : \"AUDIO_CHUNK_DECRYPTED\", \"AUDIO_DATA\" : \"/+MYxAAEaAIEeUAQAgBgNgP/////KQQ/////Lvrg+lcWYHgtjadzsbTq+yREu495tq9c6v/7vt/of7mna9v6/btUnU17Jun9/+MYxCkT26KW+YGBAj9v6vUh+zab//v/96C3/pu6H+pv//r/ycIIP4pcWWTRBBBAMXgNdbRaABQAAABRWKwgjQVX0ECmrb///+MYxBQSM0sWWYI4A++Z/////////////0rOZ3MP//7H44QEgxgdvRVMXHZseL//540B4JAvMPEgaA4/0nHjxLhRgAoAYAgA/+MYxAYIAAJfGYEQAMAJAIAQMAwX936/q/tWtv/2f/+v//6v/+7qTEFNRTMuOTkuNVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV\"}";
-// static const char *payload = "/+MYxAAEaAIEeUAQAgBgNgP/////KQQ/////Lvrg+lcWYHgtjadzsbTq+yREu495tq9c6v/7vt/of7mna9v6/btUnU17Jun9/+MYxCkT26KW+YGBAj9v6vUh+zab//v/96C3/pu6H+pv//r/ycIIP4pcWWTRBBBAMXgNdbRaABQAAABRWKwgjQVX0ECmrb///+MYxBQSM0sWWYI4A++Z/////////////0rOZ3MP//7H44QEgxgdvRVMXHZseL//540B4JAvMPEgaA4/0nHjxLhRgAoAYAgA/+MYxAYIAAJfGYEQAMAJAIAQMAwX936/q/tWtv/2f/+v//6v/+7qTEFNRTMuOTkuNVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV"; //for testing
-
-// void addAudioChunkToQueue(uint8_t *buf)
-// {
-//     if (xQueueSend(audioQueue, buf, portMAX_DELAY) != pdPASS)
-//     {
-//         ESP_LOGE(TAG, "TX AUDIO: Error sending the audio chunk to the audio queue.\n");
-//     }
-// }
 
 bool I2S_Init()
 {
@@ -194,17 +183,17 @@ void sendAudioChunk(MessageBufferHandle_t websocketSendBuffer)
                 if (b64res == 0)
                 {
                     int jsonLength = b64EncodedAudioBufferLen + 256; // plus a bit for JSON extra info
-                    char jsonAudioPacket[jsonLength];
+                    //char jsonAudioPacket[jsonLength];
+                    char * jsonAudioPacket = (char *)malloc(jsonLength);
                     snprintf(jsonAudioPacket, jsonLength, audioJsonTemplate, b64EncodedAudio);
 
-                    // send JSON to WIS server
-                    // if (check_websocket_connect())
-                    // {
-                    //     // printf("Sending audio to WIS...\n");
-                    //     websocket_send_text(jsonAudioPacket);
-                    //     // esp_websocket_client_send_text(webSocketClient, (char *)audioChunk, strlen((char *)audioChunk), portMAX_DELAY);
-                    // }
-                    size_t tx_bytes = xMessageBufferSend(websocketSendBuffer, jsonAudioPacket, strlen(jsonAudioPacket), portMAX_DELAY);
+                    // ESP_LOGI(TAG, "mic received bytes_written: %d", bytes_written);
+                    // ESP_LOGI(TAG, "local len: %d", strlen(jsonAudioPacket));
+                    // ESP_LOGI(TAG, "mic message: %s", jsonAudioPacket);
+
+                    //send data to be sent down websocket to ASP
+                    size_t tx_bytes = xMessageBufferSend(websocketSendBuffer, jsonAudioPacket, strlen(jsonAudioPacket)+1, portMAX_DELAY);
+                    free(jsonAudioPacket);
                 }
                 else {
                     ESP_LOGE(TAG, "Base 64 encoding failed.");
