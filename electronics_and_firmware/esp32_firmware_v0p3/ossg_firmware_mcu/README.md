@@ -1,10 +1,13 @@
 # OSSG Firmware
 
+This firmware serves as as smart glasses thin client for the [Wearable Intelligence System](https://github.com/emexlabs/WearableIntelligenceSystem) (WIS) for smart glasses powered by ESP32. The WIS Android smart phone (ASP) and GNU/Linux Box (GLBOX) servers handle all of the processing, logic, AI, etc., and this firmware sends signals to the WIS and receives UI prompts from the WIS (i.e. a thin client). See the [WIS](https://github.com/emexlabs/WearableIntelligenceSystem) for the ASP + GLBOX, as well as another frontend with the same API but designed for Android-powered smart glasses (ASG).
+
 ## Features
 
 * Displays pretty UI over composite video using LovyanGFX + LVGL
 * Streams recoreded audio to an Android device
 * Receives JSON commands from an Android device
+
 ## Setup
 
 1. Install VSCODE
@@ -28,8 +31,4 @@ If build goes well and then at the very end you get undefined reference to a tas
 
 ## History
 
-This project is heavily inspired by the combination of two projects that came before it:
-
-* The [Wearable Intelligence System](https://github.com/emexlabs/WearableIntelligenceSystem), a platform to be used with Android-based smartglasses such as the Vuzix Blade, designed for extending our mental capabilities. By Cayden Pierce.
-
-* The [Telescope](https://github.com/alex1115alex/Wearables-Telescope), a Google Glass-inspired project designed to be as compact and cheap as possible by taking advantage of the ESP32's composite video output capabilities. By Alex Israelov.
+This project's display solution is heavily inspired by the [Telescope](https://github.com/alex1115alex/Wearables-Telescope), a Google Glass-inspired project designed to be as compact and cheap as possible by taking advantage of the ESP32's composite video output capabilities. By Alex Israelov.

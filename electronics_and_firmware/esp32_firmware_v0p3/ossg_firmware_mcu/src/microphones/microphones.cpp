@@ -187,10 +187,6 @@ void sendAudioChunk(MessageBufferHandle_t websocketSendBuffer)
                     char * jsonAudioPacket = (char *)malloc(jsonLength);
                     snprintf(jsonAudioPacket, jsonLength, audioJsonTemplate, b64EncodedAudio);
 
-                    // ESP_LOGI(TAG, "mic received bytes_written: %d", bytes_written);
-                    // ESP_LOGI(TAG, "local len: %d", strlen(jsonAudioPacket));
-                    // ESP_LOGI(TAG, "mic message: %s", jsonAudioPacket);
-
                     //send data to be sent down websocket to ASP
                     size_t tx_bytes = xMessageBufferSend(websocketSendBuffer, jsonAudioPacket, strlen(jsonAudioPacket)+1, portMAX_DELAY);
                     free(jsonAudioPacket);

@@ -1,10 +1,39 @@
+#include "json_parse.hpp"
 #include "cJSON.h"	
 #include "esp_log.h"
-#include "../include/message_types.h"
+#include "message_types.hpp"
 
 static const char *TAG = "JSON";
 
-void makeJson(){
+JsonMessageParser::JsonMessageParser(char * jsonString) {     // Constructor
+			messageTypesList = MessageTypes();
+			JsonMessageParser::parseJson(jsonString);
+		}
+
+char * JsonMessageParser::getMessageType(){
+	//get the type of the message
+	messageType = getJsonKey(messageTypesList.MESSAGE_TYPE_LOCAL);
+
+	return messageType;
+}
+
+char * JsonMessageParser::getJsonKey(const char * key){
+	char * value;
+	if (cJSON_GetObjectItem(jsonObj, key)) {
+		value = cJSON_GetObjectItem(jsonObj, key)->valuestring;
+	} else {
+		value = (char *)"fuck";
+	}
+	return value;
+}
+
+// JsonMessageParser::~JsonMessageParser() {     // Deconstructor
+// 	//delete json object
+// 	cJSON_Delete(jsonObj);
+// }
+
+//tester to make json object from scratch, not yet used
+void JsonMessageParser::makeJson(){
 	cJSON *root = cJSON_CreateObject();
 	cJSON_AddStringToObject(root, "version", IDF_VER);
 	cJSON_AddStringToObject(root, "cores", "test_core_num");
@@ -13,25 +42,18 @@ void makeJson(){
 
 	//const char *my_json_string = cJSON_Print(root);
 	char *my_json_string = cJSON_Print(root);
-	ESP_LOGI(TAG, "my_json_string\n%s",my_json_string);
+	//ESP_LOGI(TAG, "my_json_string\n%s",my_json_string);
 	cJSON_Delete(root);
 }
 
-void parseJson(char * jsonString){
-    MessageTypes myMessageTypes = MessageTypes();
-	cJSON *jsonObj = cJSON_Parse(jsonString);
+//take a string, parse as json, pull out the message type, which all message should have
+void JsonMessageParser::parseJson(char * jsonString){
+	//deserialize
+	jsonObj = cJSON_Parse(jsonString);
 
-	char *parsedJsonString = cJSON_Print(jsonObj);
-	ESP_LOGI(TAG, "Parsed JSON string: %s", parsedJsonString);
+	// char *parsedJsonString = cJSON_Print(jsonObj);
+	// ESP_LOGI(TAG, "Parsed JSON string: %s", parsedJsonString);
 
-	if (cJSON_GetObjectItem(jsonObj, myMessageTypes.MESSAGE_TYPE_LOCAL)) {
-		char *message_type = cJSON_GetObjectItem(jsonObj, myMessageTypes.MESSAGE_TYPE_LOCAL)->valuestring;
-	}
-
-    //clean up
-    //delete json object
-	cJSON_Delete(jsonObj);
-	// Buffers returned by cJSON_Print must be freed by the caller.
-	// Please use the proper API (cJSON_free) rather than directly calling stdlib free.
-	cJSON_free(parsedJsonString);
+	//clean up
+	// cJSON_free(parsedJsonString); // Buffers returned by cJSON_Print must be freed by the caller.
 }

@@ -24,12 +24,13 @@
 #include "esp_websocket_client.h"
 #include "esp_event.h"
 
-// JSON parsing
-#include "../utils/json_parse.hpp"
-
+//actual web socket object
 esp_websocket_client_handle_t webSocketClient;
+
+//message buffer to handle receiving payloads to send over buffer
 MessageBufferHandle_t localWebsocketSendBuffer;
 size_t localWebsocketSendBufferLen;
+MessageBufferHandle_t localEventsBuffer;
 
 //wifi vars/constants
 char WIS_IP[16];
@@ -454,16 +455,16 @@ static void websocket_event_handler(void *handler_args, esp_event_base_t base, i
         break;
     case WEBSOCKET_EVENT_DATA:
         {
-        ESP_LOGI(TAG, "WEBSOCKET_EVENT_DATA");
-         ESP_LOGI(TAG, "Received opcode=%d", data->op_code);
-         ESP_LOGW(TAG, "Received=%.*s", data->data_len, (char *)data->data_ptr);
-         ESP_LOGW(TAG, "Total payload length=%d, data_len=%d, current payload offset=%d\r\n", data->payload_len, data->data_len, data->payload_offset);
+        // ESP_LOGI(TAG, "WEBSOCKET_EVENT_DATA");
+        //  ESP_LOGI(TAG, "Received opcode=%d", data->op_code);
+        //  ESP_LOGW(TAG, "Received=%.*s", data->data_len, (char *)data->data_ptr);
+        //  ESP_LOGW(TAG, "Total payload length=%d, data_len=%d, current payload offset=%d\r\n", data->payload_len, data->data_len, data->payload_offset);
          if (data->data_len > 5){ //ignore empty strings and tiny pings
              int jsonStringLen = (data->data_len)+1;
              char jsonString[jsonStringLen];
              snprintf(jsonString, jsonStringLen, "%s", (char *)data->data_ptr);
-             ESP_LOGW(TAG, "JSON STRING PREPARSE=%s", jsonString);
-             parseJson(jsonString);
+            //  ESP_LOGW(TAG, "JSON STRING PREPARSE=%s", jsonString);
+             size_t tx_bytes = xMessageBufferSend(localEventsBuffer, jsonString, strlen(jsonString)+1, portMAX_DELAY);
          }
         break;
         }
@@ -483,14 +484,14 @@ static void reconnect_websocket()
     // connect the socket again
 }
 
-#include "../include/message_types.h"
+#include "message_types.hpp"
 void ping_loop_task(void *args)
 {
     while (true)
     {
         if (check_websocket_connect())
         {
-            MessageTypes mt = MessageTypes();
+            //MessageTypes mt = MessageTypes();
             char ping[64] = "{\"MESSAGE_TYPE_LOCAL\" : \"ping\"}";
             esp_websocket_client_send_text(webSocketClient, ping, strlen(ping), portMAX_DELAY);
         }
@@ -498,10 +499,11 @@ void ping_loop_task(void *args)
     }
 }
 
-void websocket_app_start(MessageBufferHandle_t websocketSendBuffer, size_t websocketSendBufferLen)
+void websocket_app_start(MessageBufferHandle_t websocketSendBuffer, size_t websocketSendBufferLen, MessageBufferHandle_t eventsBuffer)
 {
     localWebsocketSendBuffer = websocketSendBuffer;
     localWebsocketSendBufferLen = websocketSendBufferLen;
+    localEventsBuffer = eventsBuffer;
 
     esp_websocket_client_config_t websocket_cfg = {};
 
@@ -524,37 +526,12 @@ void websocket_app_start(MessageBufferHandle_t websocketSendBuffer, size_t webso
     esp_websocket_client_start(webSocketClient);
 }
 
-void websocket_receive_loop(void *args){
-    // xTimerStart(shutdown_signal_timer, portMAX_DELAY);
-    char data[32];
-    int i = 0;
-    while (true)
-    {
-        // if (esp_websocket_client_is_connected(webSocketClient)) {
-        //     int len = sprintf(data, "hello %04d", i++);
-        //     ESP_LOGI(TAG, "Sending %s of size %d", payload, strlen(payload));
-        //     esp_websocket_client_send_text(webSocketClient, payload, strlen(payload), portMAX_DELAY);
-        // }
-        vTaskDelay(1000 / portTICK_RATE_MS);
-    }
-
-    xSemaphoreTake(shutdown_sema, portMAX_DELAY);
-    esp_websocket_client_stop(webSocketClient);
-    ESP_LOGI(TAG, "Websocket Stopped");
-    esp_websocket_client_destroy(webSocketClient);
-}
-
 void websocket_send_loop(void *args){
     char * stringToSend = (char *)malloc(localWebsocketSendBufferLen);
     while (true)
     {
         int bytes_written = xMessageBufferReceive(localWebsocketSendBuffer, stringToSend, localWebsocketSendBufferLen, portMAX_DELAY);
 
-        // ESP_LOGI(TAG, "wsl received bytes_written: %d", bytes_written);
-        // ESP_LOGI(TAG, "wsl received message: %s", stringToSend);
-        // ESP_LOGI(TAG, "wsl local len: %d", localWebsocketSendBufferLen);
-        // ESP_LOGI(TAG, "wsl message: %d", localWebsocketSendBufferLen);
-        
         if (bytes_written != 0){
             if (check_websocket_connect()) {
                 //ESP_LOGI(TAG, "Sending message of size %d", strlen(stringToSend));

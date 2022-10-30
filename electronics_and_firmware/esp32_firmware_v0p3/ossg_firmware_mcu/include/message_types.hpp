@@ -1,3 +1,5 @@
+#pragma once
+
 class MessageTypes {
     public: 
         //top level
@@ -100,6 +102,9 @@ class MessageTypes {
         const char* SEARCH_ENGINE_QUERY = "SEARCH_ENGINE_QUERY";
         const char* SEARCH_ENGINE_RESULT = "SEARCH_ENGINE_RESULT";
         const char* SEARCH_ENGINE_RESULT_DATA = "SEARCH_ENGINE_RESULT_DATA";
+        const char* SEARCH_ENGINE_RESULT_DATA_TITLE = "title";
+        const char* SEARCH_ENGINE_RESULT_DATA_BODY = "body";
+        const char* SEARCH_ENGINE_RESULT_DATA_IMAGE = "image";
 
         //I/O
         const char* SG_TOUCHPAD_EVENT = "SG_TOUCHPAD_EVENT";
