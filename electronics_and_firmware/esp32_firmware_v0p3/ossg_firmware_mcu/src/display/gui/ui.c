@@ -825,7 +825,7 @@ void ui_Card_Search_Ver_screen_init(void)
 
 }
 
-void ui_init_custom(void)
+void ui_init(void)
 {
     LV_EVENT_GET_COMP_CHILD = lv_event_register_id();
 

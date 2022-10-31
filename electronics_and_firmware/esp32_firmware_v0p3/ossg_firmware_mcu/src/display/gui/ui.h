@@ -102,14 +102,7 @@ extern lv_obj_t * ui_ContainerBelowHeader5;
 extern lv_obj_t * ui_Content;
 extern lv_obj_t * ui_Title;
 
-
-//LV_IMG_DECLARE(ui_img_matt_shades_png);    // assets/matt shades.png
-//LV_IMG_DECLARE(ui_img_test_png);    // assets/test.png
-
-
-
-
-void ui_init_custom(void);
+void ui_init(void);
 
 #ifdef __cplusplus
 } /*extern "C"*/

@@ -32,7 +32,8 @@ const size_t websocketSendBufferLen = (1024 * 4 * sizeof(char *)) + sizeof(size_
 
 #define MEM_MSG 0
 
-#define ENABLEDISPLAY 0
+#define ENABLEDISPLAY 1
+
 #if ENABLEDISPLAY
     #include "displaymanager.hpp"
 #endif
@@ -68,6 +69,7 @@ void eventDistributor(void *args){
                 char * image = searchEngineResultData.getJsonKey(messageTypesList.SEARCH_ENGINE_RESULT_DATA_IMAGE);
                 ESP_LOGI(TAG, "title: %s \n body: %s \n image: %s", title, body, image);
                 //call display reference card here with title, body, image arguments
+                displaySearchEngineResult(title, body, image);
             }
         }
     }
@@ -77,7 +79,6 @@ void eventDistributor(void *args){
 void startTheDisplay(){
     #if ENABLEDISPLAY
         displayStart();
-        displayCardSearchTextonlyDemo();
         displayEnterVoiceCommandStep2();
     #endif
 }
@@ -110,7 +111,7 @@ void app_main(void)
 
     // start WIFI
     wifi_init_sta();
-
+ 
     //setup eventsDistributor and eventsBuffer, which handles incoming data from WIS and calls functions based on what WIS tells us to do
     eventsBuffer = xMessageBufferCreate(eventsBufferLen);
     TaskHandle_t eventsTask = NULL;
@@ -119,7 +120,7 @@ void app_main(void)
     //connect to WIS web socket
     websocketSendBuffer = xMessageBufferCreate(websocketSendBufferLen);
     websocket_app_start(websocketSendBuffer, websocketSendBufferLen, eventsBuffer);
-    
+
     //start websocket sending listening loop
     TaskHandle_t webSocketSendTask = NULL;
     xTaskCreate(websocket_send_loop, "web_socket_send_task", 6*1024, NULL, 1, &webSocketSendTask);
