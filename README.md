@@ -64,7 +64,7 @@ The system is fully Open Source and built by this growing list of contributors:
 - [Nicholas Gray](https://github.com/Thecactusman0)
 - Paul Hamilton
 - [MattTheMaker](https://www.mrdcreations.org/)
-- Alyx
+- [Alex Israelov](https://alexisraelov.com)
 - Your Name Here, [join us](https://discord.gg/5ukNvkEAqT)!
 
 ## How Do I Buy A Pair?
