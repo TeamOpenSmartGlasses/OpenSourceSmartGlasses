@@ -42,6 +42,15 @@ const size_t websocketSendBufferLen = (1024 * 4 * sizeof(char *)) + sizeof(size_
 using std::cout;
 using std::endl;
 
+void printPerfInfo(){
+    printf( "Task Name\tStatus\tPrio\tHWM\tTask\tAffinity\n");
+    char stats_buffer[1024];
+    vTaskList(stats_buffer);
+    printf("%s\n", stats_buffer);
+
+    printf("Free Heap Size: %d", xPortGetFreeHeapSize());
+}
+
 MessageBufferHandle_t eventsBuffer;
 const size_t eventsBufferLen = (1024 * 1 * sizeof(char *)) + sizeof(size_t); // room for events buffer, room for one size_t for MessageBuffer overhead
 MessageTypes messageTypesList;
@@ -50,6 +59,8 @@ void eventDistributor(void *args){
     char * jsonString = (char *)malloc(eventsBufferLen);
     while (true)
     {
+        vTaskDelay(pdMS_TO_TICKS(1000));
+
         int bytes_written = xMessageBufferReceive(eventsBuffer, jsonString, eventsBufferLen, portMAX_DELAY);
 
         if (bytes_written != 0){
@@ -70,6 +81,8 @@ void eventDistributor(void *args){
                 ESP_LOGI(TAG, "title: %s \n body: %s \n image: %s", title, body, image);
                 //call display reference card here with title, body, image arguments
                 displaySearchEngineResult(title, body, image);
+                
+                printPerfInfo();
             }
         }
     }
@@ -123,27 +136,30 @@ void app_main(void)
 
     //start websocket sending listening loop
     TaskHandle_t webSocketSendTask = NULL;
-    xTaskCreate(websocket_send_loop, "web_socket_send_task", 6*1024, NULL, 1, &webSocketSendTask);
+    if(BaseType_t retr = xTaskCreate(websocket_send_loop, "web_socket_send_task", 6*1024, NULL, 1, &webSocketSendTask) != pdPASS)
+        ESP_LOGI(TAG, "Create Task websocket_send_loop failed, ERR: %d", retr);
+    else ESP_LOGI(TAG, "Create Task websocket_send_loop SUCCESS, RES: %d", retr);
 
     //start websocket pinger
     TaskHandle_t webSocketPingTask = NULL;
-    xTaskCreate(ping_loop_task, "ping_loop_task", 2*1024, NULL, 1, &webSocketPingTask);
+    if(BaseType_t retr = xTaskCreate(ping_loop_task, "ping_loop_task", 2*1024, NULL, 1, &webSocketPingTask) != pdPASS)
+        ESP_LOGI(TAG, "Create Task ping_loop_task failed, ERR: %d", retr);
+    else ESP_LOGI(TAG, "Create Task ping_loop_task SUCCESS, RES: %d", retr);
 
     //audio 
     setup_audio_buffer(); //must call this before starting the audio tasks
-   
+    
     //send audio task
     TaskHandle_t sendAudioTaskHandle = NULL;
-    xTaskCreate(sendAudioChunk, "send_audio_chunk_task", 6*1024, websocketSendBuffer, 1, &sendAudioTaskHandle);
+    if(BaseType_t retr = xTaskCreate(sendAudioChunk, "send_audio_chunk_task", 6*1024, websocketSendBuffer, 25, &sendAudioTaskHandle) != pdPASS)
+        ESP_LOGI(TAG, "Create Task sendAudioChunk failed, ERR: %d\nFree Heap Size: %d, WANTED TO ALLOCATE %d", retr,heap_caps_get_largest_free_block(MALLOC_CAP_8BIT), 6*1024);
+    else ESP_LOGI(TAG, "Create Task sendAudioChunk SUCCESS, RES: %d", retr);
 
     //start microphone input AFTER STARTING AUDIO QUEUE
     TaskHandle_t microphoneTaskHandle = NULL;
-    xTaskCreate(microphone_stream, "microphone_stream_task", 6*1024, NULL, 1, &microphoneTaskHandle);
-
-#if MEM_MSG
-    cout << "Free heap OGOGOG: ";
-    cout << heap_caps_get_free_size(MALLOC_CAP_8BIT) << endl;
-#endif
+    if(BaseType_t retr = xTaskCreate(microphone_stream, "microphone_stream_task", 6*1024, NULL, 25, &microphoneTaskHandle) != pdPASS)
+        ESP_LOGI(TAG, "Create Task microphone_stream failed, ERR: %d\nFree Heap Size: %d, WANTED TO ALLOCATE %d", retr,heap_caps_get_largest_free_block(MALLOC_CAP_8BIT), 6*1024);
+    else ESP_LOGI(TAG, "Create Task microphone_stream SUCCESS, RES: %d", retr);
 
     return;
 }
