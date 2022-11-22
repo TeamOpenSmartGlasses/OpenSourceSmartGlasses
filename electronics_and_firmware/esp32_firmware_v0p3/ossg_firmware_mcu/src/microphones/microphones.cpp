@@ -25,7 +25,7 @@ static const char *TAG = "MICROPHONES_OSSG";
 
 // place to pass audio around and save it
 MessageBufferHandle_t audioMessageBuffer;
-const size_t AUDIO_BUFFER_SIZE = 1024;                                                        // number of samples, each sample uint16_t
+const size_t AUDIO_BUFFER_SIZE = 4096; //og 1024         // number of samples, each sample uint16_t
 const size_t audioMessageBufferLen = (AUDIO_BUFFER_SIZE * sizeof(uint16_t)) + sizeof(size_t); // room for websocket buffer, room for one size_t for MessageBuffer overhead
 
 static const char *audioJsonTemplate = "{\"MESSAGE_TYPE_LOCAL\" : \"AUDIO_CHUNK_DECRYPTED\", \"AUDIO_DATA\" : \"%s\"}";
@@ -155,10 +155,9 @@ void microphone_stream(void *args)
         int samples_read = i2s_read_custom(buf, AUDIO_BUFFER_SIZE);
         int bytes_read = samples_read * sizeof(uint16_t);
 
-        ESP_LOGI(TAG, "after i2s read custom");
-
-        printf("Val1: %u \n", (uint8_t)(buf[0]));
-        printf("Val2: %u \n", (uint8_t)(buf[1]));
+        //ESP_LOGI(TAG, "after i2s read custom");
+        //ESP_LOGI(TAG, "Val1: %u \n", (uint8_t)(buf[0]));
+        //ESP_LOGI(TAG, "Val2: %u \n", (uint8_t)(buf[1]));
 
         lastTickTimeProc = xTaskGetTickCount();
 

@@ -460,11 +460,12 @@ static void websocket_event_handler(void *handler_args, esp_event_base_t base, i
         //  ESP_LOGW(TAG, "Received=%.*s", data->data_len, (char *)data->data_ptr);
         //  ESP_LOGW(TAG, "Total payload length=%d, data_len=%d, current payload offset=%d\r\n", data->payload_len, data->data_len, data->payload_offset);
          if (data->data_len > 5){ //ignore empty strings and tiny pings
-             int jsonStringLen = (data->data_len)+1;
-             char jsonString[jsonStringLen];
-             snprintf(jsonString, jsonStringLen, "%s", (char *)data->data_ptr);
+            int jsonStringLen = (data->data_len)+1;
+            char *jsonString = (char*)malloc(jsonStringLen);
+            snprintf(jsonString, jsonStringLen, "%s", (char *)data->data_ptr);
             //  ESP_LOGW(TAG, "JSON STRING PREPARSE=%s", jsonString);
-             size_t tx_bytes = xMessageBufferSend(localEventsBuffer, jsonString, strlen(jsonString)+1, portMAX_DELAY);
+            size_t tx_bytes = xMessageBufferSend(localEventsBuffer, jsonString, strlen(jsonString)+1, portMAX_DELAY);
+            free(jsonString);
          }
         break;
         }

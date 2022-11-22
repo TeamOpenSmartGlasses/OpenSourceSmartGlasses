@@ -32,7 +32,7 @@ const size_t websocketSendBufferLen = (1024 * 4 * sizeof(char *)) + sizeof(size_
 
 #define MEM_MSG 0
 
-#define ENABLEDISPLAY 1
+#define ENABLEDISPLAY 0
 
 #if ENABLEDISPLAY
     #include "displaymanager.hpp"
@@ -65,13 +65,17 @@ void eventDistributor(void *args){
     char * jsonString = (char *)malloc(eventsBufferLen);
     while (true)
     {
-        vTaskDelay(pdMS_TO_TICKS(1000));
-
+        //vTaskDelay(pdMS_TO_TICKS(1000));
+        
         int bytes_written = xMessageBufferReceive(eventsBuffer, jsonString, eventsBufferLen, portMAX_DELAY);
-
+        
         if (bytes_written != 0){
-            JsonMessageParser jsonMessageParser = JsonMessageParser(jsonString);
-            char * messageType = jsonMessageParser.getMessageType();
+            ESP_LOGI(TAG, "===========\nESP EVENT DISTR GOT EVENT!!!\n===========");
+            printPerfInfo(true);
+            vTaskDelay(pdMS_TO_TICKS(1));
+
+            JsonMessageParser* jsonMessageParser = new JsonMessageParser(jsonString);
+            char * messageType = (*jsonMessageParser).getMessageType();
             ESP_LOGI(TAG, "Message Type is: %s", messageType);
             //can't use a switch statement here, so big if-else
             if (!strcmp(messageType, messageTypesList.FINAL_TRANSCRIPT)){
@@ -80,16 +84,22 @@ void eventDistributor(void *args){
                 ESP_LOGI(TAG, "GOT INTERMEDIATE TRANSCRIPT");
             } else if (!strcmp(messageType, messageTypesList.SEARCH_ENGINE_RESULT)){
                 ESP_LOGI(TAG, "GOT SEARCH ENGINE RESULT");
-                JsonMessageParser searchEngineResultData = JsonMessageParser(jsonMessageParser.getJsonKey(messageTypesList.SEARCH_ENGINE_RESULT_DATA));
-                char * title = searchEngineResultData.getJsonKey(messageTypesList.SEARCH_ENGINE_RESULT_DATA_TITLE);
-                char * body = searchEngineResultData.getJsonKey(messageTypesList.SEARCH_ENGINE_RESULT_DATA_BODY);
-                char * image = searchEngineResultData.getJsonKey(messageTypesList.SEARCH_ENGINE_RESULT_DATA_IMAGE);
+                JsonMessageParser *searchEngineResultData = new JsonMessageParser((*jsonMessageParser).getJsonKey(messageTypesList.SEARCH_ENGINE_RESULT_DATA));
+                char * title = (*searchEngineResultData).getJsonKey(messageTypesList.SEARCH_ENGINE_RESULT_DATA_TITLE);
+                char * body = (*searchEngineResultData).getJsonKey(messageTypesList.SEARCH_ENGINE_RESULT_DATA_BODY);
+                char * image = (*searchEngineResultData).getJsonKey(messageTypesList.SEARCH_ENGINE_RESULT_DATA_IMAGE);
                 ESP_LOGI(TAG, "title: %s \n body: %s \n image: %s", title, body, image);
-                //call display reference card here with title, body, image arguments
-                displaySearchEngineResult(title, body, image);
                 
+                //call display reference card here with title, body, image arguments
+                #if ENABLEDISPLAY
+                displaySearchEngineResult(title, body, image);
+                #endif
+
                 printPerfInfo();
+
+                delete searchEngineResultData;
             }
+            delete jsonMessageParser;
         }
     }
     free(jsonString);
@@ -126,8 +136,9 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_event_loop_create_default());
 
     //start the display
+    #if ENABLEDISPLAY
     startTheDisplay();
-
+    #endif
     // start WIFI
     wifi_init_sta();
  
