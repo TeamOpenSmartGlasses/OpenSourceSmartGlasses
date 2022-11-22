@@ -42,13 +42,19 @@ const size_t websocketSendBufferLen = (1024 * 4 * sizeof(char *)) + sizeof(size_
 using std::cout;
 using std::endl;
 
-void printPerfInfo(){
-    printf( "Task Name\tStatus\tPrio\tHWM\tTask\tAffinity\n");
-    char stats_buffer[1024];
-    vTaskList(stats_buffer);
-    printf("%s\n", stats_buffer);
+void printPerfInfo(bool justHeap = false){
+    if(!justHeap){
+        printf( "Task Name\tStatus\tPrio\tHWM\tTask\tAffinity\n");
+        char stats_buffer[1024];
+        vTaskList(stats_buffer);
+        printf("%s\n", stats_buffer);
+        int dog =  heap_caps_get_largest_free_block(MALLOC_CAP_8BIT);
+        printf("===========\nLargest free block: %d\nMin free heap: %d\n===========", dog, esp_get_minimum_free_heap_size());
+    }
 
-    printf("Free Heap Size: %d", xPortGetFreeHeapSize());
+    ESP_LOGI(TAG, "INTERNAL heap_caps_get_free_size:          %d\n", heap_caps_get_free_size(MALLOC_CAP_8BIT | MALLOC_CAP_INTERNAL));
+    ESP_LOGI(TAG, "INTERNAL heap_caps_get_minimum_free_size:  %d\n", heap_caps_get_minimum_free_size(MALLOC_CAP_8BIT | MALLOC_CAP_INTERNAL));
+    ESP_LOGI(TAG, "INTERNAL heap_caps_get_largest_free_block: %d\n", heap_caps_get_largest_free_block(MALLOC_CAP_8BIT | MALLOC_CAP_INTERNAL));
 }
 
 MessageBufferHandle_t eventsBuffer;
@@ -136,30 +142,37 @@ void app_main(void)
 
     //start websocket sending listening loop
     TaskHandle_t webSocketSendTask = NULL;
-    if(BaseType_t retr = xTaskCreate(websocket_send_loop, "web_socket_send_task", 6*1024, NULL, 1, &webSocketSendTask) != pdPASS)
-        ESP_LOGI(TAG, "Create Task websocket_send_loop failed, ERR: %d", retr);
-    else ESP_LOGI(TAG, "Create Task websocket_send_loop SUCCESS, RES: %d", retr);
+    if(BaseType_t retrb = xTaskCreate(websocket_send_loop, "web_socket_send_task", 6*1024, NULL, 1, &webSocketSendTask) != pdPASS)
+        ESP_LOGI(TAG, "Create Task websocket_send_loop failed, ERR: %d", retrb);
+    else ESP_LOGI(TAG, "Create Task websocket_send_loop SUCCESS, RES: %d", retrb);
 
     //start websocket pinger
     TaskHandle_t webSocketPingTask = NULL;
-    if(BaseType_t retr = xTaskCreate(ping_loop_task, "ping_loop_task", 2*1024, NULL, 1, &webSocketPingTask) != pdPASS)
-        ESP_LOGI(TAG, "Create Task ping_loop_task failed, ERR: %d", retr);
-    else ESP_LOGI(TAG, "Create Task ping_loop_task SUCCESS, RES: %d", retr);
+    BaseType_t retrc = xTaskCreate(ping_loop_task, "ping_loop_task", 2*1024, NULL, 1, &webSocketPingTask);
+    if(retrc != pdPASS)
+        ESP_LOGI(TAG, "Create Task ping_loop_task failed, ERR: %d", retrc);
+    else ESP_LOGI(TAG, "Create Task ping_loop_task SUCCESS, RES: %d", retrc);
 
     //audio 
     setup_audio_buffer(); //must call this before starting the audio tasks
     
+    printPerfInfo(true);
+
     //send audio task
     TaskHandle_t sendAudioTaskHandle = NULL;
-    if(BaseType_t retr = xTaskCreate(sendAudioChunk, "send_audio_chunk_task", 6*1024, websocketSendBuffer, 25, &sendAudioTaskHandle) != pdPASS)
-        ESP_LOGI(TAG, "Create Task sendAudioChunk failed, ERR: %d\nFree Heap Size: %d, WANTED TO ALLOCATE %d", retr,heap_caps_get_largest_free_block(MALLOC_CAP_8BIT), 6*1024);
-    else ESP_LOGI(TAG, "Create Task sendAudioChunk SUCCESS, RES: %d", retr);
+    BaseType_t retrd = xTaskCreate(sendAudioChunk, "send_audio_chunk_task", 6*1024, websocketSendBuffer, 1, &sendAudioTaskHandle);
+    if(retrd != pdPASS)
+        ESP_LOGI(TAG, "Create Task sendAudioChunk failed, ERR: %d\nFree Heap Size: %d, WANTED TO ALLOCATE %d", retrd,heap_caps_get_largest_free_block(MALLOC_CAP_8BIT), 6*1024);
+    else ESP_LOGI(TAG, "Create Task sendAudioChunk SUCCESS, RES: %d", retrd);
+
+     printPerfInfo(true);
 
     //start microphone input AFTER STARTING AUDIO QUEUE
     TaskHandle_t microphoneTaskHandle = NULL;
-    if(BaseType_t retr = xTaskCreate(microphone_stream, "microphone_stream_task", 6*1024, NULL, 25, &microphoneTaskHandle) != pdPASS)
-        ESP_LOGI(TAG, "Create Task microphone_stream failed, ERR: %d\nFree Heap Size: %d, WANTED TO ALLOCATE %d", retr,heap_caps_get_largest_free_block(MALLOC_CAP_8BIT), 6*1024);
-    else ESP_LOGI(TAG, "Create Task microphone_stream SUCCESS, RES: %d", retr);
-
+    BaseType_t retre = xTaskCreate(microphone_stream, "microphone_stream_task", 6*1024, NULL, 1, &microphoneTaskHandle);
+    if(retre != pdPASS)
+        ESP_LOGI(TAG, "Create Task microphone_stream failed, ERR: %d\nFree Heap Size: %d, WANTED TO ALLOCATE %d", retre, heap_caps_get_largest_free_block(MALLOC_CAP_8BIT), 6*1024);
+    else ESP_LOGI(TAG, "Create Task microphone_stream SUCCESS, RES: %d", retre);
+    
     return;
 }

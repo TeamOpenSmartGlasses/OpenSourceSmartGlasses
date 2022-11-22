@@ -69,7 +69,7 @@ public:
       cfg.pin_dac = 25; // DACを使用するため、 25 または 26 のみが選択できます;
 
       // Setting PSRAM Memory Allocation;
-      cfg.use_psram = 1; // 0=no PSRAM used / 1=half PSRAM and half SRAM / 2=full PSRAM;
+      cfg.use_psram = 2; // 0=no PSRAM used / 1=half PSRAM and half SRAM / 2=full PSRAM;
 
       // Sets the amplitude strength of the output signal;
       cfg.output_level = 128; // Initial value 128
