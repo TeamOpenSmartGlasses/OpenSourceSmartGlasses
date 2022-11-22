@@ -35,7 +35,7 @@ The display + freeform optics come glued together.
 
 ## I'd love to contribute to the OSSG firmware, but can't dump hundreds on display hardware! What alternatives exist?
 
-* If you still want a display, I'd recommend the SON-FL08 module. These are ~$60 and come with a CVBS driver board and a magnifier. You will need to source your own prism (~$10). For an example of it in action (and links to buy), check out my [Telescope](https://github.com/alex1115alex/wearables-telescope) project.
+* If you still want a display, I'd recommend the SON-FL08 module. These are about $60 and come with a CVBS driver board and a magnifier. You will need to source your own prism (about $10). For an example of it in action (and links to buy), check out my [Telescope](https://github.com/alex1115alex/wearables-telescope) project.
 
 * If you don't care about the display and just want to contribute while spending the least money, get a Composite-To-USB capture card from Amazon/etc for ~$10. More information about using this in the Telescope readme. 
 
