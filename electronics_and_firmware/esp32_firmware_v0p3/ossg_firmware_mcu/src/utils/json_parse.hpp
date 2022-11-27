@@ -13,7 +13,7 @@ class JsonMessageParser
         JsonMessageParser(char * jsonString);
 		char * getMessageType();
 		char * getJsonKey(const char * key);
-        // ~JsonMessageParser();
+        ~JsonMessageParser();
 
     private:
         void makeJson();

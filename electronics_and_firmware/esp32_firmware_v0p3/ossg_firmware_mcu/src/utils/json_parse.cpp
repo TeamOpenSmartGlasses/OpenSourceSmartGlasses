@@ -6,9 +6,14 @@
 static const char *TAG = "JSON";
 
 JsonMessageParser::JsonMessageParser(char * jsonString) {     // Constructor
-			messageTypesList = MessageTypes();
-			JsonMessageParser::parseJson(jsonString);
-		}
+	messageTypesList = MessageTypes();
+	JsonMessageParser::parseJson(jsonString);
+}
+
+JsonMessageParser::~JsonMessageParser() {     // Deconstructor
+	//delete json object
+	cJSON_Delete(jsonObj);
+}
 
 char * JsonMessageParser::getMessageType(){
 	//get the type of the message
@@ -26,11 +31,6 @@ char * JsonMessageParser::getJsonKey(const char * key){
 	}
 	return value;
 }
-
-// JsonMessageParser::~JsonMessageParser() {     // Deconstructor
-// 	//delete json object
-// 	cJSON_Delete(jsonObj);
-// }
 
 //tester to make json object from scratch, not yet used
 void JsonMessageParser::makeJson(){

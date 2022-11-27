@@ -32,7 +32,7 @@ const size_t websocketSendBufferLen = (1024 * 4 * sizeof(char *)) + sizeof(size_
 
 #define MEM_MSG 0
 
-#define ENABLEDISPLAY 0
+#define ENABLEDISPLAY 1
 
 #if ENABLEDISPLAY
     #include "displaymanager.hpp"
@@ -70,10 +70,10 @@ void eventDistributor(void *args){
         int bytes_written = xMessageBufferReceive(eventsBuffer, jsonString, eventsBufferLen, portMAX_DELAY);
         
         if (bytes_written != 0){
-            ESP_LOGI(TAG, "===========\nESP EVENT DISTR GOT EVENT!!!\n===========");
-            printPerfInfo(true);
+            //ESP_LOGI(TAG, "===========\nESP EVENT DISTR GOT EVENT!!!\n===========");
+            //printPerfInfo(true);
             vTaskDelay(pdMS_TO_TICKS(1));
-
+            ESP_LOGI(TAG, "JSON STRING: %s", jsonString);
             JsonMessageParser* jsonMessageParser = new JsonMessageParser(jsonString);
             char * messageType = (*jsonMessageParser).getMessageType();
             ESP_LOGI(TAG, "Message Type is: %s", messageType);
@@ -94,8 +94,6 @@ void eventDistributor(void *args){
                 #if ENABLEDISPLAY
                 displaySearchEngineResult(title, body, image);
                 #endif
-
-                printPerfInfo();
 
                 delete searchEngineResultData;
             }
