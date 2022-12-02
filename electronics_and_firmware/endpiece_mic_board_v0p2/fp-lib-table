@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name "OSSG_footprints_endpiece")(type "KiCad")(uri "${KIPRJMOD}/OSSG_footprints_endpiece.pretty")(options "")(descr ""))
+)
