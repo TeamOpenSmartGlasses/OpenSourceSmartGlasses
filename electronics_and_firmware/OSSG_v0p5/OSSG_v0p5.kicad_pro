@@ -45,7 +45,7 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.0
+          "min_clearance": 0.049999999999999996
         }
       },
       "diff_pair_dimensions": [
@@ -381,7 +381,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "OSSG_v0p4.kicad_pro",
+    "filename": "OSSG_v0p5.kicad_pro",
     "version": 1
   },
   "net_settings": {

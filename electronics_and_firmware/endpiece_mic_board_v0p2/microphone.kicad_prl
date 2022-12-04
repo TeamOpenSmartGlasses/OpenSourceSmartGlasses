@@ -1,8 +1,8 @@
 {
   "board": {
-    "active_layer": 36,
+    "active_layer": 0,
     "active_layer_preset": "",
-    "auto_track_width": true,
+    "auto_track_width": false,
     "hidden_nets": [],
     "high_contrast_mode": 0,
     "net_color_mode": 1,
@@ -62,8 +62,8 @@
       35,
       36
     ],
-    "visible_layers": "000d012_80000001",
-    "zone_display_mode": 0
+    "visible_layers": "000d082_80000001",
+    "zone_display_mode": 1
   },
   "meta": {
     "filename": "microphone.kicad_prl",

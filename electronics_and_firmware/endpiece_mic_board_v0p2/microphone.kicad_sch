@@ -605,7 +605,7 @@
     (property "Reference" "R2" (id 0) (at 139.573 79.629 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "10K*" (id 1) (at 137.795 82.296 0)
+    (property "Value" "0R*" (id 1) (at 137.795 82.296 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (id 2) (at 143.51 81.28 0)
@@ -643,7 +643,7 @@
     (property "Reference" "R1" (id 0) (at 139.573 72.009 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "10K*" (id 1) (at 137.795 74.676 0)
+    (property "Value" "0R*" (id 1) (at 137.795 74.676 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (id 2) (at 143.51 73.66 0)
@@ -848,10 +848,10 @@
       (reference "J1") (unit 1) (value "I2S_MIC_EXT") (footprint "OSSG_footprints_endpiece:Solder-5P-Connector")
     )
     (path "/00000000-0000-0000-0000-000062c95f77"
-      (reference "R1") (unit 1) (value "10K*") (footprint "Resistor_SMD:R_0402_1005Metric")
+      (reference "R1") (unit 1) (value "0R*") (footprint "Resistor_SMD:R_0402_1005Metric")
     )
     (path "/00000000-0000-0000-0000-000062c8e0d3"
-      (reference "R2") (unit 1) (value "10K*") (footprint "Resistor_SMD:R_0402_1005Metric")
+      (reference "R2") (unit 1) (value "0R*") (footprint "Resistor_SMD:R_0402_1005Metric")
     )
     (path "/3acedfef-909a-46aa-bd32-28be291ff6fd"
       (reference "U1") (unit 1) (value "SPH0645LMH") (footprint "OSSG_footprints_endpiece:MIC_SPH0645LM4H-B")
