@@ -53,7 +53,7 @@
       (usegerberextensions true)
       (usegerberattributes true)
       (usegerberadvancedattributes false)
-      (creategerberjobfile false)
+      (creategerberjobfile true)
       (svguseinch false)
       (svgprecision 6)
       (excludeedgelayer true)
