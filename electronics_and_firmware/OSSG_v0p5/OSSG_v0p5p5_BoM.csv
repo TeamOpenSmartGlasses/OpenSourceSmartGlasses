@@ -29,7 +29,7 @@ Ref,Qnty,Value,Cmp name,Footprint,Description,Vendor,LCSC P/N
 "R14, ",1,147K,R_Small,Resistor_SMD:R_0402_1005Metric,"Resistor, small symbol",LCSC,C226785
 "R16, ",1,10k,R_Small,Resistor_SMD:R_0402_1005Metric,"Resistor, small symbol",LCSC,C2906885
 "SW1, ",1,SW_SPST,SW_SPST,OSSG_footprints:SMD_Switch_Panasonic_EVQPUL_EVQPUC_6.3x6.7,Single Pole Single Throw (SPST) switch,LCSC,C493280
-"SW2, ",1,Power,SW_SPDT,OSSG_footprints:SW_SMD_SPDT_Slide_9x6.9-hole,"Switch, single pole double throw",LCSC,C145858
+"SW2, ",1,Power,SW_SPDT,OSSG_footprints:SW_SMD_SPDT_Slide_9x6.9-hole,"Switch, single pole double throw",LCSC,C145857
 "U1, ",1,MP23DB01HPTR,MP23DB01HPTR,OSSG_footprints:MP23DB01HPTR,Microphone MEMS i2S PDM,LCSC,C498192
 "U2, ",1,ESP32-PICO-D4,ESP32-PICO-D4,OSSG_footprints:ESP32_PICO_D4,,LCSC,C193707
 "U3, ",1,CH9102F,CH9102F,Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm,USB to UART Bridge,LCSC,C2858418
