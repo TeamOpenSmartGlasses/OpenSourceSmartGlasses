@@ -3,6 +3,8 @@
 //Wearable Intelligence System Repo: https://github.com/emexlabs/WearableIntelligenceSystem
 //OSSG firmware authors: Cayden Pierce, Alex Israelov
 
+static const char *TAG = "MAIN_OSSG";
+
 #include "../include/ossg_constants.hpp"
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,7 +27,30 @@
 //audio
 #include "microphones.hpp"
 
-static const char *TAG = "MAIN_OSSG";
+//gpio
+#include "driver/gpio.h"
+
+#define DISPLAY_EN_PIN GPIO_NUM_2
+
+void setup_display_en(void){
+    gpio_set_direction(DISPLAY_EN_PIN, GPIO_MODE_OUTPUT);   
+}
+
+void power_to_display(bool power_on){
+    ESP_LOGI(TAG, "Sending power value to display: %d", power_on);
+    gpio_set_level(DISPLAY_EN_PIN, power_on);         // Turn the LED on
+}
+
+//a testing task to turn power to the display on and off
+void toggleDisplayPowerTask(void *args){
+    setup_display_en();
+    while (true){
+        power_to_display(0);
+        vTaskDelay(pdMS_TO_TICKS(20000));
+        power_to_display(1);
+        vTaskDelay(pdMS_TO_TICKS(5000));
+    }
+}
 
 MessageBufferHandle_t websocketSendBuffer;
 const size_t websocketSendBufferLen = (1024 * 4 * sizeof(char *)) + sizeof(size_t); // room for websocket buffer, room for one size_t for MessageBuffer overhead
@@ -72,7 +97,7 @@ void eventDistributor(void *args){
         if (bytes_written != 0){
             //ESP_LOGI(TAG, "===========\nESP EVENT DISTR GOT EVENT!!!\n===========");
             //printPerfInfo(true);
-            vTaskDelay(pdMS_TO_TICKS(1));
+            //vTaskDelay(pdMS_TO_TICKS(1));
             ESP_LOGI(TAG, "JSON STRING: %s", jsonString);
             JsonMessageParser* jsonMessageParser = new JsonMessageParser(jsonString);
             char * messageType = (*jsonMessageParser).getMessageType();
@@ -144,6 +169,10 @@ void app_main(void)
     eventsBuffer = xMessageBufferCreate(eventsBufferLen);
     TaskHandle_t eventsTask = NULL;
     xTaskCreate(eventDistributor, "events_distribution_task", 6*1024, NULL, 1, &eventsTask);
+
+    //setup power on and off display for testing task
+    TaskHandle_t powerDisplayTaskHandle = NULL;
+    xTaskCreate(toggleDisplayPowerTask, "power_display_task", 2*1024, NULL, 1, &powerDisplayTaskHandle);
 
     //connect to WIS web socket
     websocketSendBuffer = xMessageBufferCreate(websocketSendBufferLen);

@@ -35,13 +35,13 @@ static const char *audioJsonTemplate = "{\"MESSAGE_TYPE_LOCAL\" : \"AUDIO_CHUNK_
 
 // I2S pins
 #define I2S_PIN_BIT_CLOCK I2S_PIN_NO_CHANGE // not used
-#define I2S_PIN_WORD_SELECT 33              // OSSG_v0.3 built-in mic CLK
+#define I2S_PIN_WORD_SELECT 32              // OSSG_v0.3 built-in mic CLK
 #define I2S_PIN_DATA_OUT I2S_PIN_NO_CHANGE  // not used
-#define I2S_PIN_DATA_IN 32                  // OSSG_v0.3 built-in mic DATA_OUT
+#define I2S_PIN_DATA_IN 27                  // OSSG_v0.3 built-in mic DATA_OUT
 
-#define I2S_MIC_SERIAL_CLOCK 22     // slk
-#define I2S_MIC_LEFT_RIGHT_CLOCK 33 // ws
-#define I2S_MIC_SERIAL_DATA 32      // sd
+#define I2S_MIC_SERIAL_CLOCK 33     // slk
+#define I2S_MIC_LEFT_RIGHT_CLOCK 32 // ws
+#define I2S_MIC_SERIAL_DATA 27      // sd
 
 // I2S CONFIG PARAMS
 #define SAMPLE_RATE 16000
