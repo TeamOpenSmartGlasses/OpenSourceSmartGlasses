@@ -23,9 +23,12 @@ using namespace std;
 #include "user_setting.hpp"
 #include "helper_display.hpp"
 #include <gui/ui_ext.hpp>
-
+#include "message_types.hpp"
 #define LOVYAN_USE_CORE_NUM 1
 static const char *TAG = "lvgl_gui";
+
+MessageTypes messageTypesList;
+char * currentMode = strdup(messageTypesList.MODE_HOME);
 
 //esp_timer_handle_t screenTimer;
 static void screenTimerCallback(void* arg);
@@ -77,6 +80,10 @@ void screenTimerCallback(void* arg){
     displayClear();
 }
 
+void updateClock(){
+    //do smth
+}
+
 // Call this when turning on or updating the screen 
 // (updates the screen shutoff timer)
 void updateActivity(int timeoutSeconds = 5){
@@ -111,7 +118,7 @@ void displayEnterVoiceCommandStep3(char* command, char* soFar){
     lvgl_release();
 }
 
-void displaySearchEngineResult(char* title, char* body, char* image){
+void displaySearchEngineResult(char* title, char* body, char* image = ""){
     updateActivity(16); //16 seconds
 
     lvgl_acquire();
