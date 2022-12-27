@@ -449,7 +449,8 @@ static void websocket_event_handler(void *handler_args, esp_event_base_t base, i
         ESP_LOGI(TAG, "WEBSOCKET_EVENT_CONNECTED");
         break;
     case WEBSOCKET_EVENT_DISCONNECTED:
-        ESP_LOGI(TAG, "WEBSOCKET_EVENT_DISCONNECTED");
+    case WEBSOCKET_EVENT_CLOSED:
+        ESP_LOGI(TAG, "WEBSOCKET_EVENT_DISCONNECTED or CLOSED");
         ESP_LOGE(TAG, "Websocket disconnected, sleeping briefly then restarting...");
         vTaskDelay(pdMS_TO_TICKS(1000));
         esp_restart();

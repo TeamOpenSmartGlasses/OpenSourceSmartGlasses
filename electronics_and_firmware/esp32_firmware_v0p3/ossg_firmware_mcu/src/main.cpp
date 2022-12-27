@@ -32,26 +32,17 @@ static const char *TAG = "MAIN_OSSG";
 
 #define DISPLAY_EN_PIN GPIO_NUM_2
 
+//display power control
 void setup_display_en(void){
     gpio_set_direction(DISPLAY_EN_PIN, GPIO_MODE_OUTPUT);   
 }
 
 void power_to_display(bool power_on){
     ESP_LOGI(TAG, "Sending power value to display: %d", power_on);
-    gpio_set_level(DISPLAY_EN_PIN, power_on);         // Turn the LED on
+    gpio_set_level(DISPLAY_EN_PIN, !power_on);         // Turn the LED on
 }
 
-//a testing task to turn power to the display on and off
-void toggleDisplayPowerTask(void *args){
-    setup_display_en();
-    while (true){
-        power_to_display(0);
-        vTaskDelay(pdMS_TO_TICKS(20000));
-        power_to_display(1);
-        vTaskDelay(pdMS_TO_TICKS(5000));
-    }
-}
-
+//websocket buffer
 MessageBufferHandle_t websocketSendBuffer;
 const size_t websocketSendBufferLen = (1024 * 4 * sizeof(char *)) + sizeof(size_t); // room for websocket buffer, room for one size_t for MessageBuffer overhead
 
@@ -161,6 +152,11 @@ void eventDistributor(void *args){
 
 void startTheDisplay(){
     #if ENABLEDISPLAY
+        //turn on power to the display
+        setup_display_en();
+        power_to_display(true);
+
+        //start lovyan+LVGL+UI
         displayStart();
         displayEnterVoiceCommandStep2();
     #endif
@@ -191,8 +187,9 @@ void app_main(void)
 
     //start the display
     #if ENABLEDISPLAY
-    startTheDisplay();
+        startTheDisplay();
     #endif
+
     // start WIFI
     wifi_init_sta();
     
@@ -200,10 +197,6 @@ void app_main(void)
     eventsBuffer = xMessageBufferCreate(eventsBufferLen);
     TaskHandle_t eventsTask = NULL;
     xTaskCreate(eventDistributor, "events_distribution_task", 6*1024, NULL, 1, &eventsTask);
-
-    //setup power on and off display for testing task
-    TaskHandle_t powerDisplayTaskHandle = NULL;
-    xTaskCreate(toggleDisplayPowerTask, "power_display_task", 2*1024, NULL, 1, &powerDisplayTaskHandle);
 
     //connect to WIS web socket
     websocketSendBuffer = xMessageBufferCreate(websocketSendBufferLen);
