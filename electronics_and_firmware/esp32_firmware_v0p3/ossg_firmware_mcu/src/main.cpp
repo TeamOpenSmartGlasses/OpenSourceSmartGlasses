@@ -84,7 +84,12 @@ void printPerfInfo(bool justHeap = false){
 
 MessageBufferHandle_t eventsBuffer;
 const size_t eventsBufferLen = (1024 * 1 * sizeof(char *)) + sizeof(size_t); // room for events buffer, room for one size_t for MessageBuffer overhead
-MessageTypes messageTypesList;
+
+#if !ENABLEDISPLAY
+    MessageTypes messageTypesList;
+    char * currentMode = strdup(messageTypesList.MODE_HOME);
+#endif
+
 void eventDistributor(void *args){
     messageTypesList = MessageTypes();
     char * jsonString = (char *)malloc(eventsBufferLen);
@@ -96,9 +101,8 @@ void eventDistributor(void *args){
         
         if (bytes_written != 0){
             //ESP_LOGI(TAG, "===========\nESP EVENT DISTR GOT EVENT!!!\n===========");
-            //printPerfInfo(true);
-            //vTaskDelay(pdMS_TO_TICKS(1));
-            ESP_LOGI(TAG, "JSON STRING: %s", jsonString);
+            printPerfInfo(true);
+            vTaskDelay(pdMS_TO_TICKS(1));
             JsonMessageParser* jsonMessageParser = new JsonMessageParser(jsonString);
             char * messageType = (*jsonMessageParser).getMessageType();
             ESP_LOGI(TAG, "Message Type is: %s", messageType);
@@ -107,6 +111,15 @@ void eventDistributor(void *args){
                 ESP_LOGI(TAG, "GOT FINAL TRANSCRIPT");
             } else if (!strcmp(messageType, messageTypesList.INTERMEDIATE_TRANSCRIPT)){
                 ESP_LOGI(TAG, "GOT INTERMEDIATE TRANSCRIPT");
+
+                if(currentMode == messageTypesList.MODE_LIVE_LIFE_CAPTIONS)
+                {
+                    char * title = "Live Life Captions:";
+                    char * body = (*jsonMessageParser).getJsonKey(messageTypesList.TRANSCRIPT_TEXT);
+                    #if ENABLEDISPLAY
+                    displaySearchEngineResult(title, body);
+                    #endif
+                }
             } else if (!strcmp(messageType, messageTypesList.SEARCH_ENGINE_RESULT)){
                 ESP_LOGI(TAG, "GOT SEARCH ENGINE RESULT");
                 JsonMessageParser *searchEngineResultData = new JsonMessageParser((*jsonMessageParser).getJsonKey(messageTypesList.SEARCH_ENGINE_RESULT_DATA));
@@ -121,6 +134,24 @@ void eventDistributor(void *args){
                 #endif
 
                 delete searchEngineResultData;
+            }
+            else if(!strcmp(messageType, messageTypesList.TRANSLATE_TEXT_RESULT)){
+                ESP_LOGI(TAG,"GOT TRANSLATION RESULT");
+                char * title = "Translation result:";
+                char * body = (*jsonMessageParser).getJsonKey(messageTypesList.TRANSLATE_TEXT_RESULT_DATA);
+                //call display reference card here with title, body, image arguments
+                #if ENABLEDISPLAY
+                displaySearchEngineResult(title, body);
+                #endif
+            }
+            else if(!strcmp(messageType, messageTypesList.ACTION_SWITCH_MODES)){
+                ESP_LOGI(TAG, "GOT NEW MODE");
+                currentMode = (*jsonMessageParser).getJsonKey(messageTypesList.NEW_MODE);
+
+                #if ENABLEDISPLAY
+                if(currentMode == messageTypesList.MODE_HOME)
+                    displayEnterVoiceCommandStep1();
+                #endif
             }
             delete jsonMessageParser;
         }
@@ -164,7 +195,7 @@ void app_main(void)
     #endif
     // start WIFI
     wifi_init_sta();
- 
+    
     //setup eventsDistributor and eventsBuffer, which handles incoming data from WIS and calls functions based on what WIS tells us to do
     eventsBuffer = xMessageBufferCreate(eventsBufferLen);
     TaskHandle_t eventsTask = NULL;
@@ -190,7 +221,7 @@ void app_main(void)
     if(retrc != pdPASS)
         ESP_LOGI(TAG, "Create Task ping_loop_task failed, ERR: %d", retrc);
     else ESP_LOGI(TAG, "Create Task ping_loop_task SUCCESS, RES: %d", retrc);
-
+   
     //audio 
     setup_audio_buffer(); //must call this before starting the audio tasks
     

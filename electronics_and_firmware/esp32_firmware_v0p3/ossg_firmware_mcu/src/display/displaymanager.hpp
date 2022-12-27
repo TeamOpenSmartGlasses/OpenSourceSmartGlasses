@@ -10,4 +10,7 @@ extern void displayEnterVoiceCommandStep1();
 extern void displayEnterVoiceCommandStep2();
 extern void displayEnterVoiceCommandStep3(char* command, char* soFar);
 //extern void displayEnterVoiceCommandStep3(string command, string soFar);
-extern void displaySearchEngineResult(char* title, char* body, char* image);
+extern void displaySearchEngineResult(char* title, char* body, char* image = "");
+extern void updateClock();
+extern MessageTypes messageTypesList;
+extern char* currentMode;
