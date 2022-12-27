@@ -76,14 +76,18 @@ void printPerfInfo(bool justHeap = false){
 MessageBufferHandle_t eventsBuffer;
 const size_t eventsBufferLen = (1024 * 1 * sizeof(char *)) + sizeof(size_t); // room for events buffer, room for one size_t for MessageBuffer overhead
 
-#if !ENABLEDISPLAY
-    MessageTypes messageTypesList;
-    char * currentMode = strdup(messageTypesList.MODE_HOME);
-#endif
+MessageTypes messageTypesList;
+//# currentModeSize = 1024;
+char currentMode[1024];
+int currentModeSize = 1024;
 
 void eventDistributor(void *args){
     messageTypesList = MessageTypes();
     char * jsonString = (char *)malloc(eventsBufferLen);
+    
+    //start with current mode being home
+    snprintf(currentMode, currentModeSize, messageTypesList.MODE_HOME);
+
     while (true)
     {
         //vTaskDelay(pdMS_TO_TICKS(1000));
@@ -92,7 +96,7 @@ void eventDistributor(void *args){
         
         if (bytes_written != 0){
             //ESP_LOGI(TAG, "===========\nESP EVENT DISTR GOT EVENT!!!\n===========");
-            printPerfInfo(true);
+            //printPerfInfo(true);
             vTaskDelay(pdMS_TO_TICKS(1));
             JsonMessageParser* jsonMessageParser = new JsonMessageParser(jsonString);
             char * messageType = (*jsonMessageParser).getMessageType();
@@ -100,17 +104,21 @@ void eventDistributor(void *args){
             //can't use a switch statement here, so big if-else
             if (!strcmp(messageType, messageTypesList.FINAL_TRANSCRIPT)){
                 ESP_LOGI(TAG, "GOT FINAL TRANSCRIPT");
-            } else if (!strcmp(messageType, messageTypesList.INTERMEDIATE_TRANSCRIPT)){
-                ESP_LOGI(TAG, "GOT INTERMEDIATE TRANSCRIPT");
 
-                if(currentMode == messageTypesList.MODE_LIVE_LIFE_CAPTIONS)
-                {
+                ESP_LOGI(TAG, "222 NEW MODE IS: %s", currentMode);
+                ESP_LOGI(TAG, "222 Hopeing for: %s", messageTypesList.MODE_LIVE_LIFE_CAPTIONS);
+                //if our current mode is live life captions, display the intermediate caption
+                if(!strcmp(currentMode, messageTypesList.MODE_LIVE_LIFE_CAPTIONS)){
+                    ESP_LOGI(TAG, "RUNNIGN LLC");
                     char * title = "Live Life Captions:";
                     char * body = (*jsonMessageParser).getJsonKey(messageTypesList.TRANSCRIPT_TEXT);
+                    ESP_LOGI(TAG, "BODY IS: %s", body);
                     #if ENABLEDISPLAY
-                    displaySearchEngineResult(title, body);
+                        displaySearchEngineResult(title, body);
                     #endif
                 }
+            } else if (!strcmp(messageType, messageTypesList.INTERMEDIATE_TRANSCRIPT)){
+                ESP_LOGI(TAG, "GOT INTERMEDIATE TRANSCRIPT");
             } else if (!strcmp(messageType, messageTypesList.SEARCH_ENGINE_RESULT)){
                 ESP_LOGI(TAG, "GOT SEARCH ENGINE RESULT");
                 JsonMessageParser *searchEngineResultData = new JsonMessageParser((*jsonMessageParser).getJsonKey(messageTypesList.SEARCH_ENGINE_RESULT_DATA));
@@ -137,11 +145,15 @@ void eventDistributor(void *args){
             }
             else if(!strcmp(messageType, messageTypesList.ACTION_SWITCH_MODES)){
                 ESP_LOGI(TAG, "GOT NEW MODE");
-                currentMode = (*jsonMessageParser).getJsonKey(messageTypesList.NEW_MODE);
+                //currentMode = strdup((*jsonMessageParser).getJsonKey(messageTypesList.NEW_MODE));
+                snprintf(currentMode, currentModeSize, (*jsonMessageParser).getJsonKey(messageTypesList.NEW_MODE));
+                ESP_LOGI(TAG, "NEW MODE IS: %s", currentMode);
+                ESP_LOGI(TAG, "Hopeing for: %s", messageTypesList.MODE_LIVE_LIFE_CAPTIONS);
 
                 #if ENABLEDISPLAY
-                if(currentMode == messageTypesList.MODE_HOME)
-                    displayEnterVoiceCommandStep1();
+                    if(!strcmp(currentMode, messageTypesList.MODE_HOME)){
+                        displayEnterVoiceCommandStep1();
+                    }
                 #endif
             }
             delete jsonMessageParser;

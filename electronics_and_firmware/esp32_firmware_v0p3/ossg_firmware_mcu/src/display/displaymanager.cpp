@@ -27,8 +27,8 @@ using namespace std;
 #define LOVYAN_USE_CORE_NUM 1
 static const char *TAG = "lvgl_gui";
 
-MessageTypes messageTypesList;
-char * currentMode = strdup(messageTypesList.MODE_HOME);
+// MessageTypes messageTypesList;
+// char * currentMode = strdup(messageTypesList.MODE_HOME);
 
 //esp_timer_handle_t screenTimer;
 static void screenTimerCallback(void* arg);
