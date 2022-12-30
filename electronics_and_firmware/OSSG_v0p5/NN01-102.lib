@@ -1,0 +1,26 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#(c) SnapEDA 2016 (snapeda.com)
+#This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA) with Design Exception 1.0
+#
+# NN01-102
+#
+DEF NN01-102 E 0 40 Y N 1 L N
+F0 "E" 110 230 50 H V L BNN
+F1 "NN01-102" 105 150 50 H V L BNN
+F2 "XCVR_NN01-102" 0 0 50 H I L BNN
+F3 "" 0 0 50 H I L BNN
+F4 "Manufacturer recommendations" 0 0 50 H I L BNN "STANDARD"
+F5 "2.2mm" 0 0 50 H I L BNN "MAXIMUM_PACKAGE_HEIGHT"
+F6 "Ignion" 0 0 50 H I L BNN "MANUFACTURER"
+F7 "January 2021" 0 0 50 H I L BNN "PARTREV"
+DRAW
+P 2 0 0 10 95 315 0 100 N
+P 2 0 0 10 0 100 -105 315 N
+P 2 0 0 10 0 315 0 100 N
+P 2 0 0 10 0 100 0 -200 N
+X ~ 1 0 -200 100 U 40 40 0 0 I 
+ENDDRAW
+ENDDEF
+#
+# End Library

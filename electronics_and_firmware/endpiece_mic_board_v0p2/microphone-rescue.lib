@@ -1,0 +1,38 @@
+EESchema-LIBRARY Version 2.4
+#encoding utf-8
+#
+# MP23DB01HPTR-Pauls_Symbol_Library
+#
+DEF MP23DB01HPTR-Pauls_Symbol_Library U 0 40 Y Y 1 F N
+F0 "U" 0 -200 50 H V C CNN
+F1 "MP23DB01HPTR-Pauls_Symbol_Library" 0 200 50 H V C CNN
+F2 "" -250 -450 50 H I C CNN
+F3 "" -250 -450 50 H I C CNN
+DRAW
+S -200 150 250 -150 0 1 0 f
+P 2 0 1 0 150 50 150 -50 N
+C 100 0 50 0 1 0 N
+X DOUT 1 350 -100 100 L 50 50 1 1 I
+X L/R 2 -300 0 100 R 50 50 1 1 I
+X GND 3 -300 -100 100 R 50 50 1 1 I
+X CLK 4 -300 100 100 R 50 50 1 1 I
+X VDD 5 350 100 100 L 50 50 1 1 W
+ENDDRAW
+ENDDEF
+#
+# Microphone_Graphic-Pauls_Symbol_Library
+#
+DEF Microphone_Graphic-Pauls_Symbol_Library G 0 40 Y Y 1 F N
+F0 "G" 0 -90 50 H V C CNN
+F1 "Microphone_Graphic-Pauls_Symbol_Library" -40 80 50 H V C CNN
+F2 "Pauls_KiCAD_Libraries:Microhone_Graphic" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+A 0 0 10 901 -901 0 1 0 N 0 10 0 -10
+A 0 0 20 901 -901 0 1 0 N 0 20 0 -20
+A 0 0 30 901 -901 0 1 0 N 0 30 0 -30
+A 0 0 40 901 -901 0 1 0 N 0 40 0 -40
+ENDDRAW
+ENDDEF
+#
+#End Library

@@ -2420,7 +2420,7 @@
     (property "Datasheet" "~" (id 3) (at 154.178 86.614 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "P/N" "C145858" (id 4) (at 154.178 86.614 0)
+    (property "P/N" "C145857" (id 4) (at 154.178 86.614 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid f8458a39-66a6-41c9-b510-8584ae320a71))

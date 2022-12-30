@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name "microphone-rescue")(type "Legacy")(uri "${KIPRJMOD}/microphone-rescue.lib")(options "")(descr ""))
+  (lib (name "OSSG_components_lib")(type "KiCad")(uri "/home/cayden/devdir/OpenSourceSmartGlasses/electronics_and_firmware/OSSG_v0p5/OSSG_components_lib.kicad_sym")(options "")(descr ""))
+)
