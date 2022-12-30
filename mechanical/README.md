@@ -1,11 +1,15 @@
 ## How to Print
 To print full pair of glasses; 
 
-- Print left arm
-- Print right arm
-- Print front frame
-- Print left arm cover
-- Print right arm cover
+PRINT THESE:
+
+MAIN_FRAME_Fusion_BATTERY_COVER_LEFT.stl
+MAIN_FRAME_Fusion_BATTERY_COVER_RIGHT.stl
+MAIN_FRAME_Fusion_FRONT.stl
+MAIN_FRAME_Fusion_LEFT_ARM.stl
+MAIN_FRAME_Fusion_LEFT_ARM_COVER.stl
+MAIN_FRAME_Fusion_RIGHT_ARM.stl
+MAIN_FRAME_Fusion_RIGHT_ARM_COVER.stl
 
 
 ## How to Build
