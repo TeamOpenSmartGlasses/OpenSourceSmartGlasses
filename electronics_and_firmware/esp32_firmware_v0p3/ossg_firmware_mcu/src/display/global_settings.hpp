@@ -24,13 +24,14 @@ Notes:
 (x/2) = 360
 720/2 = 240
 
-Max res 720x480 will usually not display anything... too much memory?
+Max res 720x480 will only work if use_psram = 2;
 */
 
 //Change screen res here
-#define AV_WIDTH_OG 480 
+#define AV_WIDTH_OG 480
 #define AV_HEIGHT_OG 320
-#define AV_SAFEZONE 0
+
+#define AV_SAFEZONE 40 //Raise to effectively raise FOV at the cost of resolution
 
 //Reference these for runtime shit
 #define AV_WIDTH AV_WIDTH_OG - AV_SAFEZONE
