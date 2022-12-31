@@ -102,6 +102,12 @@ extern lv_obj_t * ui_ContainerBelowHeader5;
 extern lv_obj_t * ui_Content;
 extern lv_obj_t * ui_Title;
 
+extern lv_obj_t *ui_Card_Live_Captions;
+extern lv_obj_t *ui_Card_Live_Captions_Header;
+extern lv_obj_t *ui_ContainerBelowHeader1;
+extern lv_obj_t *ui_Card_Live_Captions_Title;
+extern lv_obj_t *ui_Card_Live_Captions_Content;
+
 void ui_init(void);
 
 #ifdef __cplusplus
