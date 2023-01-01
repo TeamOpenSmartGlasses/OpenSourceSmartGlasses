@@ -89,6 +89,12 @@ lv_obj_t * ui_ContainerBelowHeader5;
 lv_obj_t * ui_Content;
 lv_obj_t * ui_Title;
 
+lv_obj_t *ui_Card_Live_Captions;
+lv_obj_t *ui_Card_Live_Captions_Header;
+lv_obj_t *ui_ContainerBelowHeader1;
+lv_obj_t *ui_Card_Live_Captions_Title;
+lv_obj_t *ui_Card_Live_Captions_Content;
+
 ///////////////////// TEST LVGL SETTINGS ////////////////////
 #if LV_COLOR_DEPTH != 16
     #error "LV_COLOR_DEPTH should be 16bit to match SquareLine Studio's settings"
@@ -825,6 +831,40 @@ void ui_Card_Search_Ver_screen_init(void)
 
 }
 
+void ui_Card_Live_Captions_screen_init(void)
+{
+ui_Card_Live_Captions = lv_obj_create(NULL);
+lv_obj_clear_flag( ui_Card_Live_Captions, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
+lv_obj_set_style_bg_color(ui_Card_Live_Captions, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT );
+lv_obj_set_style_bg_opa(ui_Card_Live_Captions, 255, LV_PART_MAIN| LV_STATE_DEFAULT);
+
+ui_Card_Live_Captions_Header = ui_Telescope_Header_create(ui_Card_Live_Captions);
+lv_obj_set_x( ui_Card_Live_Captions_Header, 0 );
+lv_obj_set_y( ui_Card_Live_Captions_Header, 0 );
+
+ui_ContainerBelowHeader1 = ui_ContainerBelowHeader_create(ui_Card_Live_Captions);
+lv_obj_set_x( ui_ContainerBelowHeader1, 0 );
+lv_obj_set_y( ui_ContainerBelowHeader1, lv_pct(7) );
+
+ui_Card_Live_Captions_Title = lv_label_create(ui_ContainerBelowHeader1);
+lv_obj_set_width( ui_Card_Live_Captions_Title, lv_pct(100));
+lv_obj_set_height( ui_Card_Live_Captions_Title, LV_SIZE_CONTENT);   /// 1
+lv_label_set_long_mode(ui_Card_Live_Captions_Title,LV_LABEL_LONG_SCROLL_CIRCULAR);
+lv_label_set_text(ui_Card_Live_Captions_Title,"Live Captions");
+lv_obj_clear_flag( ui_Card_Live_Captions_Title, LV_OBJ_FLAG_PRESS_LOCK | LV_OBJ_FLAG_CLICK_FOCUSABLE | LV_OBJ_FLAG_GESTURE_BUBBLE | LV_OBJ_FLAG_SNAPPABLE | LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN );    /// Flags
+lv_obj_set_style_text_font(ui_Card_Live_Captions_Title, &lv_font_montserrat_22, LV_PART_MAIN| LV_STATE_DEFAULT);
+
+ui_Card_Live_Captions_Content = lv_label_create(ui_ContainerBelowHeader1);
+lv_obj_set_width( ui_Card_Live_Captions_Content, lv_pct(100));
+lv_obj_set_height( ui_Card_Live_Captions_Content, lv_pct(85));
+lv_obj_set_align( ui_Card_Live_Captions_Content, LV_ALIGN_BOTTOM_LEFT );
+lv_label_set_text(ui_Card_Live_Captions_Content,"Coronavirus disease 2019 (COVID-19) is a contagious disease caused by a virus, the severe acute respiratory syndrome coronavirus 2sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss (SARS-CoV-2). The first known case was identified in Wuhan, China, in December 2019.[7] The disease quickly spread worldwide, resulting in the COVID-19 pandemic.Coronavirus disease 2019 (COVID-19) is a contagious disease caused by a virus, the severe acute respiratory syndrome coronavirus 2sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss (SARS-CoV-2). The first known case was identified in Wuhan, China, in December 2019.[7] The disease quickly spread worldwide, resulting in the COVID-19 pandemic.oronavirus disease 2019 (COVID-19) is a contagious disease caused by a virus, the severe acute respiratory syndrome coronavirus 2sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss (SARS-CoV-2). The first known case was identified in Wuhan, China, in December 2019.[7] The disease quickly spread worldwide, resulting in the COVID-19 pandemic.Coronavirus disease 2019 (COVID-19) is a contagious disease caused by a virus, the severe acute respiratory syndrome coronavirus 2sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss (SARS-CoV-2). The first known case was identified in Wuhan, China, in December 2019.[7] The disease quickly spread worldwide, resulting in the COVID-19 pandemic.oronavirus disease 2019 (COVID-19) is a contagious disease caused by a virus, the severe acute respiratory syndrome coronavirus 2sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss (SARS-CoV-2). The first known case was identified in Wuhan, China, in December 2019.[7] The disease quickly spread worldwide, resulting in the COVID-19 pandemic.Coronavirus disease 2019 (COVID-19) is a contagious disease caused by a virus, the severe acute respiratory syndrome coronavirus 2sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss (SARS-CoV-2). The first known case was identified in Wuhan, China, in December 2019.[7] The disease quickly spread worldwide, resulting in the COVID-19 pandemic.oronavirus disease 2019 (COVID-19) is a contagious disease caused by a virus, the severe acute respiratory syndrome coronavirus 2sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss (SARS-CoV-2). The first known case was identified in Wuhan, China, in December 2019.[7] The disease quickly spread worldwide, resulting in the COVID-19 pandemic.Coronavirus disease 2019 (COVID-19) is a contagious disease caused by a virus, the severe acute respiratory syndrome coronavirus 2sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss (SARS-CoV-2). The first known case was identified in Wuhan, China, in December 2019.[7] The disease quickly spread worldwide, resulting in the COVID-19 pandemic.oronavirus disease 2019 (COVID-19) is a contagious disease caused by a virus, the severe acute respiratory syndrome coronavirus 2sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss (SARS-CoV-2). The first known case was identified in Wuhan, China, in December 2019.[7] The disease quickly spread worldwide, resulting in the COVID-19 pandemic.Coronavirus disease 2019 (COVID-19) is a contagious disease caused by a virus, the severe acute respiratory syndrome coronavirus 2sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss (SARS-CoV-2). The first known case was identified in Wuhan, China, in December 2019.[7] The disease quickly spread worldwide, resulting in the COVID-19 pandemic.");
+lv_obj_clear_flag( ui_Card_Live_Captions_Content, LV_OBJ_FLAG_PRESS_LOCK | LV_OBJ_FLAG_CLICK_FOCUSABLE | LV_OBJ_FLAG_GESTURE_BUBBLE | LV_OBJ_FLAG_SNAPPABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN );    /// Flags
+lv_obj_set_scrollbar_mode(ui_Card_Live_Captions_Content, LV_SCROLLBAR_MODE_OFF);
+lv_obj_set_scroll_dir(ui_Card_Live_Captions_Content, LV_DIR_VER);
+lv_obj_set_style_text_font(ui_Card_Live_Captions_Content, &lv_font_montserrat_18, LV_PART_MAIN| LV_STATE_DEFAULT);
+}
+
 void ui_init(void)
 {
     LV_EVENT_GET_COMP_CHILD = lv_event_register_id();
@@ -844,5 +884,6 @@ void ui_init(void)
     ui_Card_Search_Textonly_screen_init();
     ui_Card_Search_Hor_screen_init();
     ui_Card_Search_Ver_screen_init();
+    ui_Card_Live_Captions_screen_init();
     //lv_disp_load_scr(ui_Home_Screen);
 }

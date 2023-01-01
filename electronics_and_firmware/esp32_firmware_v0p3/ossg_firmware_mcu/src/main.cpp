@@ -30,18 +30,6 @@ static const char *TAG = "MAIN_OSSG";
 //gpio
 #include "driver/gpio.h"
 
-#define DISPLAY_EN_PIN GPIO_NUM_2
-
-//display power control
-void setup_display_en(void){
-    gpio_set_direction(DISPLAY_EN_PIN, GPIO_MODE_OUTPUT);   
-}
-
-void power_to_display(bool power_on){
-    ESP_LOGI(TAG, "Sending power value to display: %d", power_on);
-    gpio_set_level(DISPLAY_EN_PIN, !power_on);         // Turn the LED on
-}
-
 //websocket buffer
 MessageBufferHandle_t websocketSendBuffer;
 const size_t websocketSendBufferLen = (1024 * 4 * sizeof(char *)) + sizeof(size_t); // room for websocket buffer, room for one size_t for MessageBuffer overhead
@@ -98,9 +86,10 @@ void eventDistributor(void *args){
             //ESP_LOGI(TAG, "===========\nESP EVENT DISTR GOT EVENT!!!\n===========");
             //printPerfInfo(true);
             vTaskDelay(pdMS_TO_TICKS(1));
+            ESP_LOGI(TAG, "%s", jsonString);
             JsonMessageParser* jsonMessageParser = new JsonMessageParser(jsonString);
             char * messageType = (*jsonMessageParser).getMessageType();
-            ESP_LOGI(TAG, "Message Type is: %s", messageType);
+            //ESP_LOGI(TAG, "Message Type is: %s", messageType);
             //can't use a switch statement here, so big if-else
             if (!strcmp(messageType, messageTypesList.FINAL_TRANSCRIPT)){
                 ESP_LOGI(TAG, "GOT FINAL TRANSCRIPT");
@@ -114,11 +103,11 @@ void eventDistributor(void *args){
                     char * body = (*jsonMessageParser).getJsonKey(messageTypesList.TRANSCRIPT_TEXT);
                     ESP_LOGI(TAG, "BODY IS: %s", body);
                     #if ENABLEDISPLAY
-                        displaySearchEngineResult(title, body);
+                        displayLiveCaptions(body);
                     #endif
                 }
             } else if (!strcmp(messageType, messageTypesList.INTERMEDIATE_TRANSCRIPT)){
-                ESP_LOGI(TAG, "GOT INTERMEDIATE TRANSCRIPT");
+                //ESP_LOGI(TAG, "GOT INTERMEDIATE TRANSCRIPT");
             } else if (!strcmp(messageType, messageTypesList.SEARCH_ENGINE_RESULT)){
                 ESP_LOGI(TAG, "GOT SEARCH ENGINE RESULT");
                 JsonMessageParser *searchEngineResultData = new JsonMessageParser((*jsonMessageParser).getJsonKey(messageTypesList.SEARCH_ENGINE_RESULT_DATA));
@@ -164,11 +153,7 @@ void eventDistributor(void *args){
 
 void startTheDisplay(){
     #if ENABLEDISPLAY
-        //turn on power to the display
-        setup_display_en();
-        power_to_display(true);
-
-        //start lovyan+LVGL+UI
+        //start display+LovyanGFX+LVGL
         displayStart();
         displayEnterVoiceCommandStep2();
     #endif

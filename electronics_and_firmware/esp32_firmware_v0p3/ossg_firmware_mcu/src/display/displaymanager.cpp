@@ -14,11 +14,13 @@ using namespace std;
 #include "esp_log.h"
 #include "esp_vfs_fat.h"
 #include "sdmmc_cmd.h"
+#include "driver/gpio.h"
 
 #define LGFX_USE_V1
 #define LGFX_CVBS
 #define LGFX_ESP_WROVER_KIT
-
+#define DISPLAY_EN_PIN GPIO_NUM_2
+#define MAX_CAPTION_LENGTH 6000
 #include <LovyanGFX.hpp>
 #include "user_setting.hpp"
 #include "helper_display.hpp"
@@ -42,10 +44,24 @@ esp_timer_create_args_t screenTimerArgs = {
 
 lv_obj_t* blankScreen;
 
+//display power control
+void setup_display_en(void){
+    gpio_set_direction(DISPLAY_EN_PIN, GPIO_MODE_OUTPUT);   
+}
+
+void power_to_display(bool power_on){
+    ESP_LOGI(TAG, "Sending power value to display: %d", power_on);
+    gpio_set_level(DISPLAY_EN_PIN, !power_on);         // Turn the LED on
+}
+
 // Set everything up
 void displayStart(){
     cout << "DISPLAY START TRIGGERED" << endl;
     
+    // Turn on power to the display
+    setup_display_en();
+    power_to_display(true);
+
     lcd.init();        // Initialize LovyanGFX
     
     lv_init();         // Initialize lvgl
@@ -78,15 +94,21 @@ void displayClear(){
 
 void screenTimerCallback(void* arg){
     displayClear();
+    power_to_display(false);
 }
 
 void updateClock(){
-    //do smth
+    /*
+    TODO: Handle this.
+    Currently there are multiple clock objects so either change them all or find a way to consolidate them.
+    (Do this next commit)
+    */
 }
 
 // Call this when turning on or updating the screen 
 // (updates the screen shutoff timer)
 void updateActivity(int timeoutSeconds = 5){
+    power_to_display(true); //TODO: evaluate putting this here
     lcd.setBrightness(128);
 
     uint64_t timeoutMicroSeconds = timeoutSeconds * 1000000;
@@ -115,6 +137,32 @@ void displayEnterVoiceCommandStep2(){
 void displayEnterVoiceCommandStep3(char* command, char* soFar){
     lvgl_acquire();
     lv_scr_load(ui_Enter_Voice_Command_3);
+    lvgl_release();
+}
+
+char * currentCaption = "";
+void displayLiveCaptions(char* body = ""){
+
+    currentCaption = strcat(currentCaption, body);
+    string currCapStr(currentCaption);
+    if(currCapStr.length() > MAX_CAPTION_LENGTH) currCapStr = currCapStr.substr(currCapStr.length()/2);
+    currentCaption = &currCapStr[0];
+
+    updateActivity(INT_MAX);
+    lvgl_acquire();
+    if(lv_scr_act() == ui_Card_Live_Captions) //TODO: investigate why this only works sporatically
+    {
+        ESP_LOGI(TAG, "UPDATE LIVE CAPTION SCREEN");
+        lv_label_set_text(ui_Card_Live_Captions_Content, currentCaption);
+        lv_obj_scroll_to_y(ui_Card_Live_Captions_Content, SHRT_MAX, LV_ANIM_ON);
+    }
+    else
+    {
+        ESP_LOGI(TAG, "NEW LIVE CAPTION SCREEN");
+        lv_label_set_text(ui_Card_Live_Captions_Content, currentCaption);
+        lv_scr_load(ui_Card_Live_Captions);
+        lv_obj_scroll_to_y(ui_Card_Live_Captions_Content, SHRT_MAX, LV_ANIM_OFF);
+    }
     lvgl_release();
 }
 
