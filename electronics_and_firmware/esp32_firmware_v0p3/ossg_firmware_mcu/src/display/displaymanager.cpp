@@ -140,8 +140,13 @@ void displayEnterVoiceCommandStep3(char* command, char* soFar){
     lvgl_release();
 }
 
+char * newParagraphChar = "\n\n";
+char * previousTitle = "";
 char * currentCaption = "";
-void displayLiveCaptions(char* body = ""){
+void displayLiveCaptions(char* title = "", char* body = ""){
+
+    if(strcmp(title, previousTitle) != 0) currentCaption = ""; //reset captions if new title
+    if(strcmp(currentCaption, "") != 0) currentCaption = strcat(currentCaption, newParagraphChar); //If not empty, insert new paragraph
 
     currentCaption = strcat(currentCaption, body);
     string currCapStr(currentCaption);
@@ -153,12 +158,14 @@ void displayLiveCaptions(char* body = ""){
     if(lv_scr_act() == ui_Card_Live_Captions) //TODO: investigate why this only works sporatically
     {
         ESP_LOGI(TAG, "UPDATE LIVE CAPTION SCREEN");
+        lv_label_set_text(ui_Card_Live_Captions_Title, title);
         lv_label_set_text(ui_Card_Live_Captions_Content, currentCaption);
         lv_obj_scroll_to_y(ui_Card_Live_Captions_Content, SHRT_MAX, LV_ANIM_ON);
     }
     else
     {
         ESP_LOGI(TAG, "NEW LIVE CAPTION SCREEN");
+        lv_label_set_text(ui_Card_Live_Captions_Title, title);
         lv_label_set_text(ui_Card_Live_Captions_Content, currentCaption);
         lv_scr_load(ui_Card_Live_Captions);
         lv_obj_scroll_to_y(ui_Card_Live_Captions_Content, SHRT_MAX, LV_ANIM_OFF);

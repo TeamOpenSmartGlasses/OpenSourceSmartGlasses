@@ -103,7 +103,7 @@ void eventDistributor(void *args){
                     char * body = (*jsonMessageParser).getJsonKey(messageTypesList.TRANSCRIPT_TEXT);
                     ESP_LOGI(TAG, "BODY IS: %s", body);
                     #if ENABLEDISPLAY
-                        displayLiveCaptions(body);
+                        displayLiveCaptions(title, body);
                     #endif
                 }
             } else if (!strcmp(messageType, messageTypesList.INTERMEDIATE_TRANSCRIPT)){
@@ -130,6 +130,7 @@ void eventDistributor(void *args){
                 //call display reference card here with title, body, image arguments
                 #if ENABLEDISPLAY
                 displaySearchEngineResult(title, body);
+                //displayLiveCaptions(title, body);
                 #endif
             }
             else if(!strcmp(messageType, messageTypesList.ACTION_SWITCH_MODES)){
