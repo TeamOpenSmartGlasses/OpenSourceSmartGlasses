@@ -129,8 +129,8 @@ void eventDistributor(void *args){
                 char * body = (*jsonMessageParser).getJsonKey(messageTypesList.TRANSLATE_TEXT_RESULT_DATA);
                 //call display reference card here with title, body, image arguments
                 #if ENABLEDISPLAY
-                displaySearchEngineResult(title, body);
-                //displayLiveCaptions(title, body);
+                //displaySearchEngineResult(title, body);
+                displayLiveCaptions(title, body);
                 #endif
             }
             else if(!strcmp(messageType, messageTypesList.ACTION_SWITCH_MODES)){
@@ -194,7 +194,7 @@ void app_main(void)
     //setup eventsDistributor and eventsBuffer, which handles incoming data from WIS and calls functions based on what WIS tells us to do
     eventsBuffer = xMessageBufferCreate(eventsBufferLen);
     TaskHandle_t eventsTask = NULL;
-    xTaskCreate(eventDistributor, "events_distribution_task", 6*1024, NULL, 1, &eventsTask);
+    xTaskCreate(eventDistributor, "events_distribution_task", 10*1024, NULL, 1, &eventsTask);
 
     //connect to WIS web socket
     websocketSendBuffer = xMessageBufferCreate(websocketSendBufferLen);
