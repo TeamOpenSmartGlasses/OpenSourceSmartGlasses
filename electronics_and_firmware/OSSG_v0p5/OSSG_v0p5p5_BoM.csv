@@ -1,0 +1,42 @@
+Source:,OpenSourceSmartGlasses/electronics_and_firmware/OSSG_v0p4-2P/OSSG_v0p4.kicad_sch,,,,,,
+Date:,Mon Sep 19 14:31:07 2022,,,,,,
+Tool:,Eeschema 6.0.7-f9a2dced07,,,,,,
+Generator:,bom_csv_grouped_by_value_with_fp.py,,,,,,
+Component Count:,72,,,,,,
+Ref,Qnty,Value,Cmp name,Footprint,Description,Vendor,LCSC P/N
+"AE1, ",1,ANT3216LL00R2400A,Antenna_Chip,OSSG_footprints:ANT3216LL00R2400A,Ceramic chip antenna with pin for PCB trace,LCSC,C293767
+"C1, C9, C15, C18, C20, ",5,1uF,C_Small,Capacitor_SMD:C_0402_1005Metric,"Unpolarized capacitor, small symbol",LCSC,C14445
+"C2, C4, C12, C13, C16, C6, C10, C11, ",5,100nF,C_Small,Capacitor_SMD:C_0402_1005Metric,"Unpolarized capacitor, small symbol",LCSC,C41851
+"C3, ",1,200pF,C_Small,Capacitor_SMD:C_0402_1005Metric,"Unpolarized capacitor, small symbol",LCSC,C277481
+"C5, ",1,10uF,C,Capacitor_SMD:C_0402_1005Metric,Unpolarized capacitor,LCSC,C15525
+"C14, C17, C19, ",2,22uF,C_Small,Capacitor_SMD:C_0402_1005Metric,"Unpolarized capacitor, small symbol",LCSC,C415703
+"D1, ",1,WS2812C-2020,WS2812C-2020,OSSG_footprints:LED_WS2812C-2020,RGB LED with integrated controller,LCSC,C965555
+"D2, ",1,Red,LED_Small,Diode_SMD:D_0402_1005Metric,"Light emitting diode, small symbol",LCSC,C2984137
+"D3, ",1,RB160M-30,D_Schottky,Diode_SMD:D_SOD-123,Schottky diode,LCSC,C2937163
+"F1, ",1,1A,Polyfuse_Small,Resistor_SMD:R_0805_2012Metric,"Resettable fuse, polymeric positive temperature coefficient, small symbol",LCSC,C2830233
+"J3, ",1,USB_B_Micro,USB_B_Micro,Connector_USB:USB_Micro-B_Amphenol_10118194_Horizontal,USB Micro Type B connector,LCSC,C136000
+"L1, ",1,1.5uH,L_Small,OSSG_footprints:1.5uH_YXMAA0402-1R5M-ANP,"Inductor, small symbol",LCSC,  C241335
+"Q1, Q2, ",2,2SC4617R BR,Q_NPN_BEC,Package_TO_SOT_SMD:SOT-523,"NPN transistor, base/emitter/collector",LCSC,C2836080
+"Q3, ",1,PMZ290UNE2YL,PMZ290UNE2YL,OSSG_footprints:DFN100X60X40-3N,"N-MOSFET transistor, gate/source/drain",LCSC,C478155
+"Q4, ",1,YJQD30P02A,YJQD30P02A,OSSG_footprints:EMF20B02V,"Dual PMOS transistor, 6 pin package",LCSC,C919546
+"R1, R4, R5, R6, R15, R17, R18, ",7,10K,R_Small,Resistor_SMD:R_0402_1005Metric,"Resistor, small symbol",LCSC,C2906885
+"R2, R3, ",2,0R*,R_Small,Resistor_SMD:R_0402_1005Metric,"Resistor, small symbol",LCSC,C60485
+"R7, R10, ",1,100K,R_Small,Resistor_SMD:R_0402_1005Metric,"Resistor, small symbol",LCSC,C106234
+"R8, ",1,2K,R_Small,Resistor_SMD:R_0402_1005Metric,"Resistor, small symbol",LCSC,C60488
+"R9, ",1,150,R_Small,Resistor_SMD:R_0402_1005Metric,"Resistor, small symbol",LCSC,C138054
+"R11, R12, ",2,1M,R_Small,Resistor_SMD:R_0402_1005Metric,"Resistor, small symbol",LCSC,C138033
+"R13, ",1,470K,R_Small,Resistor_SMD:R_0402_1005Metric,"Resistor, small symbol",LCSC,C227380
+"R14, ",1,147K,R_Small,Resistor_SMD:R_0402_1005Metric,"Resistor, small symbol",LCSC,C226785
+"R16, ",1,10k,R_Small,Resistor_SMD:R_0402_1005Metric,"Resistor, small symbol",LCSC,C2906885
+"SW1, ",1,SW_SPST,SW_SPST,OSSG_footprints:SMD_Switch_Panasonic_EVQPUL_EVQPUC_6.3x6.7,Single Pole Single Throw (SPST) switch,LCSC,C493280
+"SW2, ",1,Power,SW_SPDT,OSSG_footprints:SW_SMD_SPDT_Slide_9x6.9-hole,"Switch, single pole double throw",LCSC,C145857
+"U1, ",1,MP23DB01HPTR,MP23DB01HPTR,OSSG_footprints:MP23DB01HPTR,Microphone MEMS i2S PDM,LCSC,C498192
+"U2, ",1,ESP32-PICO-D4,ESP32-PICO-D4,OSSG_footprints:ESP32_PICO_D4,,LCSC,C193707
+"U3, ",1,CH9102F,CH9102F,Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm,USB to UART Bridge,LCSC,C2858418
+"U4, ",1,XC61CC3002MR,XC61C_voltage_supervisor,Package_TO_SOT_SMD:SOT-23,,LCSC,C80698
+"U5, ",1,AP5054HTC,AP5054HTC,Package_TO_SOT_SMD:SOT-23-6,Li-ion 1S Battery Charger 750mA,LCSC,C2843820
+"U6, ",1,MAX17048,MAX17048_1,Package_DFN_QFN:DFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.6mm,1S LiPo Battery Fuel Gauge,LCSC,C2682616
+"U7, ",1,NCP167BMX330TBG,NCP167BMX330TBG,OSSG_footprints:REG_NCP167BMX330TBG,,LCSC,C892227
+"U8, ",1,SY7088,SY7088,Package_DFN_QFN:DFN-8-1EP_3x2mm_P0.5mm_EP1.7x1.4mm,,LCSC,C178240
+,,,,,,,
+,* = See Schematic Notes,,,,,,

@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name "OSSG_v0p3-backups")(type "KiCad")(uri "${KIPRJMOD}/")(options "")(descr ""))
+  (lib (name "OSSG_footprints")(type "KiCad")(uri "${KIPRJMOD}/OSSG_footprints.pretty")(options "")(descr ""))
+)
