@@ -1,6 +1,8 @@
 # Open Source Smart Glasses
 
-A community of engineers, researchers, makers, designers, entrepreneurs, and anyone else driven to build technology that enhances user's intelligence in daily life.  
+![OSSG Latest CAD Render](res/ossg_v1_screenshot.jpg)
+
+Smart glasses with display, microphones, wireless phone connection, prescription lenses, hours of battery life, and LED indicator. These glasses connect directly to the [Wearable Intelligence System](https://github.com/emexlabs/WearableIntelligenceSystem), so they host a suite of apps like live language translation, contextual search engine, intelligent assistant, web search, and more.
 
 We're building open source smart glasses designed to be:  
 1. All day wearable 
@@ -9,31 +11,29 @@ We're building open source smart glasses designed to be:
 
 This repo holds mechanical, electrical, and software files for the open source smartglasses developed by Team Open Smart Glasses.
 
+This project is built by members of TeamOpenSmartGlasses and the [H20 Smart Glasses Community](https://smartglasses.community/), a community of engineers, researchers, makers, designers, entrepreneurs, and anyone else driven to build technology that enhances user's intelligence in daily life.  
 
 ## Videos
 
 [![Open Source Smart Glasses Prototype Project/Progress Video](res/thumbnail_ossg_play.jpg)](https://www.youtube.com/watch?v=PwmGNWkpKW8 "Open Source Smart Glasses")
 
-
 ## Images
 
+![User Wearing OSSG v1.0](res/ossg_v1p0_cayden_pierce.jpg)
 ![OSSG Latest CAD Render](res/ossg_v1_screenshot.jpg)
-![OSSG v0.3 Schematic](res/OSSGv0p3_schematic_20220701.jpg)
-![OSSG v0p3 Board Design Render](res/V0.3_SmartglassesPCB-3DModels.png)
+![OSSG v0p5 Board Design Render](res/v0p5_board_render.png)
+![OSSG v0.5 Main Schematic](res/v0p5_schematic_main.jpg)
+![OSSG v0.5 Power Schematic](res/v0p5_schematic_power.jpg)
 ![OSSG Prescription Lenses](res/OpenSourceSmartGlasses_prescription_lenses_CaydenPierce.jpg)
 ![OSSG 3D Printing DIY](res/3d_printing_OpenSourceSmartGlasses_TeamOpenSmartGlasses_MattTheMaker_CaydenPierce.jpg)
-![OSSG Side View](res/Wearable_microphone_arrays_flex_pcb_v0p2_CaydenPierce.jpg)
-![OSSG Microphone Array](res/OpenSourceSmartGlasses_side_view_thin_CaydenPierce.jpg)
-
 ## License
 
 All work contained here is licensed under the MIT License.
 
 ## Overview
 
-An overview of the project vision and roadmap. More information to be added soon. Feel free to join [the discord](https://discord.gg/5ukNvkEAqT) if you have any questions.  
+See the wiki, this README, and the discord for an overview of the project vision and roadmap. More information to be added soon. Here's [the discord](https://discord.gg/5ukNvkEAqT).
 
-If you want to jump ahead to something more specific to what we're currently working on, go straight to: [v0.3 Project Doc](https://github.com/CaydenPierce/OpenSourceSmartGlasses/wiki/v0.3-Project-Doc)
 ### OSSG - Open Source Smart Glasses
 
 1. All day wearability. There is a difference between something that you could wear and something that you will wear. We are laser focused on building a form factor that users (us) will enjoy wearing from the start in terms of comfort, shape, size, weight, and aesthetics.
@@ -61,16 +61,14 @@ If you're interested in developing Open Source Smart Glasses, feel free to to jo
 The system is fully Open Source and built by this growing list of contributors:
 
 - [Cayden Pierce](https://caydenpierce.com) - [Emex Labs](https://emexwearables.com)
+- [Alex Israelov](https://alexisraelov.com)
+- Paul Hamilton
 - [Adrian Papineau](https://www.parallelinnov.com/about-us/)
 - [Nicholas Gray](https://github.com/Thecactusman0)
-- Paul Hamilton
-- [MattTheMaker](https://www.mrdcreations.org/)
-- [Alex Israelov](https://alexisraelov.com)
+- Matthew Jansen
+- Paul M
 - Your Name Here, [join us](https://discord.gg/5ukNvkEAqT)!
 
 ## How Do I Buy A Pair?
 
 We reccomend building your own. If you still want to buy a pair, reach out to cayden on the [Team Open Smart Glasses Discord Server](https://discord.gg/5ukNvkEAqT)
-## Website
-
-Website coming soon - https://smartglasses.community
