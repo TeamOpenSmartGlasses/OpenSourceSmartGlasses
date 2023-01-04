@@ -86,13 +86,13 @@ void displayStart(){
 //Wipe everything from screen
 void displayClear(){
     lvgl_acquire();
-    lv_obj_t * currentScreen = lv_scr_act();
     lv_scr_load(blankScreen);
     lcd.setBrightness(0);
     lvgl_release(); 
 }
 
 void screenTimerCallback(void* arg){
+    ESP_LOGI(TAG, "SCREEN TIMER CALLBACK TRIGGERED");
     displayClear();
     power_to_display(false);
 }
@@ -108,11 +108,12 @@ void updateClock(){
 // Call this when turning on or updating the screen 
 // (updates the screen shutoff timer)
 void updateActivity(int timeoutSeconds = 5){
+    ESP_LOGI(TAG, "UPDATE ACTIVITY TRIGGERED");
     power_to_display(true); //TODO: evaluate putting this here
     lcd.setBrightness(128);
 
     uint64_t timeoutMicroSeconds = timeoutSeconds * 1000000;
-    esp_timer_stop(screenTimer); //make sure it's not running anymore
+    if(timeoutSeconds == -1) timeoutMicroSeconds = INT64_MAX;
     esp_timer_start_once(screenTimer, timeoutMicroSeconds);
 }
 
@@ -140,26 +141,33 @@ void displayEnterVoiceCommandStep3(char* command, char* soFar){
     lvgl_release();
 }
 
-char * currentCaption = "";
-void displayLiveCaptions(char* body = ""){
+string previousTitle = "";
+string currentCaptionString = "";
+void displayLiveCaptions(char* title = "", char* body = ""){
+    ESP_LOGI(TAG, "DISP LIVE CAPTIONS CALLED WITH TITLE: %s, BODY: %s", title, body);
+    string titleString(title);
+    string bodyString(body);
+    if(titleString != previousTitle) currentCaptionString = "";
+    if(currentCaptionString.length() > 0) currentCaptionString += "\n\n";
+    previousTitle = titleString;
+    currentCaptionString = currentCaptionString + bodyString;
+    //ESP_LOGI(TAG, "NEW CAPTION: " + currentCaptionString);
+    if(currentCaptionString.length() > MAX_CAPTION_LENGTH) currentCaptionString = currentCaptionString.substr(currentCaptionString.length()/2);
 
-    currentCaption = strcat(currentCaption, body);
-    string currCapStr(currentCaption);
-    if(currCapStr.length() > MAX_CAPTION_LENGTH) currCapStr = currCapStr.substr(currCapStr.length()/2);
-    currentCaption = &currCapStr[0];
-
-    updateActivity(INT_MAX);
+    updateActivity(-1);
     lvgl_acquire();
     if(lv_scr_act() == ui_Card_Live_Captions) //TODO: investigate why this only works sporatically
     {
         ESP_LOGI(TAG, "UPDATE LIVE CAPTION SCREEN");
-        lv_label_set_text(ui_Card_Live_Captions_Content, currentCaption);
+        lv_label_set_text(ui_Card_Live_Captions_Title, title);
+        lv_label_set_text(ui_Card_Live_Captions_Content, &currentCaptionString[0]);
         lv_obj_scroll_to_y(ui_Card_Live_Captions_Content, SHRT_MAX, LV_ANIM_ON);
     }
     else
     {
         ESP_LOGI(TAG, "NEW LIVE CAPTION SCREEN");
-        lv_label_set_text(ui_Card_Live_Captions_Content, currentCaption);
+        lv_label_set_text(ui_Card_Live_Captions_Title, title);
+        lv_label_set_text(ui_Card_Live_Captions_Content, &currentCaptionString[0]);
         lv_scr_load(ui_Card_Live_Captions);
         lv_obj_scroll_to_y(ui_Card_Live_Captions_Content, SHRT_MAX, LV_ANIM_OFF);
     }
