@@ -97,12 +97,23 @@ void screenTimerCallback(void* arg){
     power_to_display(false);
 }
 
+char timeChar[10];
 void updateClock(){
-    /*
-    TODO: Handle this.
-    Currently there are multiple clock objects so either change them all or find a way to consolidate them.
-    (Do this next commit)
-    */
+   ESP_LOGI(TAG, "UPDATE CLOCK STARTED");
+   struct timeval currTimeVal;
+   gettimeofday(&currTimeVal, NULL);
+   time_t currTime = (time_t)currTimeVal.tv_sec;
+   time (&currTime);
+   struct tm * timeinfo = localtime(&currTime);
+   strftime(timeChar, 12, "%I:%M %p", timeinfo);
+   ESP_LOGI(TAG, "NEW TIME: %s", timeChar);
+   lvgl_acquire();
+   //lv_label_set_text(cui_Header_Text, timeChar); //TODO: This only works for Live Life Captions
+   lv_label_set_text(ui_Time, timeChar);
+   lv_label_set_text(ui_Time1, timeChar);
+   lv_label_set_text(ui_Time2, timeChar);
+   lv_label_set_text(ui_Time3, timeChar);
+   lvgl_release();
 }
 
 // Call this when turning on or updating the screen 

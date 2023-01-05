@@ -72,4 +72,6 @@ lv_obj_t * ui_Telescope_Header_create(lv_obj_t * comp_parent);
 #define _UI_COMP_CARD_NO_ICON_NUM 8
 lv_obj_t * ui_card_no_icon_create(lv_obj_t * comp_parent);
 
+extern lv_obj_t * cui_Header_Text;
+
 #endif

@@ -46,6 +46,22 @@ const size_t websocketSendBufferLen = (1024 * 4 * sizeof(char *)) + sizeof(size_
 using std::cout;
 using std::endl;
 
+/*
+    Updates the time and clock (if display is enabled)
+    int seconds - number of seconds since 12:00AM
+*/
+void updateTime(int seconds)
+{
+    timeval newTime; 
+    newTime.tv_sec = seconds; 
+    newTime.tv_usec = 0; 
+    timezone* tz = 0;
+    settimeofday(&newTime, tz);
+    #if ENABLEDISPLAY
+        updateClock();
+    #endif
+}
+
 void printPerfInfo(bool justHeap = false){
     if(!justHeap){
         printf( "Task Name\tStatus\tPrio\tHWM\tTask\tAffinity\n");
@@ -108,6 +124,9 @@ void eventDistributor(void *args){
                 }
             } else if (!strcmp(messageType, messageTypesList.INTERMEDIATE_TRANSCRIPT)){
                 //ESP_LOGI(TAG, "GOT INTERMEDIATE TRANSCRIPT");
+            } else if (!strcmp(messageType, messageTypesList.TIMESTAMP)){
+                ESP_LOGI(TAG, "GOT CURRENT TIME FROM WIS");
+                updateTime(120);
             } else if (!strcmp(messageType, messageTypesList.SEARCH_ENGINE_RESULT)){
                 ESP_LOGI(TAG, "GOT SEARCH ENGINE RESULT");
                 JsonMessageParser *searchEngineResultData = new JsonMessageParser((*jsonMessageParser).getJsonKey(messageTypesList.SEARCH_ENGINE_RESULT_DATA));
@@ -152,11 +171,19 @@ void eventDistributor(void *args){
     free(jsonString);
 }
 
+void updateClockTask(void *args){
+    while(true){
+        updateClock();
+        vTaskDelay(pdMS_TO_TICKS(1000 * 60));
+    }
+}
+
 void startTheDisplay(){
     #if ENABLEDISPLAY
         //start display+LovyanGFX+LVGL
         displayStart();
         displayEnterVoiceCommandStep2();
+        updateClock();
     #endif
 }
 
@@ -186,6 +213,11 @@ void app_main(void)
     //start the display
     #if ENABLEDISPLAY
         startTheDisplay();
+    #endif
+
+    #if ENABLEDISPLAY
+        TaskHandle_t updateClockTaskHandle = NULL;
+        xTaskCreate(updateClockTask, "update_clock_task", 2*1024, NULL, 1, &updateClockTaskHandle);
     #endif
 
     // start WIFI
@@ -233,6 +265,6 @@ void app_main(void)
     if(retre != pdPASS)
         ESP_LOGI(TAG, "Create Task microphone_stream failed, ERR: %d\nFree Heap Size: %d, WANTED TO ALLOCATE %d", retre, heap_caps_get_largest_free_block(MALLOC_CAP_8BIT), 6*1024);
     else ESP_LOGI(TAG, "Create Task microphone_stream SUCCESS, RES: %d", retre);
-    
+
     return;
 }

@@ -37,6 +37,7 @@ void del_component_child_event_cb(lv_event_t * e)
     lv_mem_free(c);
 }
 
+lv_obj_t * cui_Header_Text;
 
 // COMPONENT Card Base
 
@@ -311,11 +312,10 @@ lv_obj_t * ui_Telescope_Header_create(lv_obj_t * comp_parent)
     lv_obj_set_style_pad_top(cui_Telescope_Header, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(cui_Telescope_Header, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    lv_obj_t * cui_Header_Text;
     cui_Header_Text = lv_label_create(cui_Telescope_Header);
     lv_obj_set_width(cui_Header_Text, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(cui_Header_Text, LV_SIZE_CONTENT);    /// 1
-    lv_label_set_text(cui_Header_Text, "02:52 pm");  
+    lv_label_set_text(cui_Header_Text, "");  
     #if LV_FONT_MONTSERRAT_20
         lv_obj_set_style_text_font(cui_Header_Text, &lv_font_montserrat_20, LV_PART_MAIN | LV_STATE_DEFAULT);                                              
     #endif
