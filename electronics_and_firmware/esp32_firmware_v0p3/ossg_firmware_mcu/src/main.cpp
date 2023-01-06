@@ -161,7 +161,16 @@ void eventDistributor(void *args){
 
                 #if ENABLEDISPLAY
                     if(!strcmp(currentMode, messageTypesList.MODE_HOME)){
-                        displayEnterVoiceCommandStep1();
+                        displayEnterVoiceCommandStep2();
+                    }
+                    else if(!strcmp(currentMode, messageTypesList.MODE_LIVE_LIFE_CAPTIONS)){
+                        displayLiveCaptions("Live Life Captions:");
+                    }
+                    else if(!strcmp(currentMode, messageTypesList.MODE_LANGUAGE_TRANSLATE)){
+                        displayLiveCaptions("Language Translation Results...", "");
+                    }
+                    else if(!strcmp(currentMode, messageTypesList.MODE_SEARCH_ENGINE_RESULT)){
+                        displaySearchEngineResult("Search Engine Results...", "");
                     }
                 #endif
             }
