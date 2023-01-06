@@ -184,6 +184,9 @@ void startTheDisplay(){
         displayStart();
         displayEnterVoiceCommandStep2();
         updateClock();
+
+        //Set starting mode to live life captions
+        snprintf(currentMode, currentModeSize, messageTypesList.MODE_LIVE_LIFE_CAPTIONS);
     #endif
 }
 
