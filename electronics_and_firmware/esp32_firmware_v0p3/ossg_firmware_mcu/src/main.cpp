@@ -90,7 +90,7 @@ void eventDistributor(void *args){
     char * jsonString = (char *)malloc(eventsBufferLen);
     
     //start with current mode being home
-    snprintf(currentMode, currentModeSize, messageTypesList.MODE_HOME);
+    //snprintf(currentMode, currentModeSize, messageTypesList.MODE_HOME);
 
     while (true)
     {
@@ -105,25 +105,26 @@ void eventDistributor(void *args){
             ESP_LOGI(TAG, "%s", jsonString);
             JsonMessageParser* jsonMessageParser = new JsonMessageParser(jsonString);
             char * messageType = (*jsonMessageParser).getMessageType();
-            //ESP_LOGI(TAG, "Message Type is: %s", messageType);
             //can't use a switch statement here, so big if-else
             if (!strcmp(messageType, messageTypesList.FINAL_TRANSCRIPT)){
                 ESP_LOGI(TAG, "GOT FINAL TRANSCRIPT");
-
-                ESP_LOGI(TAG, "222 NEW MODE IS: %s", currentMode);
-                ESP_LOGI(TAG, "222 Hopeing for: %s", messageTypesList.MODE_LIVE_LIFE_CAPTIONS);
                 //if our current mode is live life captions, display the intermediate caption
                 if(!strcmp(currentMode, messageTypesList.MODE_LIVE_LIFE_CAPTIONS)){
-                    ESP_LOGI(TAG, "RUNNIGN LLC");
                     char * title = "Live Life Captions:";
                     char * body = (*jsonMessageParser).getJsonKey(messageTypesList.TRANSCRIPT_TEXT);
-                    ESP_LOGI(TAG, "BODY IS: %s", body);
                     #if ENABLEDISPLAY
-                        displayLiveCaptions(title, body);
+                        displayLiveCaptions(title, body, true);
                     #endif
                 }
             } else if (!strcmp(messageType, messageTypesList.INTERMEDIATE_TRANSCRIPT)){
                 //ESP_LOGI(TAG, "GOT INTERMEDIATE TRANSCRIPT");
+                if(!strcmp(currentMode, messageTypesList.MODE_LIVE_LIFE_CAPTIONS)){
+                    char * title = "Live Life Captions:";
+                    char * body = (*jsonMessageParser).getJsonKey(messageTypesList.TRANSCRIPT_TEXT);
+                    #if ENABLEDISPLAY
+                        displayLiveCaptions(title, body, false);
+                    #endif
+                }
             } else if (!strcmp(messageType, messageTypesList.TIMESTAMP)){
                 ESP_LOGI(TAG, "GOT CURRENT TIME FROM WIS");
                 updateTime(120);
@@ -149,7 +150,7 @@ void eventDistributor(void *args){
                 //call display reference card here with title, body, image arguments
                 #if ENABLEDISPLAY
                 //displaySearchEngineResult(title, body);
-                displayLiveCaptions(title, body);
+                displayLiveCaptions(title, body, true);
                 #endif
             }
             else if(!strcmp(messageType, messageTypesList.ACTION_SWITCH_MODES)){

@@ -24,14 +24,20 @@ Notes:
 (x/2) = 360
 720/2 = 240
 
+480x360 - 4:3 ratio
+
+
 Max res 720x480 will only work if use_psram = 2;
 */
 
 //Change screen res here
-#define AV_WIDTH_OG 480
-#define AV_HEIGHT_OG 360
+#define AV_WIDTH_OG 640 //Typically use 480
+#define AV_HEIGHT_OG 480 //Typically use 360
 
-#define AV_SAFEZONE 40 //Raise to effectively raise FOV at the cost of resolution
+//Raise to effectively raise FOV at the cost of resolution
+#define AV_SAFEZONE 108 //(AV_WIDTH_OG*1.7 is good to avoid cutoff)
+#define AV_SHIFT_X 108 //Shift right (AV_WIDTH_OG*1.7 is good to avoid cutoff)
+#define AV_SHIFT_Y 10 //Shift downwards (avoid some wifi/batt symbol cutoff)
 
 //Reference these for runtime shit
 #define AV_WIDTH AV_WIDTH_OG - AV_SAFEZONE
