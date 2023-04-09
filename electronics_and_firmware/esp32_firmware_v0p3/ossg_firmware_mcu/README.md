@@ -1,23 +1,24 @@
-# OSSG Firmware
+# Open Source Smart Glasses Firmware
 
-This firmware serves as as smart glasses thin client for the [Wearable Intelligence System](https://github.com/emexlabs/WearableIntelligenceSystem) (WIS) for smart glasses powered by ESP32. The WIS Android smart phone (ASP) and GNU/Linux Box (GLBOX) servers handle all of the processing, logic, AI, etc., and this firmware sends signals to the WIS and receives UI prompts from the WIS (i.e. a thin client). See the [WIS](https://github.com/emexlabs/WearableIntelligenceSystem) for the ASP + GLBOX, as well as another frontend with the same API but designed for Android-powered smart glasses (ASG).
+This firmware serves as a thin client for the [Wearable Intelligence System](https://github.com/emexlabs/WearableIntelligenceSystem) (WIS), powered by the ESP32. The WIS Android smart phone (ASP) and GNU/Linux Box (GLBOX) servers handle all of the processing, logic, AI, etc., and this firmware sends signals to the WIS and receives UI prompts from the WIS (i.e. a thin client). See the [WIS](https://github.com/emexlabs/WearableIntelligenceSystem) for the ASP + GLBOX, as well as another frontend with the same API but designed for Android-powered smart glasses (ASG).
 
-## Features
+## Key features
 
-* Displays pretty UI over composite video using LovyanGFX + LVGL
-* Streams recoreded audio to an Android device
-* Receives JSON commands from an Android device
+* Outputs GUI to a display over composite video using LovyanGFX + LVGL
+* Streams audio to the WIS
+* Receives commands from the WIS
+* Supported modes:
+    * Contextual search engine
+    * Live language translation
+    * Live captioning
 
 ## Setup
 
-1. Install VSCODE
-2. Install platformio in VSCODE
-3. a) If your ESP32 has PSRAM, enable PSRAM in menuconfig. Otherwise, disable PSRAM in menuconfig
-```
-platformio run -t menuconfig
-```
-Component config -> ESP32 Specific -> SPIRAM/PSRAM Enable/Disable  
-b) Comment/uncomment PSRAM lines from platformio.ini depending on your ESP32 hardware
+1. Install [VSCode](https://code.visualstudio.com/)
+2. Install [PlatformIO](https://platformio.org/platformio-ide) and set up environment for ESP32 & ESPIDF.
+3. Download git submodules (`git submodule update --init`) if you haven't already
+4. Open the `electronics_and_firmware/esp32_firmware_v0p3/ossg_firmware_mcu/` folder in VSCode.
+5. Use PlatformIO's `Build and Upload` button.
 
 ## Gotchas
 
@@ -27,7 +28,7 @@ If build goes well and then at the very end you get undefined reference to a tas
 
 * Search engine result
 * Command success page (success? And what the command did)
-* Screen to stream in new text (live life captions/speech translate)
+* Make text streaming more efficient. It gets laggy with large amounts of text.
 
 ## History
 
