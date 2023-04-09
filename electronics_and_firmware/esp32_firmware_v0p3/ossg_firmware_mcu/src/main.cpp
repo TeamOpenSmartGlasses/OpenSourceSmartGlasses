@@ -46,6 +46,22 @@ const size_t websocketSendBufferLen = (1024 * 4 * sizeof(char *)) + sizeof(size_
 using std::cout;
 using std::endl;
 
+/*
+    Updates the time and clock (if display is enabled)
+    int seconds - number of seconds since 12:00AM
+*/
+void updateTime(int seconds)
+{
+    timeval newTime; 
+    newTime.tv_sec = seconds; 
+    newTime.tv_usec = 0; 
+    timezone* tz = 0;
+    settimeofday(&newTime, tz);
+    #if ENABLEDISPLAY
+        updateClock();
+    #endif
+}
+
 void printPerfInfo(bool justHeap = false){
     if(!justHeap){
         printf( "Task Name\tStatus\tPrio\tHWM\tTask\tAffinity\n");
@@ -74,7 +90,7 @@ void eventDistributor(void *args){
     char * jsonString = (char *)malloc(eventsBufferLen);
     
     //start with current mode being home
-    snprintf(currentMode, currentModeSize, messageTypesList.MODE_HOME);
+    //snprintf(currentMode, currentModeSize, messageTypesList.MODE_HOME);
 
     while (true)
     {
@@ -89,25 +105,29 @@ void eventDistributor(void *args){
             ESP_LOGI(TAG, "%s", jsonString);
             JsonMessageParser* jsonMessageParser = new JsonMessageParser(jsonString);
             char * messageType = (*jsonMessageParser).getMessageType();
-            //ESP_LOGI(TAG, "Message Type is: %s", messageType);
             //can't use a switch statement here, so big if-else
             if (!strcmp(messageType, messageTypesList.FINAL_TRANSCRIPT)){
                 ESP_LOGI(TAG, "GOT FINAL TRANSCRIPT");
-
-                ESP_LOGI(TAG, "222 NEW MODE IS: %s", currentMode);
-                ESP_LOGI(TAG, "222 Hopeing for: %s", messageTypesList.MODE_LIVE_LIFE_CAPTIONS);
                 //if our current mode is live life captions, display the intermediate caption
                 if(!strcmp(currentMode, messageTypesList.MODE_LIVE_LIFE_CAPTIONS)){
-                    ESP_LOGI(TAG, "RUNNIGN LLC");
                     char * title = "Live Life Captions:";
                     char * body = (*jsonMessageParser).getJsonKey(messageTypesList.TRANSCRIPT_TEXT);
-                    ESP_LOGI(TAG, "BODY IS: %s", body);
                     #if ENABLEDISPLAY
-                        displayLiveCaptions(title, body);
+                        displayLiveCaptions(title, body, true);
                     #endif
                 }
             } else if (!strcmp(messageType, messageTypesList.INTERMEDIATE_TRANSCRIPT)){
                 //ESP_LOGI(TAG, "GOT INTERMEDIATE TRANSCRIPT");
+                if(!strcmp(currentMode, messageTypesList.MODE_LIVE_LIFE_CAPTIONS)){
+                    char * title = "Live Life Captions:";
+                    char * body = (*jsonMessageParser).getJsonKey(messageTypesList.TRANSCRIPT_TEXT);
+                    #if ENABLEDISPLAY
+                        displayLiveCaptions(title, body, false);
+                    #endif
+                }
+            } else if (!strcmp(messageType, messageTypesList.TIMESTAMP)){
+                ESP_LOGI(TAG, "GOT CURRENT TIME FROM WIS");
+                updateTime(120);
             } else if (!strcmp(messageType, messageTypesList.SEARCH_ENGINE_RESULT)){
                 ESP_LOGI(TAG, "GOT SEARCH ENGINE RESULT");
                 JsonMessageParser *searchEngineResultData = new JsonMessageParser((*jsonMessageParser).getJsonKey(messageTypesList.SEARCH_ENGINE_RESULT_DATA));
@@ -130,7 +150,7 @@ void eventDistributor(void *args){
                 //call display reference card here with title, body, image arguments
                 #if ENABLEDISPLAY
                 //displaySearchEngineResult(title, body);
-                displayLiveCaptions(title, body);
+                displayLiveCaptions(title, body, true);
                 #endif
             }
             else if(!strcmp(messageType, messageTypesList.ACTION_SWITCH_MODES)){
@@ -142,7 +162,16 @@ void eventDistributor(void *args){
 
                 #if ENABLEDISPLAY
                     if(!strcmp(currentMode, messageTypesList.MODE_HOME)){
-                        displayEnterVoiceCommandStep1();
+                        displayEnterVoiceCommandStep2();
+                    }
+                    else if(!strcmp(currentMode, messageTypesList.MODE_LIVE_LIFE_CAPTIONS)){
+                        displayLiveCaptions("Live Life Captions:");
+                    }
+                    else if(!strcmp(currentMode, messageTypesList.MODE_LANGUAGE_TRANSLATE)){
+                        displayLiveCaptions("Language Translation Results...", "");
+                    }
+                    else if(!strcmp(currentMode, messageTypesList.MODE_SEARCH_ENGINE_RESULT)){
+                        displaySearchEngineResult("Search Engine Results...", "");
                     }
                 #endif
             }
@@ -152,11 +181,22 @@ void eventDistributor(void *args){
     free(jsonString);
 }
 
+void updateClockTask(void *args){
+    while(true){
+        updateClock();
+        vTaskDelay(pdMS_TO_TICKS(1000 * 60));
+    }
+}
+
 void startTheDisplay(){
     #if ENABLEDISPLAY
         //start display+LovyanGFX+LVGL
         displayStart();
         displayEnterVoiceCommandStep2();
+        updateClock();
+
+        //Set starting mode to live life captions
+        snprintf(currentMode, currentModeSize, messageTypesList.MODE_LIVE_LIFE_CAPTIONS);
     #endif
 }
 
@@ -186,6 +226,11 @@ void app_main(void)
     //start the display
     #if ENABLEDISPLAY
         startTheDisplay();
+    #endif
+
+    #if ENABLEDISPLAY
+        TaskHandle_t updateClockTaskHandle = NULL;
+        xTaskCreate(updateClockTask, "update_clock_task", 2*1024, NULL, 1, &updateClockTaskHandle);
     #endif
 
     // start WIFI
@@ -233,6 +278,6 @@ void app_main(void)
     if(retre != pdPASS)
         ESP_LOGI(TAG, "Create Task microphone_stream failed, ERR: %d\nFree Heap Size: %d, WANTED TO ALLOCATE %d", retre, heap_caps_get_largest_free_block(MALLOC_CAP_8BIT), 6*1024);
     else ESP_LOGI(TAG, "Create Task microphone_stream SUCCESS, RES: %d", retre);
-    
+
     return;
 }

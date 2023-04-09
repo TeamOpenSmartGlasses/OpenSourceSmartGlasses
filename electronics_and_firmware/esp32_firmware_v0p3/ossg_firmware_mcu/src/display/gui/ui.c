@@ -570,7 +570,7 @@ void ui_Enter_Voice_Command_2_screen_init(void)
     lv_obj_set_y(ui_EnterVoiceCmdP2Content, 40);
     lv_obj_set_align(ui_EnterVoiceCmdP2Content, LV_ALIGN_CENTER);
     lv_label_set_text(ui_EnterVoiceCmdP2Content,
-                      "search for ...\nquestion ...\nsave speech ...\nrun speech translate ...\nrun live life captions\nrun blank screen");
+                      "run contextual search\nrun speech translate ...\nrun live life captions\nrun blank screen");
     lv_obj_set_style_text_letter_space(ui_EnterVoiceCmdP2Content, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui_EnterVoiceCmdP2Content, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_EnterVoiceCmdP2Content, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);

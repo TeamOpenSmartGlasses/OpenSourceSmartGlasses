@@ -41,8 +41,8 @@ public:
       cfg.panel_height = AV_HEIGHT; // Height actually used (Set the same value as memory_height or a smaller value)
 
       // Set display position offset amount;
-      cfg.offset_x = AV_SAFEZONE/2; // Amount to shift the display position to the right (initial value 0)
-      cfg.offset_y = AV_SAFEZONE/2; // Amount to shift the display position downward (initial value 0)
+      cfg.offset_x = AV_SHIFT_X; // Amount to shift the display position to the right (initial value 0)
+      cfg.offset_y = AV_SHIFT_Y; // Amount to shift the display position downward (initial value 0)
 
       _panel_instance.config(cfg);
 

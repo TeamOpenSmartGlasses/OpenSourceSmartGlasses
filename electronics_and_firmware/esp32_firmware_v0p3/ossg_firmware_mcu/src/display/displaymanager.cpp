@@ -20,7 +20,7 @@ using namespace std;
 #define LGFX_CVBS
 #define LGFX_ESP_WROVER_KIT
 #define DISPLAY_EN_PIN GPIO_NUM_2
-#define MAX_CAPTION_LENGTH 6000
+#define MAX_CAPTION_LENGTH 2000
 #include <LovyanGFX.hpp>
 #include "user_setting.hpp"
 #include "helper_display.hpp"
@@ -97,12 +97,23 @@ void screenTimerCallback(void* arg){
     power_to_display(false);
 }
 
+char timeChar[10];
 void updateClock(){
-    /*
-    TODO: Handle this.
-    Currently there are multiple clock objects so either change them all or find a way to consolidate them.
-    (Do this next commit)
-    */
+   ESP_LOGI(TAG, "UPDATE CLOCK STARTED");
+   struct timeval currTimeVal;
+   gettimeofday(&currTimeVal, NULL);
+   time_t currTime = (time_t)currTimeVal.tv_sec;
+   time (&currTime);
+   struct tm * timeinfo = localtime(&currTime);
+   strftime(timeChar, 12, "%I:%M %p", timeinfo);
+   ESP_LOGI(TAG, "NEW TIME: %s", timeChar);
+   lvgl_acquire();
+   //lv_label_set_text(cui_Header_Text, timeChar); //TODO: This only works for Live Life Captions
+   lv_label_set_text(ui_Time, timeChar);
+   lv_label_set_text(ui_Time1, timeChar);
+   lv_label_set_text(ui_Time2, timeChar);
+   lv_label_set_text(ui_Time3, timeChar);
+   lvgl_release();
 }
 
 // Call this when turning on or updating the screen 
@@ -142,17 +153,36 @@ void displayEnterVoiceCommandStep3(char* command, char* soFar){
 }
 
 string previousTitle = "";
-string currentCaptionString = "";
-void displayLiveCaptions(char* title = "", char* body = ""){
+string historyString = "";
+string toDisplayString = "";
+void displayLiveCaptions(char* title = "", char* body = "", bool isFinal = false){
     ESP_LOGI(TAG, "DISP LIVE CAPTIONS CALLED WITH TITLE: %s, BODY: %s", title, body);
     string titleString(title);
     string bodyString(body);
-    if(titleString != previousTitle) currentCaptionString = "";
-    if(currentCaptionString.length() > 0) currentCaptionString += "\n\n";
+    if(titleString != previousTitle) historyString = "";
+
     previousTitle = titleString;
+    if(isFinal)
+    {
+        if(historyString.empty())
+            historyString = bodyString; //idk how cpp mem shit works so may need to += instead
+        else
+            historyString = historyString + "\n\n" + bodyString;
+        toDisplayString = historyString;
+    }
+    else
+    {
+        toDisplayString = historyString + "\n\n" + bodyString;
+    }
+    
+    if(historyString.length() > MAX_CAPTION_LENGTH) historyString = historyString.substr(historyString.length()/2);
+    /*
+    if(currentCaptionString.length() > 0) currentCaptionString += "\n\n";
+    
     currentCaptionString = currentCaptionString + bodyString;
     //ESP_LOGI(TAG, "NEW CAPTION: " + currentCaptionString);
     if(currentCaptionString.length() > MAX_CAPTION_LENGTH) currentCaptionString = currentCaptionString.substr(currentCaptionString.length()/2);
+    */
 
     updateActivity(-1);
     lvgl_acquire();
@@ -160,14 +190,14 @@ void displayLiveCaptions(char* title = "", char* body = ""){
     {
         ESP_LOGI(TAG, "UPDATE LIVE CAPTION SCREEN");
         lv_label_set_text(ui_Card_Live_Captions_Title, title);
-        lv_label_set_text(ui_Card_Live_Captions_Content, &currentCaptionString[0]);
+        lv_label_set_text(ui_Card_Live_Captions_Content, &toDisplayString[0]);
         lv_obj_scroll_to_y(ui_Card_Live_Captions_Content, SHRT_MAX, LV_ANIM_ON);
     }
     else
     {
         ESP_LOGI(TAG, "NEW LIVE CAPTION SCREEN");
         lv_label_set_text(ui_Card_Live_Captions_Title, title);
-        lv_label_set_text(ui_Card_Live_Captions_Content, &currentCaptionString[0]);
+        lv_label_set_text(ui_Card_Live_Captions_Content, &toDisplayString[0]);
         lv_scr_load(ui_Card_Live_Captions);
         lv_obj_scroll_to_y(ui_Card_Live_Captions_Content, SHRT_MAX, LV_ANIM_OFF);
     }
