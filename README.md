@@ -54,7 +54,7 @@ Team Open Smartglasses is a group of engineers, researchers, makers, and designe
 
 ## Community
 
-If you're interested in developing Open Source Smart Glasses, feel free to to join the [Discord server](https://discord.gg/5ukNvkEAqT) or reach out to [Cayden directly](https://caydenpierce.com).
+If you're interested in developing Open Source Smart Glasses, feel free to to join the [Discord server](https://discord.gg/5ukNvkEAqT).
 
 ## Contributors / Collaborators
 
@@ -71,4 +71,4 @@ The system is fully Open Source and built by this growing list of contributors:
 
 ## How Do I Buy A Pair?
 
-We reccomend building your own. If you still want to buy a pair, reach out to cayden on the [Team Open Smart Glasses Discord Server](https://discord.gg/5ukNvkEAqT)
+We reccomend building your own. There is no way to purchase a pair. Please don't reach out to the developers to buy a pair.
