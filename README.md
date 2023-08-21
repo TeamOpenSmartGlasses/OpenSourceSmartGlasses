@@ -1,5 +1,7 @@
 # Open Source Smart Glasses
 
+### Update 2023 - checkout the [SmartGlassesManager](https://github.com/TeamOpenSmartGlasses/SmartGlassesManager) software framework for the fastest way to build smart glasses apps on any pair of smart glasses.
+
 ![OSSG Latest CAD Render](res/ossg_v1_screenshot.jpg)
 
 Smart glasses with display, microphones, wireless phone connection, prescription lenses, hours of battery life, and LED indicator. These glasses connect directly to the [Wearable Intelligence System](https://github.com/emexlabs/WearableIntelligenceSystem), so they host a suite of apps like live language translation, contextual search engine, intelligent assistant, web search, and more.
