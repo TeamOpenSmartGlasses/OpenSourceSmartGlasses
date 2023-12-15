@@ -7,5 +7,5 @@ using std::string;
 //WIFI
 //#define EXAMPLE_ESP_WIFI_SSID      "WearNet2"
 //#define EXAMPLE_ESP_WIFI_PASS      "ciqi8591"
-static char* esp_wifi_ssid = "WearNet2";
-static char* esp_wifi_pass = "ciqi8591";
+static char* esp_wifi_ssid = "WearNet";
+static char* esp_wifi_pass = "7777777crc";

@@ -499,7 +499,7 @@ void ping_loop_task(void *args)
             char ping[64] = "{\"MESSAGE_TYPE_LOCAL\" : \"ping\"}";
             esp_websocket_client_send_text(webSocketClient, ping, strlen(ping), portMAX_DELAY);
         }
-        vTaskDelay(1500 / portTICK_RATE_MS);
+        vTaskDelay(1500 / portTICK_PERIOD_MS);
     }
 }
 

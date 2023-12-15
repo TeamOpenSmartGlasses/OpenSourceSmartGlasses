@@ -50,10 +50,10 @@ void printPerfInfo(bool justHeap = false){
     if(!justHeap){
         printf( "Task Name\tStatus\tPrio\tHWM\tTask\tAffinity\n");
         char stats_buffer[1024];
-        vTaskList(stats_buffer);
-        printf("%s\n", stats_buffer);
+        // vTaskList(stats_buffer);
+        // printf("%s\n", stats_buffer);
         int dog =  heap_caps_get_largest_free_block(MALLOC_CAP_8BIT);
-        printf("===========\nLargest free block: %d\nMin free heap: %d\n===========", dog, esp_get_minimum_free_heap_size());
+        // printf("===========\nLargest free block: %d\nMin free heap: %d\n===========", dog, esp_get_minimum_free_heap_size());
     }
 
     ESP_LOGI(TAG, "INTERNAL heap_caps_get_free_size:          %d\n", heap_caps_get_free_size(MALLOC_CAP_8BIT | MALLOC_CAP_INTERNAL));

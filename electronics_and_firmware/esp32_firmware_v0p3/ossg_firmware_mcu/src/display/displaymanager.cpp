@@ -17,8 +17,8 @@ using namespace std;
 #include "driver/gpio.h"
 
 #define LGFX_USE_V1
-#define LGFX_CVBS
-#define LGFX_ESP_WROVER_KIT
+// #define LGFX_CVBS
+// #define LGFX_ESP_WROVER_KIT
 #define DISPLAY_EN_PIN GPIO_NUM_2
 #define MAX_CAPTION_LENGTH 6000
 #include <LovyanGFX.hpp>
@@ -59,8 +59,8 @@ void displayStart(){
     cout << "DISPLAY START TRIGGERED" << endl;
     
     // Turn on power to the display
-    setup_display_en();
-    power_to_display(true);
+    // setup_display_en();
+    // power_to_display(true);
 
     lcd.init();        // Initialize LovyanGFX
     
