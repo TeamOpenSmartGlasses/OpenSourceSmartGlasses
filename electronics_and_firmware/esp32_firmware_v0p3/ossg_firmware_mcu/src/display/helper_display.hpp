@@ -20,7 +20,7 @@ static lv_disp_t *disp;
 static lv_theme_t *theme_current;
 static lv_color_t bg_theme_color;
 
-static LGFX lcd; // declare display variable
+static LGFX display; // declare display variable
 
 /* Creates a semaphore to handle concurrent call to lvgl stuff
  * If you wish to call *any* lvgl function from other threads/tasks
@@ -43,35 +43,35 @@ esp_err_t lv_display_init()
 {
     esp_err_t ret;
     // Setting display to landscape
-    // if (lcd.width() < lcd.height()) lcd.setRotation(lcd.getRotation() ^ 2);
+    // if (display.width() < display.height()) display.setRotation(display.getRotation() ^ 2);
 
-    lcd.setBrightness(128);
-    lcd.setColorDepth(24);
+    display.setBrightness(128);
+    display.setColorDepth(24);
 
 #ifdef RTOUCH
     /* RESISTIVE TOUCH CALIBRATION */
     // Calibrates when touch is available. (Optional)
-    if (lcd.touch())
+    if (display.touch())
     {
-        if (lcd.width() < lcd.height())
-            lcd.setRotation(lcd.getRotation() ^ 1);
+        if (display.width() < display.height())
+            display.setRotation(display.getRotation() ^ 1);
 
         // Draw a guide sentence on the screen.
-        lcd.setTextDatum(textdatum_t::middle_center);
-        lcd.drawString("touch the arrow marker.", lcd.width() >> 1, lcd.height() >> 1);
-        lcd.setTextDatum(textdatum_t::top_left);
+        display.setTextDatum(textdatum_t::middle_center);
+        display.drawString("touch the arrow marker.", display.width() >> 1, display.height() >> 1);
+        display.setTextDatum(textdatum_t::top_left);
 
         // When using touch, calibrate it. Touch the tips of the arrows that appear in the four corners of the screen in order.
         std::uint16_t fg = TFT_WHITE;
         std::uint16_t bg = TFT_BLACK;
-        if (lcd.isEPD())
+        if (display.isEPD())
             std::swap(fg, bg);
-        lcd.calibrateTouch(nullptr, fg, bg, std::max(lcd.width(), lcd.height()) >> 3);
+        display.calibrateTouch(nullptr, fg, bg, std::max(display.width(), display.height()) >> 3);
     }
     /* CALIBRATION */
 #endif
 
-    lcd.fillScreen(TFT_BLACK);
+    display.fillScreen(TFT_BLACK);
 
     /* LVGL : Setting up buffer to use for display */
     lv_disp_draw_buf_init(&draw_buf, buf, buf2, screenWidth * 10);
@@ -144,10 +144,10 @@ void display_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color
     uint32_t w = (area->x2 - area->x1 + 1);
     uint32_t h = (area->y2 - area->y1 + 1);
 
-    lcd.startWrite();
-    lcd.setAddrWindow(area->x1, area->y1, w, h);
-    lcd.pushPixels((uint16_t *)&color_p->full, w * h, true);
-    lcd.endWrite();
+    display.startWrite();
+    display.setAddrWindow(area->x1, area->y1, w, h);
+    display.pushPixels((uint16_t *)&color_p->full, w * h, true);
+    display.endWrite();
 
     lv_disp_flush_ready(disp);
 }
@@ -199,7 +199,7 @@ void lvgl_release(void)
 void touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
 {
     uint16_t touchX, touchY;
-    bool touched = lcd.getTouch(&touchX, &touchY);
+    bool touched = display.getTouch(&touchX, &touchY);
 
     if (!touched)
     {

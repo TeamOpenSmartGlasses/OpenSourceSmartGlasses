@@ -28,8 +28,8 @@ Max res 720x480 will only work if use_psram = 2;
 */
 
 //Change screen res here
-#define AV_WIDTH_OG 480
-#define AV_HEIGHT_OG 360
+#define AV_WIDTH_OG 240
+#define AV_HEIGHT_OG 240
 
 #define AV_SAFEZONE 40 //Raise to effectively raise FOV at the cost of resolution
 

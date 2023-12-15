@@ -4,7 +4,7 @@
 
 #define D0 1
 #define D1 2
-#define D2 3
+#define D2 4
 #define D3 4
 #define D4 5
 #define D5 6
@@ -180,14 +180,14 @@ public:
       cfg.x_min      = 0;    // タッチスクリーンから得られる最小のX値(生の値)
       cfg.x_max      = 239;  // タッチスクリーンから得られる最大のX値(生の値)
       cfg.y_min      = 0;    // タッチスクリーンから得られる最小のY値(生の値)
-      cfg.y_max      = 319;  // タッチスクリーンから得られる最大のY値(生の値)
-      cfg.pin_int    = 38;   // INTが接続されているピン番号
+      cfg.y_max      = 239;  // タッチスクリーンから得られる最大のY値(生の値)
+      cfg.pin_int    = D7;   // INTが接続されているピン番号
       cfg.bus_shared = true; // 画面と共通のバスを使用している場合 trueを設定
       cfg.offset_rotation = 0;// 表示とタッチの向きのが一致しない場合の調整 0~7の値で設定
 
 // SPI接続の場合
       cfg.spi_host = SPI2_HOST;// 使用するSPIを選択 (HSPI_HOST or VSPI_HOST)
-      cfg.freq = 1000000;     // SPIクロックを設定
+      cfg.freq = 40000000;     // SPIクロックを設定
       cfg.pin_sclk = D8;     // SCLKが接続されているピン番号
       cfg.pin_mosi = D10;     // MOSIが接続されているピン番号
       cfg.pin_miso = D9;     // MISOが接続されているピン番号
@@ -196,8 +196,8 @@ public:
 // I2C接続の場合
       cfg.i2c_port = 1;      // 使用するI2Cを選択 (0 or 1)
       cfg.i2c_addr = 0x38;   // I2Cデバイスアドレス番号
-      cfg.pin_sda  = 23;     // SDAが接続されているピン番号
-      cfg.pin_scl  = 32;     // SCLが接続されているピン番号
+      cfg.pin_sda  = D4;     // SDAが接続されているピン番号
+      cfg.pin_scl  = D5;     // SCLが接続されているピン番号
       cfg.freq = 400000;     // I2Cクロックを設定
 
       _touch_instance.config(cfg);
@@ -209,60 +209,59 @@ public:
   }
 };
 
-// 準備したクラスのインスタンスを作成します。
-LGFX display;
+// LGFX display;
 
-void setup(void)
-{
-  // SPIバスとパネルの初期化を実行すると使用可能になります。
-  display.init();
+// void oldsetup_dat_display(void)
+// {
+//   // SPIバスとパネルの初期化を実行すると使用可能になります。
+//   display.init();
 
-  display.setTextSize((std::max(display.width(), display.height()) + 255) >> 8);
+//   display.setTextSize((std::max(display.width(), display.height()) + 255) >> 8);
 
-  // タッチが使用可能な場合のキャリブレーションを行います。（省略可）
-  if (display.touch())
-  {
-    if (display.width() < display.height()) display.setRotation(display.getRotation() ^ 1);
+//   // タッチが使用可能な場合のキャリブレーションを行います。（省略可）
+//   if (display.touch())
+//   {
+//     if (display.width() < display.height()) display.setRotation(display.getRotation() ^ 1);
 
-    // 画面に案内文章を描画します。
-    display.setTextDatum(textdatum_t::middle_center);
-    display.drawString("touch the arrow marker.", display.width()>>1, display.height() >> 1);
-    display.setTextDatum(textdatum_t::top_left);
+//     // 画面に案内文章を描画します。
+//     display.setTextDatum(textdatum_t::middle_center);
+//     display.drawString("touch the arrow marker.", display.width()>>1, display.height() >> 1);
+//     display.setTextDatum(textdatum_t::top_left);
 
-    // タッチを使用する場合、キャリブレーションを行います。画面の四隅に表示される矢印の先端を順にタッチしてください。
-    std::uint16_t fg = TFT_WHITE;
-    std::uint16_t bg = TFT_BLACK;
-    if (display.isEPD()) std::swap(fg, bg);
-    display.calibrateTouch(nullptr, fg, bg, std::max(display.width(), display.height()) >> 3);
-  }
+//     // タッチを使用する場合、キャリブレーションを行います。画面の四隅に表示される矢印の先端を順にタッチしてください。
+//     std::uint16_t fg = TFT_WHITE;
+//     std::uint16_t bg = TFT_BLACK;
+//     if (display.isEPD()) std::swap(fg, bg);
+//     display.calibrateTouch(nullptr, fg, bg, std::max(display.width(), display.height()) >> 3);
+//   }
 
-  display.fillScreen(TFT_BLACK);
-}
+//   display.fillScreen(TFT_BLACK);
+// }
 
-uint32_t countyboi = 0;
-void loop(void)
-{
-  display.startWrite();
-  display.setRotation(++countyboi & 7);
-  display.setColorDepth((countyboi & 8) ? 16 : 24);
+// uint32_t countyboi = 0;
+// void loop(void)
+// {
+//   display.startWrite();
+//   display.setRotation(++countyboi & 7);
+//   display.setColorDepth((countyboi & 8) ? 16 : 24);
 
-  display.setTextColor(TFT_WHITE);
-  display.drawNumber(display.getRotation(), 16, 0);
+//   display.setTextColor(TFT_WHITE);
+//   display.drawNumber(display.getRotation(), 16, 0);
 
-  display.setTextColor(0xFF0000U);
-  display.drawString("R", 30, 16);
-  display.setTextColor(0x00FF00U);
-  display.drawString("G", 40, 16);
-  display.setTextColor(0x0000FFU);
-  display.drawString("B", 50, 16);
+//   display.setTextColor(0xFF0000U);
+//   display.drawString("R", 30, 16);
+//   display.setTextColor(0x00FF00U);
+//   display.drawString("G", 40, 16);
+//   display.setTextColor(0x0000FFU);
+//   display.drawString("B", 50, 16);
 
-  display.drawRect(30,30,display.width()-60,display.height()-60,countyboi*7);
-  display.drawFastHLine(0, 0, 10);
+//   display.drawRect(30,30,display.width()-60,display.height()-60,countyboi*7);
+//   display.drawFastHLine(0, 0, 10);
 
-  display.endWrite();
+//   display.endWrite();
 
-  int32_t x, y;
-  if (display.getTouch(&x, &y)) {
-    display.fillRect(x-2, y-2, 5, 5, countyboi*7);
-  }
-}
+//   int32_t x, y;
+//   if (display.getTouch(&x, &y)) {
+//     display.fillRect(x-2, y-2, 5, 5, countyboi*7);
+//   }
+// }

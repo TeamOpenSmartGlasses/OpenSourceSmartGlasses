@@ -157,6 +157,7 @@ void startTheDisplay(){
         //start display+LovyanGFX+LVGL
         displayStart();
         displayEnterVoiceCommandStep2();
+        // setup_dat_display();
     #endif
 }
 
@@ -191,6 +192,7 @@ void app_main(void)
     // start WIFI
     wifi_init_sta();
     
+    /*
     //setup eventsDistributor and eventsBuffer, which handles incoming data from WIS and calls functions based on what WIS tells us to do
     eventsBuffer = xMessageBufferCreate(eventsBufferLen);
     TaskHandle_t eventsTask = NULL;
@@ -233,6 +235,11 @@ void app_main(void)
     if(retre != pdPASS)
         ESP_LOGI(TAG, "Create Task microphone_stream failed, ERR: %d\nFree Heap Size: %d, WANTED TO ALLOCATE %d", retre, heap_caps_get_largest_free_block(MALLOC_CAP_8BIT), 6*1024);
     else ESP_LOGI(TAG, "Create Task microphone_stream SUCCESS, RES: %d", retre);
+    */
+
+   while(1){
+    vTaskDelay(pdMS_TO_TICKS(10));
+   }
     
     return;
 }

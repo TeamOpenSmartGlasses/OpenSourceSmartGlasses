@@ -15,5 +15,6 @@ extern void displayEnterVoiceCommandStep3(char* command, char* soFar);
 extern void displaySearchEngineResult(char* title, char* body, char* image = "");
 extern void displayLiveCaptions(char* title = "", char* body = "");
 extern void updateClock();
+extern void setup_dat_display();
 // extern MessageTypes messageTypesList;
 // extern char* currentMode;
