@@ -1,6 +1,6 @@
 # Open Source Smart Glasses
 
-### Update 2023 - checkout the [SmartGlassesManager](https://github.com/TeamOpenSmartGlasses/SmartGlassesManager) software framework for the fastest way to build smart glasses apps on any pair of smart glasses.
+### Update 2024 - we've on to build [AugmentOS](https://augmentos.org), which houses your favorite smart glasses apps, an app store, and SDK. It's best way to use and build apps with smart glasses.
 
 ![OSSG Latest CAD Render](res/ossg_v1_screenshot.jpg)
 
